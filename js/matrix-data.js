@@ -4844,7 +4844,7 @@ const MATRIX_280 = {
     "moodSlot": "M1",
     "moodName": "Bình yên",
     "description": "Bầu trời xanh sáng, ánh nắng dịu",
-    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu lúc buổi.”",
+    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu của đất trời.”",
     "images": [
       {
         "title": "Bầu trời xanh sáng, ánh nắng dịu - Góc nhìn 1 (4K)",
@@ -5879,7 +5879,7 @@ const MATRIX_280 = {
     "moodSlot": "M1",
     "moodName": "Bình yên",
     "description": "Trời phủ mây nhẹ, ánh sáng đều",
-    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu lúc buổi.”",
+    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu của đất trời.”",
     "images": [
       {
         "title": "Trời phủ mây nhẹ, ánh sáng đều - Góc nhìn 1 (4K)",
@@ -6914,7 +6914,7 @@ const MATRIX_280 = {
     "moodSlot": "M1",
     "moodName": "Bình yên",
     "description": "Sương sáng mỏng trên đồi",
-    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu lúc buổi.”",
+    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu của đất trời.”",
     "images": [
       {
         "title": "Sương sáng mỏng trên đồi - Góc nhìn 1 (4K)",
@@ -7949,7 +7949,7 @@ const MATRIX_280 = {
     "moodSlot": "M1",
     "moodName": "Bình yên",
     "description": "Mây trắng thưa, trời xanh êm",
-    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu lúc buổi.”",
+    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu của đất trời.”",
     "images": [
       {
         "title": "Mây trắng thưa, trời xanh êm - Góc nhìn 1 (4K)",
@@ -8984,7 +8984,7 @@ const MATRIX_280 = {
     "moodSlot": "M1",
     "moodName": "Bình yên",
     "description": "Mưa lớn ngoài hiên, góc nhìn yên tĩnh",
-    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu lúc buổi.”",
+    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu của đất trời.”",
     "images": [
       {
         "title": "Mưa lớn ngoài hiên, góc nhìn yên tĩnh - Góc nhìn 1 (4K)",
@@ -10019,7 +10019,7 @@ const MATRIX_280 = {
     "moodSlot": "M1",
     "moodName": "Bình yên",
     "description": "Bóng mát dưới ánh nắng chiều mạnh",
-    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu lúc buổi.”",
+    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu của đất trời.”",
     "images": [
       {
         "title": "Bóng mát dưới ánh nắng chiều mạnh - Góc nhìn 1 (4K)",
@@ -11054,7 +11054,7 @@ const MATRIX_280 = {
     "moodSlot": "M1",
     "moodName": "Bình yên",
     "description": "Mưa chiều trên hàng cây xanh",
-    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu lúc buổi.”",
+    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu của đất trời.”",
     "images": [
       {
         "title": "Mưa chiều trên hàng cây xanh - Góc nhìn 1 (4K)",
@@ -15154,7 +15154,7 @@ const MATRIX_280 = {
     "moodSlot": "M1",
     "moodName": "Bình yên",
     "description": "Mây mỏng trên nền trời xanh đêm",
-    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu lúc buổi.”",
+    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu của đất trời.”",
     "images": [
       {
         "title": "Mây mỏng trên nền trời xanh đêm - Góc nhìn 1 (4K)",
@@ -16189,7 +16189,7 @@ const MATRIX_280 = {
     "moodSlot": "M1",
     "moodName": "Bình yên",
     "description": "Mưa lớn ngoài cửa, ánh đèn ấm",
-    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu lúc buổi.”",
+    "quote": "“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu của đất trời.”",
     "images": [
       {
         "title": "Mưa lớn ngoài cửa, ánh đèn ấm - Góc nhìn 1 (4K)",
