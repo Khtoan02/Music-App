@@ -1,0 +1,956 @@
+{
+  "groups": [
+    {
+      "id": "nha_o",
+      "name": "Nhà ở",
+      "icon": "home",
+      "spaces": [
+        {
+          "id": "phong_ngu",
+          "name": "Phòng ngủ",
+          "icon": "bed",
+          "genre": "sleep",
+          "desc": "Giai điệu êm dịu xoa dịu tâm trí và ru vào giấc ngủ sâu"
+        },
+        {
+          "id": "phong_khach",
+          "name": "Phòng khách",
+          "icon": "sofa",
+          "genre": "acoustic_chill",
+          "desc": "Không gian ấm cúng, acoustic mộc mạc sum vầy"
+        },
+        {
+          "id": "phong_lam_viec_nha",
+          "name": "Phòng làm việc",
+          "icon": "laptop",
+          "genre": "focus_lofi",
+          "desc": "Giai điệu tập trung cao độ, không lời nhẹ nhàng"
+        },
+        {
+          "id": "nha_bep",
+          "name": "Nhà bếp",
+          "icon": "utensils",
+          "genre": "cheerful_bossa",
+          "desc": "Năng lượng tươi vui, nhẹ nhàng thư thái khi nấu nướng"
+        },
+        {
+          "id": "ban_cong",
+          "name": "Ban công",
+          "icon": "sun",
+          "genre": "breeze_acoustic",
+          "desc": "Gió mát nhẹ nhàng, ngắm nhìn phố phường an yên"
+        },
+        {
+          "id": "san_thuong",
+          "name": "Sân thượng",
+          "icon": "wind",
+          "genre": "sunset_indie",
+          "desc": "Không gian mở khoáng đạt, hoàng hôn lãng mạn"
+        },
+        {
+          "id": "phong_tam",
+          "name": "Phòng tắm",
+          "icon": "bath",
+          "genre": "spa_zen",
+          "desc": "Thư giãn spa, phục hồi năng lượng sau ngày dài"
+        },
+        {
+          "id": "san_vuon",
+          "name": "Sân vườn",
+          "icon": "trees",
+          "genre": "nature_acoustic",
+          "desc": "Tiếng gió lá reo, acoustic xanh mát giữa thiên nhiên"
+        }
+      ]
+    },
+    {
+      "id": "cong_viec",
+      "name": "Công việc",
+      "icon": "briefcase",
+      "spaces": [
+        {
+          "id": "van_phong",
+          "name": "Văn phòng",
+          "icon": "building",
+          "genre": "office_focus",
+          "desc": "Low-tempo lofi & alpha waves cho năng suất tối ưu"
+        },
+        {
+          "id": "phong_hop",
+          "name": "Phòng họp",
+          "icon": "users",
+          "genre": "neutral_ambient",
+          "desc": "Không gian chuyên nghiệp, âm nền tinh tế không xao nhãng"
+        },
+        {
+          "id": "coworking",
+          "name": "Coworking",
+          "icon": "coffee",
+          "genre": "deep_work",
+          "desc": "Nhịp điệu sáng tạo hiện đại, kích thích tư duy"
+        },
+        {
+          "id": "studio",
+          "name": "Studio",
+          "icon": "mic",
+          "genre": "creative_synth",
+          "desc": "Cảm hứng nghệ thuật, âm thanh đa tầng bay bổng"
+        },
+        {
+          "id": "cua_hang",
+          "name": "Cửa hàng",
+          "icon": "store",
+          "genre": "retail_lively",
+          "desc": "Nhịp điệu thân thiện, ấm áp và chào đón khách hàng"
+        },
+        {
+          "id": "xuong_lam_viec",
+          "name": "Xưởng làm việc",
+          "icon": "wrench",
+          "genre": "rhythmic_flow",
+          "desc": "Âm hưởng nhịp nhàng, tạo đà làm việc hứng khởi"
+        }
+      ]
+    },
+    {
+      "id": "hoc_tap",
+      "name": "Học tập",
+      "icon": "graduation-cap",
+      "spaces": [
+        {
+          "id": "thu_vien",
+          "name": "Thư viện",
+          "icon": "book-open",
+          "genre": "library_alpha",
+          "desc": "Tuyệt đối tĩnh lặng, sóng não Alpha kích thích tiếp thu"
+        },
+        {
+          "id": "lop_hoc",
+          "name": "Lớp học",
+          "icon": "pen-tool",
+          "genre": "study_calm",
+          "desc": "Tập trung tiếp nhận tri thức, cân bằng cảm xúc"
+        },
+        {
+          "id": "ky_tuc_xa",
+          "name": "Ký túc xá",
+          "icon": "home",
+          "genre": "student_indie",
+          "desc": "Những giai điệu thanh xuân tuổi trẻ, indie mộc mạc"
+        },
+        {
+          "id": "phong_tu_hoc",
+          "name": "Phòng tự học",
+          "icon": "book",
+          "genre": "pomodoro_lofi",
+          "desc": "Beats lofi chuẩn Pomodoro duy trì dòng chảy tập trung"
+        }
+      ]
+    },
+    {
+      "id": "di_chuyen",
+      "name": "Di chuyển",
+      "icon": "car",
+      "spaces": [
+        {
+          "id": "o_to_rieng",
+          "name": "Ô tô riêng",
+          "icon": "car",
+          "genre": "roadtrip_hits",
+          "desc": "Playlist đường dài ngập tràn cảm xúc và tự do"
+        },
+        {
+          "id": "taxi",
+          "name": "Taxi",
+          "icon": "navigation",
+          "genre": "city_cruising",
+          "desc": "Lướt qua phố thị nhộn nhịp, chill cùng giai điệu êm"
+        },
+        {
+          "id": "xe_buyt",
+          "name": "Xe buýt",
+          "icon": "bus",
+          "genre": "window_ballad",
+          "desc": "Ngồi cạnh ô cửa sổ ngắm đường phố trôi qua"
+        },
+        {
+          "id": "tau_dien",
+          "name": "Tàu điện",
+          "icon": "train",
+          "genre": "metro_beats",
+          "desc": "Nhịp điệu hiện đại hòa vào nhịp sống đô thị nhanh"
+        },
+        {
+          "id": "tau_hoa",
+          "name": "Tàu hỏa",
+          "icon": "compass",
+          "genre": "scenic_journey",
+          "desc": "Hành trình hoài niệm qua những dải đất thơ mộng"
+        },
+        {
+          "id": "may_bay",
+          "name": "Máy bay",
+          "icon": "plane",
+          "genre": "flight_ambient",
+          "desc": "Bay trên tầng mây, thanh âm bồng bềnh thư giãn"
+        },
+        {
+          "id": "di_bo",
+          "name": "Đi bộ",
+          "icon": "footprints",
+          "genre": "walking_acoustic",
+          "desc": "Từng bước chân thong dong, hòa nhịp cùng nắng gió"
+        },
+        {
+          "id": "dap_xe",
+          "name": "Đạp xe",
+          "icon": "bike",
+          "genre": "cycling_upbeat",
+          "desc": "Làn gió luồn qua tóc, nhịp điệu sảng khoái yêu đời"
+        }
+      ]
+    },
+    {
+      "id": "thien_nhien",
+      "name": "Thiên nhiên",
+      "icon": "trees",
+      "spaces": [
+        {
+          "id": "bai_bien",
+          "name": "Bãi biển",
+          "icon": "waves",
+          "genre": "beach_tropical",
+          "desc": "Sóng biển rì rào, nắng vàng rực rỡ và gió biển mặn mòi"
+        },
+        {
+          "id": "nui_rung",
+          "name": "Núi rừng",
+          "icon": "mountain",
+          "genre": "forest_ambient",
+          "desc": "Hùng vĩ và bao la, thanh âm tĩnh mịch của rừng già"
+        },
+        {
+          "id": "ho_nuoc",
+          "name": "Hồ nước",
+          "icon": "droplet",
+          "genre": "lake_tranquil",
+          "desc": "Mặt nước phẳng lặng như gương, tâm hồn an nhiên"
+        },
+        {
+          "id": "bo_song",
+          "name": "Bờ sông",
+          "icon": "compass",
+          "genre": "river_peace",
+          "desc": "Dòng nước lững lờ trôi, bình yên đón chiều buông"
+        },
+        {
+          "id": "cong_vien",
+          "name": "Công viên",
+          "icon": "trees",
+          "genre": "park_sunny",
+          "desc": "Thảm cỏ xanh mướt, tiếng chim hót dưới vòm cây"
+        },
+        {
+          "id": "canh_dong",
+          "name": "Cánh đồng",
+          "icon": "sun",
+          "genre": "open_freedom",
+          "desc": "Hương lúa thơm ngát, bầu trời bao la bát ngát"
+        }
+      ]
+    },
+    {
+      "id": "giai_tri",
+      "name": "Giải trí",
+      "icon": "sparkles",
+      "spaces": [
+        {
+          "id": "quan_ca_phe",
+          "name": "Quán cà phê",
+          "icon": "coffee",
+          "genre": "cafe_bossa",
+          "desc": "Hương cà phê ấm nồng, bossa nova & jazz quyến rũ"
+        },
+        {
+          "id": "nha_hang",
+          "name": "Nhà hàng",
+          "icon": "utensils",
+          "genre": "dining_jazz",
+          "desc": "Không gian sang trọng, jazz cổ điển êm ái tao nhã"
+        },
+        {
+          "id": "quan_bar",
+          "name": "Quán bar",
+          "icon": "wine",
+          "genre": "bar_groove",
+          "desc": "Ánh đèn mờ ảo, cocktail ngọt ngào và R&B cuốn hút"
+        },
+        {
+          "id": "pub",
+          "name": "Pub",
+          "icon": "beer",
+          "genre": "pub_indie",
+          "desc": "Chill cùng bạn bè, indie rock & acoustic chân thực"
+        },
+        {
+          "id": "rooftop",
+          "name": "Rooftop",
+          "icon": "sunset",
+          "genre": "rooftop_sunset",
+          "desc": "Ngắm nhìn toàn cảnh thành phố lung linh về đêm"
+        },
+        {
+          "id": "karaoke",
+          "name": "Karaoke",
+          "icon": "mic",
+          "genre": "karaoke_singalong",
+          "desc": "Những ca khúc quốc dân quen thuộc để hát theo"
+        }
+      ]
+    },
+    {
+      "id": "ren_luyen",
+      "name": "Rèn luyện",
+      "icon": "dumbbell",
+      "spaces": [
+        {
+          "id": "phong_gym",
+          "name": "Phòng gym",
+          "icon": "activity",
+          "genre": "gym_workout",
+          "desc": "Bùng nổ năng lượng, nhịp bass mạnh mẽ thôi thúc ý chí"
+        },
+        {
+          "id": "phong_yoga",
+          "name": "Phòng yoga",
+          "icon": "flower",
+          "genre": "yoga_zen",
+          "desc": "Chuông xoay Tây Tạng và sáo thiền định, đưa tâm về tĩnh"
+        },
+        {
+          "id": "san_the_thao",
+          "name": "Sân thể thao",
+          "icon": "trophy",
+          "genre": "sports_energy",
+          "desc": "Nhiệt huyết thi đấu, tinh thần thể thao cuồng nhiệt"
+        },
+        {
+          "id": "duong_chay",
+          "name": "Đường chạy",
+          "icon": "fast-forward",
+          "genre": "running_tempo",
+          "desc": "BPM chuẩn 160-180 giữ nhịp thở và bước chân dẻo dai"
+        }
+      ]
+    },
+    {
+      "id": "nghi_duong",
+      "name": "Nghỉ dưỡng",
+      "icon": "palmtree",
+      "spaces": [
+        {
+          "id": "khach_san",
+          "name": "Khách sạn",
+          "icon": "hotel",
+          "genre": "hotel_lounge",
+          "desc": "Lounge thư thái đẳng cấp, tiện nghi và thanh lịch"
+        },
+        {
+          "id": "resort",
+          "name": "Resort",
+          "icon": "shield-check",
+          "genre": "resort_luxury",
+          "desc": "Kỳ nghỉ thiên đường, nắng biển hòa cùng nhạc dịu êm"
+        },
+        {
+          "id": "homestay",
+          "name": "Homestay",
+          "icon": "home",
+          "genre": "homestay_acoustic",
+          "desc": "Cảm giác thân thuộc, mộc mạc như về với chính mình"
+        },
+        {
+          "id": "khu_cam_trai",
+          "name": "Khu cắm trại",
+          "icon": "tent",
+          "genre": "campfire_folk",
+          "desc": "Ánh lửa bập bùng giữa rừng đêm, guitar mộc hát vang"
+        }
+      ]
+    },
+    {
+      "id": "cong_cong",
+      "name": "Công cộng",
+      "icon": "globe",
+      "spaces": [
+        {
+          "id": "tttm",
+          "name": "Trung tâm thương mại",
+          "icon": "shopping-bag",
+          "genre": "mall_chill",
+          "desc": "Tươi sáng, hiện đại, bước dạo thư thái cuối tuần"
+        },
+        {
+          "id": "san_bay",
+          "name": "Sân bay",
+          "icon": "plane",
+          "genre": "airport_transit",
+          "desc": "Hành trình kết nối những phương trời xa xôi"
+        },
+        {
+          "id": "nha_ga",
+          "name": "Nhà ga",
+          "icon": "clock",
+          "genre": "station_motion",
+          "desc": "Khoảnh khắc giao thời của những chuyến đi và trở về"
+        },
+        {
+          "id": "sanh_cho",
+          "name": "Sảnh chờ",
+          "icon": "armchair",
+          "genre": "lounge_smooth",
+          "desc": "Thư giãn tĩnh tại trong lúc chờ đợi chuyến hành trình"
+        }
+      ]
+    },
+    {
+      "id": "khong_gian_dac_biet",
+      "name": "Không gian đặc biệt",
+      "icon": "sparkle",
+      "spaces": [
+        {
+          "id": "phong_toi",
+          "name": "Phòng tối",
+          "icon": "moon",
+          "genre": "dark_dreampop",
+          "desc": "Không ánh sáng, chỉ có dreampop và không gian vô tận"
+        },
+        {
+          "id": "noi_yen_tinh",
+          "name": "Nơi yên tĩnh",
+          "icon": "volume-x",
+          "genre": "pure_silence_piano",
+          "desc": "Tĩnh mịch tuyệt đối, từng nốt piano rơi giữa thinh lặng"
+        },
+        {
+          "id": "noi_dong_duc",
+          "name": "Nơi đông đúc",
+          "icon": "users",
+          "genre": "noise_cancelling_flow",
+          "desc": "Chiếc tai nghe cách ly sự ồn ào, tìm lại ốc đảo riêng"
+        },
+        {
+          "id": "khong_gian_mo",
+          "name": "Không gian mở",
+          "icon": "maximize",
+          "genre": "expansive_strings",
+          "desc": "Giao hưởng và hòa thanh trải rộng không giới hạn"
+        },
+        {
+          "id": "khong_gian_rieng_tu",
+          "name": "Không gian riêng tư",
+          "icon": "lock",
+          "genre": "intimate_ballad",
+          "desc": "Góc riêng cho tâm hồn, những tâm sự chân thành nhất"
+        }
+      ]
+    }
+  ],
+  "spaces": [
+    {
+      "id": "phong_ngu",
+      "name": "Phòng ngủ",
+      "groupId": "nha_o",
+      "groupName": "Nhà ở",
+      "icon": "bed",
+      "genre": "sleep",
+      "desc": "Giai điệu êm dịu xoa dịu tâm trí và ru vào giấc ngủ sâu"
+    },
+    {
+      "id": "phong_khach",
+      "name": "Phòng khách",
+      "groupId": "nha_o",
+      "groupName": "Nhà ở",
+      "icon": "sofa",
+      "genre": "acoustic_chill",
+      "desc": "Không gian ấm cúng, acoustic mộc mạc sum vầy"
+    },
+    {
+      "id": "phong_lam_viec_nha",
+      "name": "Phòng làm việc",
+      "groupId": "nha_o",
+      "groupName": "Nhà ở",
+      "icon": "laptop",
+      "genre": "focus_lofi",
+      "desc": "Giai điệu tập trung cao độ, không lời nhẹ nhàng"
+    },
+    {
+      "id": "nha_bep",
+      "name": "Nhà bếp",
+      "groupId": "nha_o",
+      "groupName": "Nhà ở",
+      "icon": "utensils",
+      "genre": "cheerful_bossa",
+      "desc": "Năng lượng tươi vui, nhẹ nhàng thư thái khi nấu nướng"
+    },
+    {
+      "id": "ban_cong",
+      "name": "Ban công",
+      "groupId": "nha_o",
+      "groupName": "Nhà ở",
+      "icon": "sun",
+      "genre": "breeze_acoustic",
+      "desc": "Gió mát nhẹ nhàng, ngắm nhìn phố phường an yên"
+    },
+    {
+      "id": "san_thuong",
+      "name": "Sân thượng",
+      "groupId": "nha_o",
+      "groupName": "Nhà ở",
+      "icon": "wind",
+      "genre": "sunset_indie",
+      "desc": "Không gian mở khoáng đạt, hoàng hôn lãng mạn"
+    },
+    {
+      "id": "phong_tam",
+      "name": "Phòng tắm",
+      "groupId": "nha_o",
+      "groupName": "Nhà ở",
+      "icon": "bath",
+      "genre": "spa_zen",
+      "desc": "Thư giãn spa, phục hồi năng lượng sau ngày dài"
+    },
+    {
+      "id": "san_vuon",
+      "name": "Sân vườn",
+      "groupId": "nha_o",
+      "groupName": "Nhà ở",
+      "icon": "trees",
+      "genre": "nature_acoustic",
+      "desc": "Tiếng gió lá reo, acoustic xanh mát giữa thiên nhiên"
+    },
+    {
+      "id": "van_phong",
+      "name": "Văn phòng",
+      "groupId": "cong_viec",
+      "groupName": "Công việc",
+      "icon": "building",
+      "genre": "office_focus",
+      "desc": "Low-tempo lofi & alpha waves cho năng suất tối ưu"
+    },
+    {
+      "id": "phong_hop",
+      "name": "Phòng họp",
+      "groupId": "cong_viec",
+      "groupName": "Công việc",
+      "icon": "users",
+      "genre": "neutral_ambient",
+      "desc": "Không gian chuyên nghiệp, âm nền tinh tế không xao nhãng"
+    },
+    {
+      "id": "coworking",
+      "name": "Coworking",
+      "groupId": "cong_viec",
+      "groupName": "Công việc",
+      "icon": "coffee",
+      "genre": "deep_work",
+      "desc": "Nhịp điệu sáng tạo hiện đại, kích thích tư duy"
+    },
+    {
+      "id": "studio",
+      "name": "Studio",
+      "groupId": "cong_viec",
+      "groupName": "Công việc",
+      "icon": "mic",
+      "genre": "creative_synth",
+      "desc": "Cảm hứng nghệ thuật, âm thanh đa tầng bay bổng"
+    },
+    {
+      "id": "cua_hang",
+      "name": "Cửa hàng",
+      "groupId": "cong_viec",
+      "groupName": "Công việc",
+      "icon": "store",
+      "genre": "retail_lively",
+      "desc": "Nhịp điệu thân thiện, ấm áp và chào đón khách hàng"
+    },
+    {
+      "id": "xuong_lam_viec",
+      "name": "Xưởng làm việc",
+      "groupId": "cong_viec",
+      "groupName": "Công việc",
+      "icon": "wrench",
+      "genre": "rhythmic_flow",
+      "desc": "Âm hưởng nhịp nhàng, tạo đà làm việc hứng khởi"
+    },
+    {
+      "id": "thu_vien",
+      "name": "Thư viện",
+      "groupId": "hoc_tap",
+      "groupName": "Học tập",
+      "icon": "book-open",
+      "genre": "library_alpha",
+      "desc": "Tuyệt đối tĩnh lặng, sóng não Alpha kích thích tiếp thu"
+    },
+    {
+      "id": "lop_hoc",
+      "name": "Lớp học",
+      "groupId": "hoc_tap",
+      "groupName": "Học tập",
+      "icon": "pen-tool",
+      "genre": "study_calm",
+      "desc": "Tập trung tiếp nhận tri thức, cân bằng cảm xúc"
+    },
+    {
+      "id": "ky_tuc_xa",
+      "name": "Ký túc xá",
+      "groupId": "hoc_tap",
+      "groupName": "Học tập",
+      "icon": "home",
+      "genre": "student_indie",
+      "desc": "Những giai điệu thanh xuân tuổi trẻ, indie mộc mạc"
+    },
+    {
+      "id": "phong_tu_hoc",
+      "name": "Phòng tự học",
+      "groupId": "hoc_tap",
+      "groupName": "Học tập",
+      "icon": "book",
+      "genre": "pomodoro_lofi",
+      "desc": "Beats lofi chuẩn Pomodoro duy trì dòng chảy tập trung"
+    },
+    {
+      "id": "o_to_rieng",
+      "name": "Ô tô riêng",
+      "groupId": "di_chuyen",
+      "groupName": "Di chuyển",
+      "icon": "car",
+      "genre": "roadtrip_hits",
+      "desc": "Playlist đường dài ngập tràn cảm xúc và tự do"
+    },
+    {
+      "id": "taxi",
+      "name": "Taxi",
+      "groupId": "di_chuyen",
+      "groupName": "Di chuyển",
+      "icon": "navigation",
+      "genre": "city_cruising",
+      "desc": "Lướt qua phố thị nhộn nhịp, chill cùng giai điệu êm"
+    },
+    {
+      "id": "xe_buyt",
+      "name": "Xe buýt",
+      "groupId": "di_chuyen",
+      "groupName": "Di chuyển",
+      "icon": "bus",
+      "genre": "window_ballad",
+      "desc": "Ngồi cạnh ô cửa sổ ngắm đường phố trôi qua"
+    },
+    {
+      "id": "tau_dien",
+      "name": "Tàu điện",
+      "groupId": "di_chuyen",
+      "groupName": "Di chuyển",
+      "icon": "train",
+      "genre": "metro_beats",
+      "desc": "Nhịp điệu hiện đại hòa vào nhịp sống đô thị nhanh"
+    },
+    {
+      "id": "tau_hoa",
+      "name": "Tàu hỏa",
+      "groupId": "di_chuyen",
+      "groupName": "Di chuyển",
+      "icon": "compass",
+      "genre": "scenic_journey",
+      "desc": "Hành trình hoài niệm qua những dải đất thơ mộng"
+    },
+    {
+      "id": "may_bay",
+      "name": "Máy bay",
+      "groupId": "di_chuyen",
+      "groupName": "Di chuyển",
+      "icon": "plane",
+      "genre": "flight_ambient",
+      "desc": "Bay trên tầng mây, thanh âm bồng bềnh thư giãn"
+    },
+    {
+      "id": "di_bo",
+      "name": "Đi bộ",
+      "groupId": "di_chuyen",
+      "groupName": "Di chuyển",
+      "icon": "footprints",
+      "genre": "walking_acoustic",
+      "desc": "Từng bước chân thong dong, hòa nhịp cùng nắng gió"
+    },
+    {
+      "id": "dap_xe",
+      "name": "Đạp xe",
+      "groupId": "di_chuyen",
+      "groupName": "Di chuyển",
+      "icon": "bike",
+      "genre": "cycling_upbeat",
+      "desc": "Làn gió luồn qua tóc, nhịp điệu sảng khoái yêu đời"
+    },
+    {
+      "id": "bai_bien",
+      "name": "Bãi biển",
+      "groupId": "thien_nhien",
+      "groupName": "Thiên nhiên",
+      "icon": "waves",
+      "genre": "beach_tropical",
+      "desc": "Sóng biển rì rào, nắng vàng rực rỡ và gió biển mặn mòi"
+    },
+    {
+      "id": "nui_rung",
+      "name": "Núi rừng",
+      "groupId": "thien_nhien",
+      "groupName": "Thiên nhiên",
+      "icon": "mountain",
+      "genre": "forest_ambient",
+      "desc": "Hùng vĩ và bao la, thanh âm tĩnh mịch của rừng già"
+    },
+    {
+      "id": "ho_nuoc",
+      "name": "Hồ nước",
+      "groupId": "thien_nhien",
+      "groupName": "Thiên nhiên",
+      "icon": "droplet",
+      "genre": "lake_tranquil",
+      "desc": "Mặt nước phẳng lặng như gương, tâm hồn an nhiên"
+    },
+    {
+      "id": "bo_song",
+      "name": "Bờ sông",
+      "groupId": "thien_nhien",
+      "groupName": "Thiên nhiên",
+      "icon": "compass",
+      "genre": "river_peace",
+      "desc": "Dòng nước lững lờ trôi, bình yên đón chiều buông"
+    },
+    {
+      "id": "cong_vien",
+      "name": "Công viên",
+      "groupId": "thien_nhien",
+      "groupName": "Thiên nhiên",
+      "icon": "trees",
+      "genre": "park_sunny",
+      "desc": "Thảm cỏ xanh mướt, tiếng chim hót dưới vòm cây"
+    },
+    {
+      "id": "canh_dong",
+      "name": "Cánh đồng",
+      "groupId": "thien_nhien",
+      "groupName": "Thiên nhiên",
+      "icon": "sun",
+      "genre": "open_freedom",
+      "desc": "Hương lúa thơm ngát, bầu trời bao la bát ngát"
+    },
+    {
+      "id": "quan_ca_phe",
+      "name": "Quán cà phê",
+      "groupId": "giai_tri",
+      "groupName": "Giải trí",
+      "icon": "coffee",
+      "genre": "cafe_bossa",
+      "desc": "Hương cà phê ấm nồng, bossa nova & jazz quyến rũ"
+    },
+    {
+      "id": "nha_hang",
+      "name": "Nhà hàng",
+      "groupId": "giai_tri",
+      "groupName": "Giải trí",
+      "icon": "utensils",
+      "genre": "dining_jazz",
+      "desc": "Không gian sang trọng, jazz cổ điển êm ái tao nhã"
+    },
+    {
+      "id": "quan_bar",
+      "name": "Quán bar",
+      "groupId": "giai_tri",
+      "groupName": "Giải trí",
+      "icon": "wine",
+      "genre": "bar_groove",
+      "desc": "Ánh đèn mờ ảo, cocktail ngọt ngào và R&B cuốn hút"
+    },
+    {
+      "id": "pub",
+      "name": "Pub",
+      "groupId": "giai_tri",
+      "groupName": "Giải trí",
+      "icon": "beer",
+      "genre": "pub_indie",
+      "desc": "Chill cùng bạn bè, indie rock & acoustic chân thực"
+    },
+    {
+      "id": "rooftop",
+      "name": "Rooftop",
+      "groupId": "giai_tri",
+      "groupName": "Giải trí",
+      "icon": "sunset",
+      "genre": "rooftop_sunset",
+      "desc": "Ngắm nhìn toàn cảnh thành phố lung linh về đêm"
+    },
+    {
+      "id": "karaoke",
+      "name": "Karaoke",
+      "groupId": "giai_tri",
+      "groupName": "Giải trí",
+      "icon": "mic",
+      "genre": "karaoke_singalong",
+      "desc": "Những ca khúc quốc dân quen thuộc để hát theo"
+    },
+    {
+      "id": "phong_gym",
+      "name": "Phòng gym",
+      "groupId": "ren_luyen",
+      "groupName": "Rèn luyện",
+      "icon": "activity",
+      "genre": "gym_workout",
+      "desc": "Bùng nổ năng lượng, nhịp bass mạnh mẽ thôi thúc ý chí"
+    },
+    {
+      "id": "phong_yoga",
+      "name": "Phòng yoga",
+      "groupId": "ren_luyen",
+      "groupName": "Rèn luyện",
+      "icon": "flower",
+      "genre": "yoga_zen",
+      "desc": "Chuông xoay Tây Tạng và sáo thiền định, đưa tâm về tĩnh"
+    },
+    {
+      "id": "san_the_thao",
+      "name": "Sân thể thao",
+      "groupId": "ren_luyen",
+      "groupName": "Rèn luyện",
+      "icon": "trophy",
+      "genre": "sports_energy",
+      "desc": "Nhiệt huyết thi đấu, tinh thần thể thao cuồng nhiệt"
+    },
+    {
+      "id": "duong_chay",
+      "name": "Đường chạy",
+      "groupId": "ren_luyen",
+      "groupName": "Rèn luyện",
+      "icon": "fast-forward",
+      "genre": "running_tempo",
+      "desc": "BPM chuẩn 160-180 giữ nhịp thở và bước chân dẻo dai"
+    },
+    {
+      "id": "khach_san",
+      "name": "Khách sạn",
+      "groupId": "nghi_duong",
+      "groupName": "Nghỉ dưỡng",
+      "icon": "hotel",
+      "genre": "hotel_lounge",
+      "desc": "Lounge thư thái đẳng cấp, tiện nghi và thanh lịch"
+    },
+    {
+      "id": "resort",
+      "name": "Resort",
+      "groupId": "nghi_duong",
+      "groupName": "Nghỉ dưỡng",
+      "icon": "shield-check",
+      "genre": "resort_luxury",
+      "desc": "Kỳ nghỉ thiên đường, nắng biển hòa cùng nhạc dịu êm"
+    },
+    {
+      "id": "homestay",
+      "name": "Homestay",
+      "groupId": "nghi_duong",
+      "groupName": "Nghỉ dưỡng",
+      "icon": "home",
+      "genre": "homestay_acoustic",
+      "desc": "Cảm giác thân thuộc, mộc mạc như về với chính mình"
+    },
+    {
+      "id": "khu_cam_trai",
+      "name": "Khu cắm trại",
+      "groupId": "nghi_duong",
+      "groupName": "Nghỉ dưỡng",
+      "icon": "tent",
+      "genre": "campfire_folk",
+      "desc": "Ánh lửa bập bùng giữa rừng đêm, guitar mộc hát vang"
+    },
+    {
+      "id": "tttm",
+      "name": "Trung tâm thương mại",
+      "groupId": "cong_cong",
+      "groupName": "Công cộng",
+      "icon": "shopping-bag",
+      "genre": "mall_chill",
+      "desc": "Tươi sáng, hiện đại, bước dạo thư thái cuối tuần"
+    },
+    {
+      "id": "san_bay",
+      "name": "Sân bay",
+      "groupId": "cong_cong",
+      "groupName": "Công cộng",
+      "icon": "plane",
+      "genre": "airport_transit",
+      "desc": "Hành trình kết nối những phương trời xa xôi"
+    },
+    {
+      "id": "nha_ga",
+      "name": "Nhà ga",
+      "groupId": "cong_cong",
+      "groupName": "Công cộng",
+      "icon": "clock",
+      "genre": "station_motion",
+      "desc": "Khoảnh khắc giao thời của những chuyến đi và trở về"
+    },
+    {
+      "id": "sanh_cho",
+      "name": "Sảnh chờ",
+      "groupId": "cong_cong",
+      "groupName": "Công cộng",
+      "icon": "armchair",
+      "genre": "lounge_smooth",
+      "desc": "Thư giãn tĩnh tại trong lúc chờ đợi chuyến hành trình"
+    },
+    {
+      "id": "phong_toi",
+      "name": "Phòng tối",
+      "groupId": "khong_gian_dac_biet",
+      "groupName": "Không gian đặc biệt",
+      "icon": "moon",
+      "genre": "dark_dreampop",
+      "desc": "Không ánh sáng, chỉ có dreampop và không gian vô tận"
+    },
+    {
+      "id": "noi_yen_tinh",
+      "name": "Nơi yên tĩnh",
+      "groupId": "khong_gian_dac_biet",
+      "groupName": "Không gian đặc biệt",
+      "icon": "volume-x",
+      "genre": "pure_silence_piano",
+      "desc": "Tĩnh mịch tuyệt đối, từng nốt piano rơi giữa thinh lặng"
+    },
+    {
+      "id": "noi_dong_duc",
+      "name": "Nơi đông đúc",
+      "groupId": "khong_gian_dac_biet",
+      "groupName": "Không gian đặc biệt",
+      "icon": "users",
+      "genre": "noise_cancelling_flow",
+      "desc": "Chiếc tai nghe cách ly sự ồn ào, tìm lại ốc đảo riêng"
+    },
+    {
+      "id": "khong_gian_mo",
+      "name": "Không gian mở",
+      "groupId": "khong_gian_dac_biet",
+      "groupName": "Không gian đặc biệt",
+      "icon": "maximize",
+      "genre": "expansive_strings",
+      "desc": "Giao hưởng và hòa thanh trải rộng không giới hạn"
+    },
+    {
+      "id": "khong_gian_rieng_tu",
+      "name": "Không gian riêng tư",
+      "groupId": "khong_gian_dac_biet",
+      "groupName": "Không gian đặc biệt",
+      "icon": "lock",
+      "genre": "intimate_ballad",
+      "desc": "Góc riêng cho tâm hồn, những tâm sự chân thành nhất"
+    }
+  ]
+}

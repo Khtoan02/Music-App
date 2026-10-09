@@ -1,6 +1,7 @@
 /**
  * AuraBeat - 4K Living Weather Scenery & Autonomous Reactive Music Engine
  * Powered by MATRIX 280 (8 Time Slots x 7 Weather Conditions x 5 Moods)
+ * & SPACE CONTEXT ENGINE (10 Groups x 55 Living Spaces with Non-Colliding Playlists)
  * Fully automatic: reacts in real-time to hours, sunset, night, and weather shifts
  * without ever needing a manual page reload!
  */
@@ -9,11 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const state = {
     currentWeather: null,
     currentTimeData: null,
-    selectedMood: "auto", // "auto", "M1", "M2", "M3", "M4", "M5"
+    selectedMood: "auto",     // "auto", "M1", "M2", "M3", "M4", "M5"
+    selectedSpace: "auto",    // "auto" or space id (e.g. "phong_ngu", "phong_gym")
     activeCase: null,
     currentImageIndex: 0,
     activeSceneryBg: 1,
-    isRainSoundOn: false
+    isRainSoundOn: false,
+    activeGroupFilter: "all"
   };
 
   // ===================== 1. SCENERY MANAGER (4K SMOOTH CROSS-FADE) =====================
@@ -50,28 +53,36 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===================== 2. CONTEXTUAL POETIC QUOTE =====================
-  function fadeUpdateQuote() {
+  function fadeUpdateQuote(customQuote = null) {
     const quoteEl = document.getElementById("context-quote");
     if (!quoteEl || !state.activeCase) return;
 
+    const targetQuote = customQuote || state.activeCase.quote;
     quoteEl.classList.add("quote-fading");
     setTimeout(() => {
-      quoteEl.textContent = state.activeCase.quote;
+      quoteEl.textContent = targetQuote;
       quoteEl.classList.remove("quote-fading");
     }, 450);
   }
 
   // ===================== 3. CONTEXT MATRIX BADGE =====================
-  function updateMatrixBadge() {
+  function updateMatrixBadge(spaceName = null) {
     if (!state.activeCase) return;
     const codeEl = document.getElementById("matrix-code");
     const descEl = document.getElementById("matrix-desc");
     const badgeEl = document.getElementById("matrix-badge");
 
     if (codeEl) codeEl.textContent = state.activeCase.id;
-    if (descEl) descEl.textContent = state.activeCase.description;
+    if (descEl) {
+      if (spaceName) {
+        descEl.textContent = `${spaceName} • ${state.activeCase.description}`;
+      } else {
+        descEl.textContent = state.activeCase.description;
+      }
+    }
     if (badgeEl) {
-      badgeEl.title = `${state.activeCase.id}: ${state.activeCase.timeName} • ${state.activeCase.weatherName} • ${state.activeCase.moodName}\n"${state.activeCase.description}"`;
+      const spacePrefix = spaceName ? `[Không gian: ${spaceName}]\n` : "";
+      badgeEl.title = `${spacePrefix}${state.activeCase.id}: ${state.activeCase.timeName} • ${state.activeCase.weatherName} • ${state.activeCase.moodName}\n"${state.activeCase.description}"`;
     }
   }
 
@@ -116,10 +127,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ===================== 5. AUTONOMOUS 280-CASE TRANSITION ENGINE =====================
+  // ===================== 5. AUTONOMOUS TRANSITION ENGINE =====================
   /**
-   * Evaluates exact context from time, weather, and mood selection.
-   * Seamlessly resolves to one of the 280 distinct cases BG-T{1..8}-W{1..7}-M{1..5}
+   * Resolves exact context from: Time Slot (T1..T8), Weather Slot (W1..W7),
+   * Mood Slot (M1..M5), and User Living Space (55 Spaces across 10 Groups).
+   * Ensures 100% distinct, non-overlapping playlists!
    */
   function evaluateContext(triggerSource = "tick") {
     if (!state.currentTimeData) return;
@@ -141,32 +153,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const targetCase = MatrixEngine.getCase(tSlot, wSlot, mSlot);
 
     const isCaseChanged = !state.activeCase || (state.activeCase.id !== targetCase.id);
+    const isUserTrigger = triggerSource === "space_switch" || triggerSource === "mood_switch";
 
-    if (isCaseChanged || triggerSource === "mood_switch") {
-      console.log(`[Matrix 280] Context active: ${targetCase.id} (${targetCase.timeName} • ${targetCase.weatherName} • ${targetCase.moodName})`);
+    if (isCaseChanged || isUserTrigger) {
+      console.log(`[Atmosphere Shift] ${targetCase.id} | Space: ${state.selectedSpace} | Trigger: ${triggerSource}`);
       state.activeCase = targetCase;
 
       // 1. Cross-fade 4K wallpaper
       setScenery(false);
 
-      // 2. Fade update poetic quote
-      fadeUpdateQuote();
+      // 2. Determine tailored playlist and quote based on Space
+      let activePlaylist = targetCase.playlist;
+      let activeQuote = targetCase.quote;
+      let activeSpaceName = null;
 
-      // 3. Update status badge
-      updateMatrixBadge();
+      if (state.selectedSpace && state.selectedSpace !== "auto" && typeof SpaceEngine !== "undefined") {
+        const spaceObj = SpaceEngine.getSpace(state.selectedSpace);
+        if (spaceObj) {
+          activeSpaceName = spaceObj.name;
+          activePlaylist = SpaceEngine.getPlaylistForSpace(state.selectedSpace, tSlot, wSlot, mSlot);
+          activeQuote = `“Tại ${spaceObj.name}, ${targetCase.description.toLowerCase()}. ${spaceObj.desc}.”`;
+        }
+      }
 
-      // 4. Synchronize playlist
-      const shouldRestart = (triggerSource === "mood_switch");
-      if (shouldRestart || !player.isPlaying) {
-        player.setPlaylist(targetCase.playlist, false);
+      // 3. Update Poetic Quote
+      fadeUpdateQuote(activeQuote);
+
+      // 4. Update Status Badge
+      updateMatrixBadge(activeSpaceName);
+
+      // 5. Synchronize Playlist (Zero duplicate playlists across all cases)
+      if (isUserTrigger || !player.isPlaying) {
+        player.setPlaylist(activePlaylist, isUserTrigger);
       } else {
-        // Keep current song playing, smoothly queue remaining tracks of the new case
         const current = player.getCurrentTrack();
         if (current) {
-          player.playlist = [current, ...targetCase.playlist.filter(t => t.id !== current.id)];
+          player.playlist = [current, ...activePlaylist.filter(t => t.id !== current.id)];
           player.currentIndex = 0;
         } else {
-          player.setPlaylist(targetCase.playlist, false);
+          player.setPlaylist(activePlaylist, false);
         }
       }
     }
@@ -213,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ===================== 8. PERIODIC AUTO-CYCLES (LIVING AMBIENCE) =====================
   
-  // A. Auto-rotate 4K wallpapers within the active case every 10 minutes
+  // A. Auto-rotate 4K wallpapers within active case every 10 minutes
   setInterval(() => {
     if (state.activeCase) {
       setScenery(true);
@@ -227,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, 4 * 60 * 1000);
 
-  // C. Page Visibility & Sleep/Wake Detection (re-sync without page reload)
+  // C. Page Visibility & Sleep/Wake Detection
   document.addEventListener("visibilitychange", async () => {
     if (document.visibilityState === "visible") {
       timeEngine.tick();
@@ -242,7 +267,170 @@ document.addEventListener("DOMContentLoaded", () => {
     evaluateContext("focus_sync");
   });
 
-  // ===================== 9. USER INTERACTION & CONTROLS =====================
+  // ===================== 9. SPACE SELECTION MODAL SYSTEM =====================
+  const spaceModal = document.getElementById("space-modal");
+  const spaceTabsContainer = document.getElementById("space-group-tabs");
+  const spaceItemsContainer = document.getElementById("space-items-container");
+  const spaceSearchInput = document.getElementById("space-search-input");
+  const activeSpaceLabel = document.getElementById("active-space-label");
+
+  function openSpaceModal() {
+    if (!spaceModal) return;
+    spaceModal.classList.add("open");
+    renderSpaceModalTabs();
+    renderSpaceItems();
+    spaceSearchInput?.focus();
+  }
+
+  function closeSpaceModal() {
+    if (!spaceModal) return;
+    spaceModal.classList.remove("open");
+    if (spaceSearchInput) spaceSearchInput.value = "";
+  }
+
+  function renderSpaceModalTabs() {
+    if (!spaceTabsContainer || typeof SpaceEngine === "undefined") return;
+    const groups = SpaceEngine.getAllGroups();
+
+    let html = `<button data-group="all" class="space-pill ${state.activeGroupFilter === 'all' ? 'active' : ''}">Tất cả (55)</button>`;
+    for (const g of groups) {
+      const isActive = state.activeGroupFilter === g.id;
+      html += `<button data-group="${g.id}" class="space-pill ${isActive ? 'active' : ''}">${g.name}</button>`;
+    }
+    spaceTabsContainer.innerHTML = html;
+
+    spaceTabsContainer.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.activeGroupFilter = btn.getAttribute("data-group");
+        renderSpaceModalTabs();
+        renderSpaceItems();
+      });
+    });
+  }
+
+  function renderSpaceItems() {
+    if (!spaceItemsContainer || typeof SpaceEngine === "undefined") return;
+    const allSpaces = SpaceEngine.getAllSpaces();
+    const query = (spaceSearchInput?.value || "").toLowerCase().trim();
+
+    const filtered = allSpaces.filter(s => {
+      const matchesGroup = (state.activeGroupFilter === "all") || (s.groupId === state.activeGroupFilter);
+      const matchesQuery = !query || s.name.toLowerCase().includes(query) || s.desc.toLowerCase().includes(query) || s.groupName.toLowerCase().includes(query);
+      return matchesGroup && matchesQuery;
+    });
+
+    if (filtered.length === 0) {
+      spaceItemsContainer.innerHTML = `<div class="text-center py-8 text-slate-400 text-sm">Không tìm thấy bối cảnh phù hợp với từ khóa "${query}"</div>`;
+      return;
+    }
+
+    // Group items by groupName
+    const grouped = {};
+    for (const s of filtered) {
+      if (!grouped[s.groupName]) grouped[s.groupName] = [];
+      grouped[s.groupName].push(s);
+    }
+
+    let html = "";
+    for (const [groupName, items] of Object.entries(grouped)) {
+      html += `
+        <div class="space-group-section">
+          <h4 class="text-xs font-semibold tracking-wider text-amber-300/90 uppercase mb-2 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+            <span>${groupName}</span>
+            <span class="text-slate-500 font-normal">(${items.length})</span>
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+      `;
+
+      for (const item of items) {
+        const isCurrentActive = state.selectedSpace === item.id;
+        html += `
+          <button data-space-id="${item.id}" class="space-card-btn p-3 rounded-2xl text-left flex items-start gap-2.5 ${isCurrentActive ? 'active' : ''}">
+            <div class="p-2 rounded-xl bg-white/10 text-amber-300 flex-shrink-0 mt-0.5">
+              <i data-lucide="${item.icon}" class="w-4 h-4"></i>
+            </div>
+            <div class="overflow-hidden">
+              <div class="font-medium text-xs sm:text-sm text-white flex items-center gap-1">
+                <span class="truncate">${item.name}</span>
+                ${isCurrentActive ? '<i data-lucide="check" class="w-3.5 h-3.5 text-amber-400 flex-shrink-0"></i>' : ''}
+              </div>
+              <p class="text-[11px] text-slate-400 leading-tight mt-0.5 line-clamp-2">${item.desc}</p>
+            </div>
+          </button>
+        `;
+      }
+
+      html += `
+          </div>
+        </div>
+      `;
+    }
+
+    spaceItemsContainer.innerHTML = html;
+    lucide.createIcons();
+
+    // Attach click events
+    spaceItemsContainer.querySelectorAll("[data-space-id]").forEach(card => {
+      card.addEventListener("click", () => {
+        const spaceId = card.getAttribute("data-space-id");
+        selectSpace(spaceId);
+        closeSpaceModal();
+      });
+    });
+  }
+
+  function selectSpace(spaceId) {
+    state.selectedSpace = spaceId;
+
+    // Update dock pills active state
+    document.querySelectorAll(".space-pill").forEach(pill => {
+      const pSpace = pill.getAttribute("data-space");
+      if (pSpace) {
+        pill.classList.toggle("active", pSpace === spaceId);
+      }
+    });
+
+    // Update Custom button label
+    if (activeSpaceLabel) {
+      if (spaceId === "auto") {
+        activeSpaceLabel.textContent = "Chọn không gian...";
+      } else {
+        const sp = SpaceEngine.getSpace(spaceId);
+        if (sp) {
+          activeSpaceLabel.textContent = sp.name;
+        }
+      }
+    }
+
+    // Evaluate context with space_switch trigger
+    evaluateContext("space_switch");
+  }
+
+  // Search input live filtering
+  spaceSearchInput?.addEventListener("input", () => {
+    renderSpaceItems();
+  });
+
+  // Modal Buttons & Triggers
+  document.getElementById("btn-open-space-modal")?.addEventListener("click", openSpaceModal);
+  document.getElementById("btn-close-space-modal")?.addEventListener("click", closeSpaceModal);
+
+  spaceModal?.addEventListener("click", (e) => {
+    if (e.target === spaceModal) {
+      closeSpaceModal();
+    }
+  });
+
+  // Space Pills on Dock
+  document.querySelectorAll(".space-pill[data-space]").forEach(pill => {
+    pill.addEventListener("click", () => {
+      const space = pill.getAttribute("data-space");
+      selectSpace(space);
+    });
+  });
+
+  // ===================== 10. USER CONTROLS & INTERACTION =====================
   
   // Play / Pause
   const togglePlay = () => player.togglePlay();
@@ -271,17 +459,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setScenery(true);
   });
 
-  // Mood Selector Pills (Ma trận 280 bối cảnh)
-  document.querySelectorAll(".mood-pill").forEach(pill => {
-    pill.addEventListener("click", () => {
-      document.querySelectorAll(".mood-pill").forEach(p => p.classList.remove("active"));
-      pill.classList.add("active");
-      const mood = pill.getAttribute("data-mood");
-      state.selectedMood = mood;
-      evaluateContext("mood_switch");
-    });
-  });
-
   // Fullscreen
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -294,7 +471,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Keyboard Shortcuts
   window.addEventListener("keydown", (e) => {
-    if (e.code === "Space") {
+    if (e.key === "Escape") {
+      closeSpaceModal();
+    } else if (e.code === "Space") {
       e.preventDefault();
       togglePlay();
     } else if (e.key === "f" || e.key === "F") {
@@ -326,7 +505,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, { once: true });
 
-  // ===================== 10. APP BOOTSTRAP =====================
+  // ===================== 11. APP BOOTSTRAP =====================
   async function init() {
     lucide.createIcons();
 
@@ -341,7 +520,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 3. Render initial weather UI
     updateWeatherUI(weatherData);
 
-    // 4. Initial evaluation of 280-case context
+    // 4. Initial evaluation of 280-case + space context
     evaluateContext("init");
 
     // 5. Start 3-minute weather auto-refresh poller

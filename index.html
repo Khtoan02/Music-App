@@ -101,14 +101,21 @@
 
         </div>
 
-        <!-- Right: 5 Mood Selector Pills (Ma trận 280 bối cảnh) -->
-        <div class="flex items-center space-x-1 overflow-x-auto py-0.5">
-          <button data-mood="auto" class="mood-pill active" title="Tự động nhận diện theo thời gian & thời tiết">✨ Tự động</button>
-          <button data-mood="M1" class="mood-pill" title="M1: Bình yên & Thư thái">🍃 Bình yên</button>
-          <button data-mood="M2" class="mood-pill" title="M2: Tươi vui & Năng lượng">☀️ Tươi vui</button>
-          <button data-mood="M3" class="mood-pill" title="M3: Buồn & Sâu lắng">🌧️ Buồn</button>
-          <button data-mood="M4" class="mood-pill" title="M4: Hoài niệm & Cổ điển">📻 Hoài niệm</button>
-          <button data-mood="M5" class="mood-pill" title="M5: Tập trung & Học tập">🎯 Tập trung</button>
+        <!-- Right: User Space Context Selector (10 Groups, 55 Spaces) -->
+        <div class="flex items-center space-x-1.5 overflow-x-auto py-0.5">
+          <button data-space="auto" class="space-pill active" title="Tự động cảm biến theo thời gian & thời tiết">✨ Tự động</button>
+          <button data-space="phong_ngu" class="space-pill" title="Phòng ngủ - Giai điệu thư giãn xoa dịu giấc ngủ">🛏️ Phòng ngủ</button>
+          <button data-space="van_phong" class="space-pill" title="Văn phòng - Tập trung sâu & làm việc">💻 Làm việc</button>
+          <button data-space="quan_ca_phe" class="space-pill" title="Quán cà phê - Cafe Jazz & Bossa Nova">☕ Cà phê</button>
+          <button data-space="o_to_rieng" class="space-pill" title="Ô tô - Nhạc đường dài giải tỏa căng thẳng">🚗 Di chuyển</button>
+          <button data-space="phong_gym" class="space-pill" title="Phòng gym - Bùng nổ năng lượng tập luyện">🏋️ Gym</button>
+          
+          <!-- Custom Space Dropdown Button (Opens 10 Groups Modal) -->
+          <button id="btn-open-space-modal" class="space-pill flex items-center space-x-1 text-amber-300 border-amber-400/30 hover:bg-amber-400/20" title="Mở danh sách 10 nhóm không gian (55 bối cảnh chi tiết)">
+            <i data-lucide="map-pin" class="w-3 h-3 text-amber-400"></i>
+            <span id="active-space-label">Chọn không gian...</span>
+            <i data-lucide="chevron-up" class="w-3 h-3"></i>
+          </button>
         </div>
 
       </div>
@@ -176,9 +183,51 @@
 
   </footer>
 
+  <!-- ===================== SPACE SELECTION MODAL (10 Groups, 55 Spaces) ===================== -->
+  <div id="space-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div class="relative w-full max-w-3xl max-h-[90vh] bg-slate-900/95 border border-white/20 rounded-3xl p-5 sm:p-6 shadow-2xl flex flex-col text-white">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-3.5 border-b border-white/10">
+        <div>
+          <h3 class="text-lg sm:text-xl font-bold flex items-center gap-2">
+            <i data-lucide="map-pin" class="w-5 h-5 text-amber-400"></i>
+            <span>Không gian của bạn đang ở đâu?</span>
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
+            Chọn từ 55 bối cảnh thuộc 10 nhóm không gian để cá nhân hóa danh sách nhạc không trùng lặp
+          </p>
+        </div>
+        <button id="btn-close-space-modal" class="p-2 text-slate-400 hover:text-white rounded-full hover:bg-white/10 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Quick Search & Group Filter Tabs -->
+      <div class="py-3 flex flex-col gap-2.5">
+        <div class="relative">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+          <input id="space-search-input" type="text" placeholder="Tìm kiếm nhanh (VD: gym, ngủ, cà phê, thư viện, ô tô, bãi biển, ban công...)" class="w-full bg-white/10 border border-white/15 rounded-xl pl-10 pr-4 py-2 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-amber-400 transition-colors">
+        </div>
+
+        <!-- Filter tabs for 10 Groups -->
+        <div id="space-group-tabs" class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Spaces Content Grid -->
+      <div id="space-items-container" class="overflow-y-auto flex-1 pr-1 space-y-4 max-h-[55vh]">
+        <!-- Populated dynamically via JS -->
+      </div>
+
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="js/playlist-data.js"></script>
   <script src="js/matrix-data.js"></script>
+  <script src="js/space-data.js"></script>
   <script src="js/time.js"></script>
   <script src="js/weather.js"></script>
   <script src="js/ambient-audio.js"></script>
