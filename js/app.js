@@ -86,9 +86,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ===================== 4. AUDIO & YOUTUBE PLAYER =====================
+  // ===================== 4. AUDIO & YOUTUBE PLAYER & ATMOSPHERE FX =====================
   const ambientAudio = new AmbientAudioEngine();
   const weatherEngine = new WeatherEngine();
+  const atmosphereFX = new AtmosphereFX();
 
   const player = new MusicPlayer({
     onTrackChange: (track) => {
@@ -131,18 +132,20 @@ document.addEventListener("DOMContentLoaded", () => {
   /**
    * Resolves exact context from: Time Slot (T1..T8), Weather Slot (W1..W7),
    * Mood Slot (M1..M5), and User Living Space (55 Spaces across 10 Groups).
-   * Ensures 100% distinct, non-overlapping playlists!
+   * Ensures 100% distinct, non-overlapping playlists and realistic living atmosphere!
    */
   function evaluateContext(triggerSource = "tick") {
     if (!state.currentTimeData) return;
 
     const date = state.currentTimeData.rawDate || state.currentTimeData.dateRaw || new Date();
     const tSlot = MatrixEngine.getTimeSlot(date);
+    const hour = date.getHours();
+    const isNightByDefault = hour < 6 || hour >= 18;
 
     // Weather slot
     const wmoCode = state.currentWeather?.weatherCode ?? 0;
     const temp = state.currentWeather?.temp ?? 25;
-    const isDay = state.currentWeather?.isDay ? 1 : 0;
+    const isDay = state.currentWeather ? (state.currentWeather.isDay ? 1 : 0) : (isNightByDefault ? 0 : 1);
     const wSlot = MatrixEngine.getWeatherSlot(wmoCode, temp, isDay);
 
     // Mood slot
@@ -153,7 +156,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const targetCase = MatrixEngine.getCase(tSlot, wSlot, mSlot);
 
     const isCaseChanged = !state.activeCase || (state.activeCase.id !== targetCase.id);
-    const isUserTrigger = triggerSource === "space_switch" || triggerSource === "mood_switch";
+    const isUserTrigger = triggerSource === "space_switch" || triggerSource === "mood_switch" || triggerSource === "init";
+
+    // Update Celestial Bodies (Sun Top-Left, Moon Top-Right) & Realistic Rain Canvas
+    atmosphereFX.update({
+      isDay: Boolean(isDay),
+      timeSlot: tSlot,
+      weatherSlot: wSlot,
+      forceRain: state.isRainSoundOn
+    });
 
     if (isCaseChanged || isUserTrigger) {
       console.log(`[Atmosphere Shift] ${targetCase.id} | Space: ${state.selectedSpace} | Trigger: ${triggerSource}`);
@@ -184,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 5. Synchronize Playlist (Zero duplicate playlists across all cases)
       if (isUserTrigger || !player.isPlaying) {
-        player.setPlaylist(activePlaylist, isUserTrigger);
+        player.setPlaylist(activePlaylist, isUserTrigger && triggerSource !== "init");
       } else {
         const current = player.getCurrentTrack();
         if (current) {
@@ -452,6 +463,20 @@ document.addEventListener("DOMContentLoaded", () => {
     state.isRainSoundOn = ambientAudio.toggleTrack("rain");
     ambientRainBtn.classList.toggle("text-sky-300", state.isRainSoundOn);
     ambientRainBtn.classList.toggle("text-slate-400", !state.isRainSoundOn);
+
+    const date = state.currentTimeData?.rawDate || new Date();
+    const tSlot = MatrixEngine.getTimeSlot(date);
+    const hour = date.getHours();
+    const isNightByDefault = hour < 6 || hour >= 18;
+    const isDay = state.currentWeather ? Boolean(state.currentWeather.isDay) : !isNightByDefault;
+    const wSlot = MatrixEngine.getWeatherSlot(state.currentWeather?.weatherCode ?? 0, state.currentWeather?.temp ?? 25, isDay ? 1 : 0);
+
+    atmosphereFX.update({
+      isDay: isDay,
+      timeSlot: tSlot,
+      weatherSlot: wSlot,
+      forceRain: state.isRainSoundOn
+    });
   });
 
   // Next 4K Scene Manual Button (Cycle through images for current case)
@@ -513,6 +538,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const initialTimeData = timeEngine.tick();
     state.currentTimeData = initialTimeData;
 
+    // Fast-path: immediately evaluate atmosphere based on clock hour
+    evaluateContext("pre_init");
+
     // 2. Fetch live weather & location
     const weatherData = await weatherEngine.fetchWeather();
     state.currentWeather = weatherData;
@@ -520,7 +548,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 3. Render initial weather UI
     updateWeatherUI(weatherData);
 
-    // 4. Initial evaluation of 280-case + space context
+    // 4. Re-evaluate with exact live weather
     evaluateContext("init");
 
     // 5. Start 3-minute weather auto-refresh poller

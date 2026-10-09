@@ -22,7 +22,36 @@
     <div id="scenery-bg-2" class="scenery-layer"></div>
   </div>
 
-  <!-- 2. Hidden YouTube Background Streamer -->
+  <!-- 2. Realistic Celestial Bodies (Sun Top-Left, Moon Top-Right) -->
+  <div id="celestial-container" class="pointer-events-none fixed inset-0 z-[5] overflow-hidden">
+    <!-- Top-Left Realistic Sun (Mặt trời ở góc trái khi trời nắng) -->
+    <div id="celestial-sun" class="celestial-item top-left-sun" title="Mặt trời ban ngày">
+      <div class="sun-flare"></div>
+      <div class="sun-core"></div>
+      <div class="sun-rays-beam"></div>
+    </div>
+
+    <!-- Top-Right Realistic Moon (Mặt trăng ở góc phải khi trời tối) -->
+    <div id="celestial-moon" class="celestial-item top-right-moon" title="Mặt trăng đêm thanh khiết">
+      <div class="moon-halo"></div>
+      <div class="moon-body">
+        <div class="moon-crater crater-1"></div>
+        <div class="moon-crater crater-2"></div>
+        <div class="moon-crater crater-3"></div>
+      </div>
+      <div class="moon-twinkle star-1">✦</div>
+      <div class="moon-twinkle star-2">✦</div>
+      <div class="moon-twinkle star-3">✦</div>
+    </div>
+  </div>
+
+  <!-- 3. Realistic Falling Rain & Window Droplets (Mưa rơi & giọt nước đọng trên kính) -->
+  <div id="weather-fx-container" class="pointer-events-none fixed inset-0 z-[6] overflow-hidden">
+    <canvas id="rain-canvas"></canvas>
+    <div id="window-droplets" class="window-droplets-layer"></div>
+  </div>
+
+  <!-- 4. Hidden YouTube Background Streamer -->
   <div id="yt-player-hidden">
     <div id="yt-iframe-placeholder"></div>
   </div>
@@ -228,6 +257,7 @@
   <script src="js/playlist-data.js"></script>
   <script src="js/matrix-data.js"></script>
   <script src="js/space-data.js"></script>
+  <script src="js/atmosphere-fx.js"></script>
   <script src="js/time.js"></script>
   <script src="js/weather.js"></script>
   <script src="js/ambient-audio.js"></script>

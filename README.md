@@ -46,7 +46,12 @@
    - **Tự động chuyển đổi hình nền, quote thơ và hàng đợi bài hát mượt mà không cần load lại trang!**
    - Khi gập mở laptop hoặc quay lại tab trình duyệt, hệ thống tự động đồng bộ tức thì.
 
-5. **Trình Tạo Âm Thanh Môi Trường (Procedural Web Audio Rain):**
+5. **Hiệu Ứng Thiên Văn & Thời Tiết Thực Tế (Realistic Atmosphere & Celestial Bodies):**
+   - **☀️ Mặt trời góc trái (Top-Left Sun):** Tỏa sáng rực rỡ vào ban ngày trời nắng với quầng hào quang ấm áp (solar corona) và tia nắng lan tỏa nhẹ nhàng.
+   - **🌙 Mặt trăng góc phải (Top-Right Moon):** Xuất hiện thanh khiết vào buổi tối và đêm khuya với ánh trăng bạc huyền ảo, vầng hào quang êm dịu và các vì sao lấp lánh xung quanh.
+   - **🌧️ Hạt mưa rơi & Giọt nước đọng trên kính (Window Droplets FX):** Khi trời mưa, màn mưa rơi nghiêng theo chiều gió kết hợp các giọt nước mưa trong suốt ngưng đọng và trượt chậm trên mặt kính như đang nhìn qua khung cửa sổ.
+
+6. **Trình Tạo Âm Thanh Môi Trường (Procedural Web Audio Rain):**
    - Tạo tiếng mưa rơi tự nhiên bằng thuật toán Web Audio API, hòa quyện cùng bản nhạc đang phát để tăng cảm giác thư giãn sâu.
 
 ---
@@ -71,6 +76,8 @@
 │   └── verified_photos.json    # Danh mục ảnh 4K Unsplash đã kiểm định
 ├── js/
 │   ├── matrix-data.js          # MatrixEngine & dữ liệu ma trận 280 bối cảnh
+│   ├── space-data.js           # SpaceEngine quản lý 10 nhóm & 55 không gian
+│   ├── atmosphere-fx.js        # Hiệu ứng mặt trời góc trái, mặt trăng góc phải & hạt mưa trên kính
 │   ├── time.js                 # Bộ đếm thời gian thực & phân loại khung giờ T1..T8
 │   ├── weather.js              # Định vị GPS & Open-Meteo API
 │   ├── player.js               # Trình phát YouTube IFrame API với cơ chế tự phục hồi
