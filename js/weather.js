@@ -257,13 +257,13 @@ class WeatherEngine {
   }
 
   /**
-   * Start auto-refreshing weather every 10 minutes
+   * Start auto-refreshing weather every 3 minutes
    */
   startAutoRefresh(callback) {
     if (this.autoRefreshInterval) clearInterval(this.autoRefreshInterval);
     this.autoRefreshInterval = setInterval(async () => {
       const data = await this.fetchWeather();
       if (callback) callback(data);
-    }, 10 * 60 * 1000);
+    }, 3 * 60 * 1000);
   }
 }

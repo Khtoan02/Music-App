@@ -1,5 +1,7 @@
 /**
- * AuraBeat - 4K Living Weather Scenery & Precision Music Engine
+ * AuraBeat - 4K Living Weather Scenery & Autonomous Reactive Music Engine
+ * Fully automatic: reacts to real-time transitions (hours, sunset, night, weather changes)
+ * without ever needing a manual page reload!
  */
 
 // Curated 4K / Ultra HD Living Sceneries (Untouched original color & clarity)
@@ -90,12 +92,12 @@ document.addEventListener("DOMContentLoaded", () => {
     currentTimeData: null,
     currentVibe: "all",
     currentSceneIndex: 0,
-    currentBucketKey: "sunny_morning",
+    currentBucketKey: null,
     activeSceneryBg: 1,
     isRainSoundOn: false
   };
 
-  // 1. Scenery Manager (100% Original 4K quality, smooth cross-fading)
+  // ===================== 1. SCENERY MANAGER (4K SMOOTH CROSS-FADE) =====================
   function setScenery(bucketKey, forceNext = false) {
     const scenes = WEATHER_SCENES[bucketKey] || WEATHER_SCENES.sunny_morning;
     if (forceNext) {
@@ -103,7 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (state.currentBucketKey !== bucketKey) {
       state.currentSceneIndex = 0;
     }
-    state.currentBucketKey = bucketKey;
 
     const currentScene = scenes[state.currentSceneIndex] || scenes[0];
     const bg1 = document.getElementById("scenery-bg-1");
@@ -127,15 +128,19 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // 2. Poetic Quote updater
-  function updateQuote(bucketKey) {
+  // ===================== 2. POETIC QUOTE WITH SMOOTH FADE TRANSITION =====================
+  function fadeUpdateQuote(bucketKey) {
     const quoteEl = document.getElementById("context-quote");
-    if (quoteEl && typeof RecommendationEngine.getRandomQuote === "function") {
+    if (!quoteEl || typeof RecommendationEngine.getRandomQuote !== "function") return;
+
+    quoteEl.classList.add("quote-fading");
+    setTimeout(() => {
       quoteEl.textContent = RecommendationEngine.getRandomQuote(bucketKey);
-    }
+      quoteEl.classList.remove("quote-fading");
+    }, 450);
   }
 
-  // 3. Audio & YouTube Player Engine
+  // ===================== 3. AUDIO & YOUTUBE PLAYER =====================
   const ambientAudio = new AmbientAudioEngine();
   const weatherEngine = new WeatherEngine();
 
@@ -176,18 +181,80 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 4. Time Engine (Ticks every second, updates central clock)
+  // ===================== 4. AUTONOMOUS SEAMLESS TRANSITION ENGINE =====================
+  /**
+   * Automatically reacts when the day shifts (e.g., Afternoon -> Sunset -> Night)
+   * or when the weather changes (e.g., Sunny -> Rain)
+   * Without any page reload required!
+   */
+  function checkAndHandleEnvironmentTransition() {
+    if (!state.currentWeather || !state.currentTimeData) return;
+
+    const weatherType = state.currentWeather.weatherType || "sunny";
+    const timePeriodId = state.currentTimeData.period.id || "morning";
+
+    const targetBucket = RecommendationEngine.getBucketKey(weatherType, timePeriodId);
+
+    // If bucket changed (e.g., from afternoon to sunset at 18:00, or to night at 19:00)
+    if (targetBucket !== state.currentBucketKey) {
+      console.log(`[Auto Reactive] Atmosphere shifted: ${state.currentBucketKey} -> ${targetBucket}`);
+      state.currentBucketKey = targetBucket;
+
+      // 1. Cross-fade to the new 4K scene
+      setScenery(targetBucket, false);
+
+      // 2. Fade to the new contextual quote
+      fadeUpdateQuote(targetBucket);
+
+      // 3. Gracefully update playlist
+      syncMusicGracefully(targetBucket);
+    }
+  }
+
+  /**
+   * Graceful playlist update: if currently playing, keep the current song running smoothly
+   * and load the new atmosphere tracks for the upcoming queue!
+   */
+  function syncMusicGracefully(bucketKey) {
+    const weatherType = state.currentWeather?.weatherType || "sunny";
+    const timePeriod = state.currentTimeData?.period?.id || "morning";
+
+    const result = RecommendationEngine.getRecommendedPlaylist(
+      weatherType,
+      timePeriod,
+      state.currentVibe
+    );
+
+    if (player.isPlaying) {
+      // Don't cut the song abruptly! Queue the new tracks for the next songs
+      const current = player.getCurrentTrack();
+      if (current) {
+        player.playlist = [current, ...result.tracks.filter(t => t.id !== current.id)];
+        player.currentIndex = 0;
+      } else {
+        player.setPlaylist(result.tracks, false);
+      }
+    } else {
+      player.setPlaylist(result.tracks, false);
+    }
+  }
+
+  // ===================== 5. TIME ENGINE (TICKS EVERY SECOND) =====================
   const timeEngine = new TimeEngine((timeData) => {
     state.currentTimeData = timeData;
 
+    // Update Clock and Date DOM
     const clockEl = document.getElementById("time-clock");
     const dateEl = document.getElementById("time-date");
 
     if (clockEl) clockEl.textContent = timeData.time.clock;
     if (dateEl) dateEl.textContent = timeData.date.full;
+
+    // Continuously check if hour/period transitioned to next phase (e.g. 18:00 sunset, 19:00 night)
+    checkAndHandleEnvironmentTransition();
   });
 
-  // 5. Weather UI & Sync
+  // ===================== 6. WEATHER UI & POLLER =====================
   function updateWeatherUI(weather) {
     state.currentWeather = weather;
 
@@ -207,21 +274,15 @@ document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
     }
 
-    const bucketKey = RecommendationEngine.getBucketKey(
-      weather.weatherType,
-      state.currentTimeData?.period?.id || "morning"
-    );
-
-    setScenery(bucketKey, false);
-    updateQuote(bucketKey);
+    // Trigger state check to see if weather change necessitates a scenery/music shift
+    checkAndHandleEnvironmentTransition();
   }
 
-  // 6. Music Playlist Sync
-  function syncMusic(autoPlay = false) {
-    if (!state.currentWeather || !state.currentTimeData) return;
-
-    const weatherType = state.currentWeather.weatherType;
-    const timePeriod = state.currentTimeData.period.id;
+  // Direct Vibe switcher
+  function applyVibeFilter(vibe) {
+    state.currentVibe = vibe;
+    const weatherType = state.currentWeather?.weatherType || "sunny";
+    const timePeriod = state.currentTimeData?.period?.id || "morning";
 
     const result = RecommendationEngine.getRecommendedPlaylist(
       weatherType,
@@ -229,17 +290,53 @@ document.addEventListener("DOMContentLoaded", () => {
       state.currentVibe
     );
 
-    player.setPlaylist(result.tracks, autoPlay);
+    player.setPlaylist(result.tracks, true);
   }
 
-  // 7. Event Handlers
+  // ===================== 7. PERIODIC AUTO-CYCLES (LIVING AMBIENCE) =====================
+  
+  // A. Auto-rotate 4K wallpapers within the current bucket every 10 minutes
+  setInterval(() => {
+    if (state.currentBucketKey) {
+      setScenery(state.currentBucketKey, true);
+    }
+  }, 10 * 60 * 1000);
+
+  // B. Auto-rotate contextual quotes every 4 minutes
+  setInterval(() => {
+    if (state.currentBucketKey) {
+      fadeUpdateQuote(state.currentBucketKey);
+    }
+  }, 4 * 60 * 1000);
+
+  // C. Page Visibility & Sleep/Wake Detection
+  // When user opens laptop lid or returns to tab, immediately re-sync without reload
+  document.addEventListener("visibilitychange", async () => {
+    if (document.visibilityState === "visible") {
+      timeEngine.tick();
+      const freshData = await weatherEngine.fetchWeather();
+      updateWeatherUI(freshData);
+      checkAndHandleEnvironmentTransition();
+    }
+  });
+
+  window.addEventListener("focus", async () => {
+    timeEngine.tick();
+    checkAndHandleEnvironmentTransition();
+  });
+
+  // ===================== 8. USER INTERACTION & CONTROLS =====================
+  
+  // Play / Pause
   const togglePlay = () => player.togglePlay();
   document.getElementById("btn-play-pause")?.addEventListener("click", togglePlay);
   document.getElementById("btn-toggle-play-area")?.addEventListener("click", togglePlay);
 
+  // Prev / Next
   document.getElementById("btn-prev")?.addEventListener("click", () => player.prev());
   document.getElementById("btn-next")?.addEventListener("click", () => player.next());
 
+  // Volume
   const volSlider = document.getElementById("volume-slider");
   volSlider?.addEventListener("input", (e) => player.setVolume(parseFloat(e.target.value)));
   document.getElementById("btn-volume-toggle")?.addEventListener("click", () => player.toggleMute());
@@ -252,13 +349,11 @@ document.addEventListener("DOMContentLoaded", () => {
     ambientRainBtn.classList.toggle("text-slate-400", !state.isRainSoundOn);
   });
 
-  // Next 4K Scene Button
+  // Next 4K Scene Manual Button
   document.getElementById("btn-next-scene")?.addEventListener("click", () => {
-    const bucketKey = RecommendationEngine.getBucketKey(
-      state.currentWeather?.weatherType || "sunny",
-      state.currentTimeData?.period?.id || "morning"
-    );
-    setScenery(bucketKey, true);
+    if (state.currentBucketKey) {
+      setScenery(state.currentBucketKey, true);
+    }
   });
 
   // Vibe Selector Buttons
@@ -266,8 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pill.addEventListener("click", () => {
       document.querySelectorAll(".vibe-pill").forEach(p => p.classList.remove("active"));
       pill.classList.add("active");
-      state.currentVibe = pill.getAttribute("data-vibe");
-      syncMusic(true);
+      applyVibeFilter(pill.getAttribute("data-vibe"));
     });
   });
 
@@ -295,17 +389,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Refresh GPS & Weather
+  // Refresh GPS & Weather Button
   document.getElementById("btn-refresh-weather")?.addEventListener("click", async () => {
     const btn = document.getElementById("btn-refresh-weather");
     btn?.classList.add("animate-spin");
     const freshData = await weatherEngine.fetchWeather();
     updateWeatherUI(freshData);
-    syncMusic(false);
+    checkAndHandleEnvironmentTransition();
     setTimeout(() => btn?.classList.remove("animate-spin"), 800);
   });
 
-  // Auto start on first user interaction
+  // Auto start on first user click anywhere
   let hasInteracted = false;
   window.addEventListener("click", () => {
     if (!hasInteracted) {
@@ -316,22 +410,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, { once: true });
 
-  // 8. Bootstrap
+  // ===================== 9. APP BOOTSTRAP =====================
   async function init() {
     lucide.createIcons();
 
-    // Fetch initial location & weather
+    // 1. Initial time tick
+    const initialTimeData = timeEngine.tick();
+    state.currentTimeData = initialTimeData;
+
+    // 2. Fetch live weather & location
     const weatherData = await weatherEngine.fetchWeather();
+    state.currentWeather = weatherData;
+
+    // 3. Calculate initial atmosphere bucket (e.g. sunset if after 18:00)
+    const initialBucket = RecommendationEngine.getBucketKey(
+      weatherData.weatherType,
+      initialTimeData.period.id
+    );
+    state.currentBucketKey = initialBucket;
+
+    // 4. Render initial scenery, quote, and weather
+    setScenery(initialBucket, false);
+    fadeUpdateQuote(initialBucket);
     updateWeatherUI(weatherData);
 
-    // Auto-refresh weather every 10 mins
+    // 5. Setup initial playlist
+    const initialPlaylist = RecommendationEngine.getRecommendedPlaylist(
+      weatherData.weatherType,
+      initialTimeData.period.id,
+      state.currentVibe
+    );
+    player.setPlaylist(initialPlaylist.tracks, false);
+
+    // 6. Start 3-minute weather auto-refresh poller
     weatherEngine.startAutoRefresh((newData) => {
       updateWeatherUI(newData);
-      syncMusic(false);
     });
-
-    // Load matching playlist
-    syncMusic(false);
   }
 
   init();
