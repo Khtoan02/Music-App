@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraBeat - 4K Living Weather & Ambient Music</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="relative h-screen w-screen overflow-hidden flex flex-col justify-between p-4 sm:p-6 md:p-8">
+
+  <!-- 1. Pure Original 4K Ultra HD Scenery Layers (No dark overlays, 100% original colors) -->
+  <div id="scenery-container">
+    <div id="scenery-bg-1" class="scenery-layer active"></div>
+    <div id="scenery-bg-2" class="scenery-layer"></div>
+  </div>
+
+  <!-- 2. Hidden YouTube Background Streamer -->
+  <div id="yt-player-hidden">
+    <div id="yt-iframe-placeholder"></div>
+  </div>
+
+  <!-- Top is intentionally left completely empty for unhindered 4K wallpaper viewing -->
+  <div></div>
+
+  <!-- ===================== CENTER SCREEN: TIME & CONTEXTUAL QUOTE ===================== -->
+  <main class="relative z-10 flex flex-col items-center justify-center text-center my-auto px-4 max-w-4xl mx-auto">
+    
+    <!-- Big Crisp Digital Clock -->
+    <h1 id="time-clock" class="center-clock text-7xl sm:text-9xl md:text-[10.5rem] leading-none tracking-tight">
+      00:00:00
+    </h1>
+
+    <!-- Full Vietnamese Date -->
+    <p id="time-date" class="center-date text-base sm:text-xl md:text-2xl font-medium tracking-wide mt-3 sm:mt-4">
+      Đang cập nhật...
+    </p>
+
+    <!-- Contextual Poetic Quote -->
+    <p id="context-quote" class="center-quote text-base sm:text-xl md:text-2xl mt-4 sm:mt-6 px-4 leading-relaxed max-w-3xl">
+      “Mỗi sớm mai thức dậy là một khởi đầu mới, ngập tràn ánh sáng và hy vọng.”
+    </p>
+
+  </main>
+
+  <!-- ===================== BOTTOM: ALL-IN-ONE UNIFIED CONTROL DOCK ===================== -->
+  <footer class="relative z-10 w-full max-w-5xl mx-auto">
+    
+    <div class="unified-bottom-deck p-3.5 sm:p-4 flex flex-col gap-2.5">
+      
+      <!-- Top Row of Deck: Location, Weather, Scene Switcher & Vibe Pills -->
+      <div class="flex flex-wrap items-center justify-between gap-2.5 pb-2.5 border-b border-white/10 text-xs">
+        
+        <!-- Left: Location + Weather + Change Scene Button -->
+        <div class="flex flex-wrap items-center gap-2">
+          
+          <!-- Location Pill -->
+          <div class="flex items-center space-x-1.5 px-3 py-1 rounded-full glass-subtle text-slate-200">
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-400"></i>
+            <span id="weather-location" class="font-medium truncate max-w-[150px] sm:max-w-none">Đang định vị...</span>
+            <button id="btn-refresh-weather" title="Cập nhật lại GPS" class="text-slate-400 hover:text-white transition-colors ml-0.5">
+              <i data-lucide="rotate-cw" class="w-3 h-3"></i>
+            </button>
+          </div>
+
+          <!-- Weather Pill -->
+          <div class="flex items-center space-x-2 px-3 py-1 rounded-full glass-subtle text-slate-200">
+            <div id="weather-icon-container" class="flex items-center">
+              <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>
+            </div>
+            <span id="weather-temp" class="font-mono font-bold text-amber-400">--°C</span>
+            <span class="text-slate-500">•</span>
+            <span id="weather-label">Đang đo...</span>
+            <span class="text-slate-500">•</span>
+            <span class="text-sky-300 flex items-center gap-0.5">
+              <i data-lucide="droplet" class="w-3 h-3"></i>
+              <span id="weather-humidity">--%</span>
+            </span>
+          </div>
+
+          <!-- Next Scene Button -->
+          <button id="btn-next-scene" class="flex items-center space-x-1 px-3 py-1 rounded-full glass-subtle text-amber-300 hover:text-white hover:bg-white/20 transition-all" title="Chuyển hình nền 4K khác của thời tiết này">
+            <i data-lucide="image" class="w-3.5 h-3.5"></i>
+            <span>Đổi cảnh 4K</span>
+          </button>
+
+        </div>
+
+        <!-- Right: Vibe Quick Filters -->
+        <div class="flex items-center space-x-1">
+          <button data-vibe="all" class="vibe-pill active">Gợi ý tự động</button>
+          <button data-vibe="jazz" class="vibe-pill">☕ Cafe Jazz</button>
+          <button data-vibe="acoustic" class="vibe-pill">🎸 Acoustic</button>
+          <button data-vibe="piano" class="vibe-pill">🎹 Piano</button>
+          <button data-vibe="lofi" class="vibe-pill">🎧 Lofi</button>
+        </div>
+
+      </div>
+
+      <!-- Bottom Row of Deck: Music Player Controls & Volume -->
+      <div class="flex items-center justify-between gap-3">
+        
+        <!-- Left: Now Playing Info -->
+        <div class="flex items-center space-x-3 overflow-hidden flex-1 cursor-pointer" id="btn-toggle-play-area">
+          <div id="equalizer" class="eq-container flex-shrink-0 paused">
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+          </div>
+          <div class="truncate">
+            <h2 id="now-playing-title" class="text-xs sm:text-sm font-semibold text-white truncate">
+              Đang kết nối kho nhạc...
+            </h2>
+            <p id="now-playing-artist" class="text-[11px] text-slate-400 truncate">
+              AuraBeat 4K
+            </p>
+          </div>
+        </div>
+
+        <!-- Center: Playback Buttons -->
+        <div class="flex items-center space-x-2 flex-shrink-0">
+          <button id="btn-prev" class="p-2 text-slate-300 hover:text-white transition-colors" title="Bài trước (←)">
+            <i data-lucide="skip-back" class="w-4 h-4"></i>
+          </button>
+
+          <button id="btn-play-pause" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white text-zinc-950 flex items-center justify-center shadow-lg hover:scale-105 transition-transform" title="Phát / Dừng (Phím Space)">
+            <i data-lucide="play" class="w-4 h-4 translate-x-0.5"></i>
+          </button>
+
+          <button id="btn-next" class="p-2 text-slate-300 hover:text-white transition-colors" title="Bài tiếp (→)">
+            <i data-lucide="skip-forward" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Right: Rain Ambience & Volume & Fullscreen -->
+        <div class="flex items-center space-x-2.5 flex-shrink-0">
+          <!-- Ambient Rain -->
+          <button id="btn-ambient-rain" class="p-2 rounded-xl text-slate-400 hover:text-sky-300 hover:bg-white/10 transition-all" title="Bật/Tắt Tiếng mưa môi trường">
+            <i data-lucide="cloud-rain" class="w-4 h-4"></i>
+          </button>
+
+          <!-- Volume -->
+          <div class="hidden sm:flex items-center space-x-1.5 w-20">
+            <button id="btn-volume-toggle" class="text-slate-400 hover:text-white">
+              <i id="volume-icon" data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+            </button>
+            <input id="volume-slider" type="range" min="0" max="100" value="80" class="w-full">
+          </div>
+
+          <!-- Fullscreen -->
+          <button id="btn-fullscreen" class="p-2 text-slate-400 hover:text-white transition-colors" title="Toàn màn hình (F)">
+            <i data-lucide="maximize" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/playlist-data.js"></script>
+  <script src="js/time.js"></script>
+  <script src="js/weather.js"></script>
+  <script src="js/ambient-audio.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
