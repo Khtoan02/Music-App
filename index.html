@@ -59,91 +59,100 @@
   <!-- Top is intentionally left completely empty for unhindered 4K wallpaper viewing -->
   <div></div>
 
-  <!-- ===================== CENTER SCREEN: TIME & CONTEXTUAL QUOTE ===================== -->
-  <main class="relative z-10 flex flex-col items-center justify-center text-center my-auto px-4 max-w-4xl mx-auto">
+  <!-- ===================== CENTER SCREEN: LIQUID GLASS TIME ISLAND ===================== -->
+  <main class="relative z-10 flex flex-col items-center justify-center my-auto px-4 max-w-4xl mx-auto w-full">
     
-    <!-- Big Crisp Digital Clock -->
-    <h1 id="time-clock" class="center-clock text-7xl sm:text-9xl md:text-[10.5rem] leading-none tracking-tight">
-      00:00:00
-    </h1>
+    <div class="liquid-glass-surface liquid-glass-clock-island w-full">
+      
+      <!-- Top context tag (Time Slot & Space) -->
+      <div class="flex items-center gap-2 mb-2">
+        <span id="clock-slot-badge" class="liquid-glass-pill px-3 py-1 text-xs text-amber-200 font-mono font-medium flex items-center gap-1.5">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span id="clock-slot-name">Buổi tối</span>
+        </span>
+        <span id="clock-space-badge" class="liquid-glass-pill px-3 py-1 text-xs text-sky-200 font-medium inline-flex items-center gap-1.5">
+          <i data-lucide="compass" class="w-3.5 h-3.5 text-sky-400"></i>
+          <span id="clock-space-name">Tự động cảm biến</span>
+        </span>
+      </div>
 
-    <!-- Full Vietnamese Date -->
-    <p id="time-date" class="center-date text-base sm:text-xl md:text-2xl font-medium tracking-wide mt-3 sm:mt-4">
-      Đang cập nhật...
-    </p>
+      <!-- Big Liquid Glass Digital Clock -->
+      <h1 id="time-clock" class="center-clock text-7xl sm:text-8xl md:text-[9.5rem] leading-none tracking-tight font-bold my-1">
+        00:00:00
+      </h1>
 
-    <!-- Contextual Poetic Quote -->
-    <p id="context-quote" class="center-quote text-base sm:text-xl md:text-2xl mt-4 sm:mt-6 px-4 leading-relaxed max-w-3xl">
-      “Mỗi sớm mai thức dậy là một khởi đầu mới, ngập tràn ánh sáng và hy vọng.”
-    </p>
+      <!-- Full Vietnamese Date Pill -->
+      <div class="mt-2 sm:mt-3">
+        <span id="time-date" class="liquid-glass-pill px-4 py-1.5 text-xs sm:text-sm md:text-base font-medium tracking-wide inline-flex items-center gap-2 text-slate-200">
+          <i data-lucide="calendar" class="w-3.5 h-3.5 text-amber-300"></i>
+          <span id="time-date-text">Đang cập nhật...</span>
+        </span>
+      </div>
+
+      <!-- Contextual Poetic Quote -->
+      <p id="context-quote" class="center-quote text-sm sm:text-lg md:text-xl mt-4 sm:mt-5 px-3 leading-relaxed max-w-2xl text-slate-100">
+        “Mỗi sớm mai thức dậy là một khởi đầu mới, ngập tràn ánh sáng và hy vọng.”
+      </p>
+
+    </div>
 
   </main>
 
-  <!-- ===================== BOTTOM: ALL-IN-ONE UNIFIED CONTROL DOCK ===================== -->
+  <!-- ===================== BOTTOM: SLEEK LIQUID GLASS DOCK ===================== -->
   <footer class="relative z-10 w-full max-w-5xl mx-auto">
     
-    <div class="unified-bottom-deck p-3.5 sm:p-4 flex flex-col gap-2.5">
+    <div class="liquid-glass-surface rounded-3xl p-3 sm:p-4 flex flex-col gap-2.5">
       
-      <!-- Top Row of Deck: Location, Weather, Scene Switcher & Vibe Pills -->
+      <!-- Top Row of Deck: Location, Weather, Scene Switcher & Space Selector -->
       <div class="flex flex-wrap items-center justify-between gap-2.5 pb-2.5 border-b border-white/10 text-xs">
         
-        <!-- Left: Location + Weather + Change Scene Button + Matrix Case Badge -->
+        <!-- Left: Location + Weather + Change Scene + Matrix Badge -->
         <div class="flex flex-wrap items-center gap-2">
           
-          <!-- Location Pill -->
-          <div class="flex items-center space-x-1.5 px-3 py-1 rounded-full glass-subtle text-slate-200">
+          <!-- Unified Location & Weather Pill -->
+          <div class="flex items-center space-x-2 px-3.5 py-1.5 rounded-full liquid-glass-pill text-slate-200">
             <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-400"></i>
-            <span id="weather-location" class="font-medium truncate max-w-[150px] sm:max-w-none">Đang định vị...</span>
+            <span id="weather-location" class="font-medium truncate max-w-[120px] sm:max-w-none">Đang định vị...</span>
             <button id="btn-refresh-weather" title="Cập nhật lại GPS" class="text-slate-400 hover:text-white transition-colors ml-0.5">
               <i data-lucide="rotate-cw" class="w-3 h-3"></i>
             </button>
-          </div>
-
-          <!-- Weather Pill -->
-          <div class="flex items-center space-x-2 px-3 py-1 rounded-full glass-subtle text-slate-200">
+            <span class="text-slate-500">•</span>
             <div id="weather-icon-container" class="flex items-center">
               <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-400"></i>
             </div>
             <span id="weather-temp" class="font-mono font-bold text-amber-400">--°C</span>
             <span class="text-slate-500">•</span>
             <span id="weather-label">Đang đo...</span>
-            <span class="text-slate-500">•</span>
-            <span class="text-sky-300 flex items-center gap-0.5">
+            <span class="text-slate-500 hidden sm:inline">•</span>
+            <span class="text-sky-300 hidden sm:inline-flex items-center gap-0.5">
               <i data-lucide="droplet" class="w-3 h-3"></i>
               <span id="weather-humidity">--%</span>
             </span>
           </div>
 
           <!-- 280 Context Case Pill -->
-          <div id="matrix-badge" class="flex items-center space-x-1.5 px-3 py-1 rounded-full glass-subtle text-amber-200 transition-all" title="Mã trường hợp trong ma trận 280 bối cảnh">
+          <div id="matrix-badge" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-full liquid-glass-pill text-amber-200 transition-all cursor-pointer" title="Mã trường hợp trong ma trận 280 bối cảnh">
             <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
             <span id="matrix-code" class="font-mono font-bold tracking-wider">BG-T...</span>
-            <span class="text-slate-500 hidden sm:inline">•</span>
-            <span id="matrix-desc" class="hidden sm:inline truncate max-w-[160px] md:max-w-[240px] text-slate-300">Đang nhận diện...</span>
+            <span class="text-slate-500 hidden md:inline">•</span>
+            <span id="matrix-desc" class="hidden md:inline truncate max-w-[180px] text-slate-300">Đang nhận diện...</span>
           </div>
 
           <!-- Next Scene Button -->
-          <button id="btn-next-scene" class="flex items-center space-x-1 px-3 py-1 rounded-full glass-subtle text-amber-300 hover:text-white hover:bg-white/20 transition-all" title="Chuyển hình nền 4K khác của bối cảnh này">
+          <button id="btn-next-scene" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-full liquid-glass-pill text-amber-300 hover:text-white transition-all" title="Chuyển hình nền 4K khác của bối cảnh này">
             <i data-lucide="image" class="w-3.5 h-3.5"></i>
-            <span>Đổi cảnh 4K</span>
+            <span class="hidden sm:inline">Đổi cảnh 4K</span>
           </button>
 
         </div>
 
-        <!-- Right: User Space Context Selector (10 Groups, 55 Spaces) -->
-        <div class="flex items-center space-x-1.5 overflow-x-auto py-0.5">
-          <button data-space="auto" class="space-pill active" title="Tự động cảm biến theo thời gian & thời tiết">✨ Tự động</button>
-          <button data-space="phong_ngu" class="space-pill" title="Phòng ngủ - Giai điệu thư giãn xoa dịu giấc ngủ">🛏️ Phòng ngủ</button>
-          <button data-space="van_phong" class="space-pill" title="Văn phòng - Tập trung sâu & làm việc">💻 Làm việc</button>
-          <button data-space="quan_ca_phe" class="space-pill" title="Quán cà phê - Cafe Jazz & Bossa Nova">☕ Cà phê</button>
-          <button data-space="o_to_rieng" class="space-pill" title="Ô tô - Nhạc đường dài giải tỏa căng thẳng">🚗 Di chuyển</button>
-          <button data-space="phong_gym" class="space-pill" title="Phòng gym - Bùng nổ năng lượng tập luyện">🏋️ Gym</button>
-          
-          <!-- Custom Space Dropdown Button (Opens 10 Groups Modal) -->
-          <button id="btn-open-space-modal" class="space-pill flex items-center space-x-1 text-amber-300 border-amber-400/30 hover:bg-amber-400/20" title="Mở danh sách 10 nhóm không gian (55 bối cảnh chi tiết)">
-            <i data-lucide="map-pin" class="w-3 h-3 text-amber-400"></i>
-            <span id="active-space-label">Chọn không gian...</span>
-            <i data-lucide="chevron-up" class="w-3 h-3"></i>
+        <!-- Right: Space Selector Pill (Opens 10 Groups Modal) -->
+        <div class="flex items-center space-x-1.5">
+          <button id="btn-open-space-modal" class="liquid-glass-pill flex items-center space-x-2 px-3.5 py-1.5 text-amber-300 border-amber-400/30 hover:border-amber-400/60" title="Mở danh sách 10 nhóm không gian (55 bối cảnh chi tiết)">
+            <i data-lucide="compass" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span class="text-slate-400 text-[11px] hidden sm:inline">Không gian:</span>
+            <span id="active-space-label" class="font-semibold text-white">Tự động cảm biến</span>
+            <i data-lucide="chevron-up" class="w-3 h-3 text-amber-400/80"></i>
           </button>
         </div>
 
@@ -171,7 +180,7 @@
         </div>
 
         <!-- Center: Playback Buttons -->
-        <div class="flex items-center space-x-2 flex-shrink-0">
+        <div class="flex items-center space-x-2 sm:space-x-2.5 flex-shrink-0">
           <button id="btn-prev" class="p-2 text-slate-300 hover:text-white transition-colors" title="Bài trước (←)">
             <i data-lucide="skip-back" class="w-4 h-4"></i>
           </button>
@@ -186,7 +195,7 @@
         </div>
 
         <!-- Right: Rain Ambience & Volume & Fullscreen -->
-        <div class="flex items-center space-x-2.5 flex-shrink-0">
+        <div class="flex items-center space-x-2 sm:space-x-2.5 flex-shrink-0">
           <!-- Ambient Rain -->
           <button id="btn-ambient-rain" class="p-2 rounded-xl text-slate-400 hover:text-sky-300 hover:bg-white/10 transition-all" title="Bật/Tắt Tiếng mưa môi trường">
             <i data-lucide="cloud-rain" class="w-4 h-4"></i>
@@ -207,8 +216,6 @@
         </div>
 
       </div>
-
-    </div>
 
   </footer>
 

@@ -190,8 +190,12 @@ document.addEventListener("DOMContentLoaded", () => {
       // 3. Update Poetic Quote
       fadeUpdateQuote(activeQuote);
 
-      // 4. Update Status Badge
+      // 4. Update Status Badge & Central Clock Island Space Badge
       updateMatrixBadge(activeSpaceName);
+      const clockSpaceEl = document.getElementById("clock-space-name");
+      if (clockSpaceEl) {
+        clockSpaceEl.textContent = activeSpaceName || "Tự động cảm biến";
+      }
 
       // 5. Synchronize Playlist (Zero duplicate playlists across all cases)
       if (isUserTrigger || !player.isPlaying) {
@@ -214,10 +218,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Center Big Digital Clock & Date
     const clockEl = document.getElementById("time-clock");
+    const dateTextEl = document.getElementById("time-date-text");
     const dateEl = document.getElementById("time-date");
+    const slotEl = document.getElementById("clock-slot-name");
 
     if (clockEl) clockEl.textContent = timeData.time.clock;
-    if (dateEl) dateEl.textContent = timeData.date.full;
+    if (dateTextEl) {
+      dateTextEl.textContent = timeData.date.full;
+    } else if (dateEl) {
+      dateEl.textContent = timeData.date.full;
+    }
+    if (slotEl && timeData.period) {
+      slotEl.textContent = timeData.period.label;
+    }
 
     // Check autonomous time transition
     evaluateContext("tick");
@@ -402,15 +415,16 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Update Custom button label
-    if (activeSpaceLabel) {
-      if (spaceId === "auto") {
-        activeSpaceLabel.textContent = "Chọn không gian...";
-      } else {
-        const sp = SpaceEngine.getSpace(spaceId);
-        if (sp) {
-          activeSpaceLabel.textContent = sp.name;
-        }
+    // Update Space button label & Central Clock Island
+    const clockSpaceEl = document.getElementById("clock-space-name");
+    if (spaceId === "auto") {
+      if (activeSpaceLabel) activeSpaceLabel.textContent = "Tự động cảm biến";
+      if (clockSpaceEl) clockSpaceEl.textContent = "Tự động cảm biến";
+    } else {
+      const sp = SpaceEngine.getSpace(spaceId);
+      if (sp) {
+        if (activeSpaceLabel) activeSpaceLabel.textContent = sp.name;
+        if (clockSpaceEl) clockSpaceEl.textContent = sp.name;
       }
     }
 
