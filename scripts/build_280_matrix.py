@@ -123,32 +123,32 @@ for idx, item in enumerate(cases_raw):
     desc = item['desc']
 
     # 1. Determine images (2-3 high-quality 4K images)
-    # Pick based on Weather first, then Time
+    # Pick based on Time FIRST so Night (T7, T8) NEVER shows daytime sky!
     selected_pids = []
-    if w_slot in ['W5', 'W6']:
-        # Rain / Storm
-        p1 = photo_pools['rain'][idx % len(photo_pools['rain'])]
-        p2 = photo_pools['rain'][(idx + 2) % len(photo_pools['rain'])]
-        p3 = photo_pools[t_primary_pool][idx % len(photo_pools[t_primary_pool])]
-        selected_pids = [p1, p2, p3]
-    elif w_slot == 'W7':
-        # Fog / Mist
-        p1 = photo_pools['fog'][idx % len(photo_pools['fog'])]
-        p2 = photo_pools['fog'][(idx + 2) % len(photo_pools['fog'])]
-        p3 = photo_pools[t_primary_pool][idx % len(photo_pools[t_primary_pool])]
-        selected_pids = [p1, p2, p3]
-    elif w_slot in ['W3', 'W4']:
-        # Cloud / Overcast
-        p1 = photo_pools['cloud'][idx % len(photo_pools['cloud'])]
-        p2 = photo_pools[t_primary_pool][idx % len(photo_pools[t_primary_pool])]
-        p3 = photo_pools['cloud'][(idx + 1) % len(photo_pools['cloud'])]
-        selected_pids = [p1, p2, p3]
-    else:
-        # Clear or Bright Sun
-        p1 = photo_pools[t_primary_pool][idx % len(photo_pools[t_primary_pool])]
-        p2 = photo_pools[t_primary_pool][(idx + 2) % len(photo_pools[t_primary_pool])]
-        p3 = photo_pools[t_primary_pool][(idx + 4) % len(photo_pools[t_primary_pool])]
-        selected_pids = [p1, p2, p3]
+    
+    if t_slot == 'T7': # Buổi tối (18:00–21:00) - Night/Evening
+        if w_slot in ['W5', 'W6']:
+            selected_pids = ['photo-1519692933481-e162a57d6721', 'photo-1534274988757-a28bf1a57c17', 'photo-1515694346937-94d85e41e6f0']
+        else:
+            selected_pids = ['photo-1502134249126-9f3755a50d78', 'photo-1514565131-fce0801e5785', 'photo-1519501025264-65ba15a82390', 'photo-1516339901601-2e1562dc0acb']
+    elif t_slot == 'T8': # Đêm khuya (21:00–04:00) - Deep Night / Stars
+        if w_slot in ['W5', 'W6']:
+            selected_pids = ['photo-1519692933481-e162a57d6721', 'photo-1534274988757-a28bf1a57c17', 'photo-1515694346937-94d85e41e6f0']
+        else:
+            selected_pids = ['photo-1506703719100-a0f3a48c0f86', 'photo-1519681393784-d120267933ba', 'photo-1475274047050-1d0c0975c63e', 'photo-1531306728370-e2ebd9d7bb99', 'photo-1538370965046-79c0d6907d47']
+    elif t_slot == 'T1': # Rạng sáng
+        selected_pids = photo_pools['dawn']
+    elif t_slot == 'T6': # Chiều tà / Hoàng hôn
+        selected_pids = photo_pools['sunset']
+    else: # Ban ngày: T2 (Sáng sớm), T3 (Sáng), T4 (Trưa), T5 (Chiều)
+        if w_slot in ['W5', 'W6']:
+            selected_pids = photo_pools['rain']
+        elif w_slot == 'W7':
+            selected_pids = photo_pools['fog']
+        elif w_slot in ['W3', 'W4']:
+            selected_pids = photo_pools['cloud']
+        else:
+            selected_pids = photo_pools[t_primary_pool]
 
     # De-duplicate pids
     seen = set()
@@ -187,7 +187,7 @@ for idx, item in enumerate(cases_raw):
     quotes_by_mood = {
         'M1': [
             f"“{desc}. Hãy để lòng mình lắng đọng, cảm nhận sự an yên sâu thẳm của giây phút này.”",
-            f"“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu lúc {t_name.split(' ')[0].lower()}.”",
+            f"“Bình yên không ở đâu xa, nó nằm ngay trong từng hơi thở êm dịu của đất trời.”",
             f"“Thả lỏng tâm hồn, cùng giai điệu nhẹ nhàng vỗ về những âu lo thường nhật.”"
         ],
         'M2': [
@@ -243,7 +243,11 @@ js_content = f"""/**
 const MATRIX_280 = {json.dumps(matrix_cases, ensure_ascii=False, indent=2)};
 
 class MatrixEngine {{
-  static getTimeSlot(date) {{
+  static getTimeSlot(date, options = null) {{
+    if (typeof VietnamEngine !== 'undefined' && options && options.solar) {{
+      const dynamicSlot = VietnamEngine.resolveDynamicTimeSlot(date, options.solar);
+      if (dynamicSlot) return dynamicSlot;
+    }}
     const hour = date.getHours();
     if (hour >= 4 && hour < 6) return "T1";   // 04:00 - 05:59:59 Rạng sáng
     if (hour >= 6 && hour < 8) return "T2";   // 06:00 - 07:59:59 Sáng sớm

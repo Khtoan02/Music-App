@@ -241,23 +241,26 @@ class WeatherEngine {
       return this.currentData;
     } catch (err) {
       console.error("Error fetching live weather:", err);
-      const parsed = WeatherEngine.parseWMOCode(0, 1);
+      const currentHour = new Date().getHours();
+      const fallbackIsDay = currentHour >= 6 && currentHour < 18;
+      const parsed = WeatherEngine.parseWMOCode(0, fallbackIsDay ? 1 : 0);
       this.currentData = {
         city: "Hà Nội",
         country: "Việt Nam",
         latitude: 21.0285,
         longitude: 105.8542,
-        temp: 29.0,
-        apparentTemp: 31.0,
-        humidity: 60,
+        regionId: "north",
+        temp: fallbackIsDay ? 29.0 : 24.0,
+        apparentTemp: fallbackIsDay ? 31.0 : 25.0,
+        humidity: 65,
         windSpeed: 8.0,
         weatherCode: 0,
-        weatherType: "sunny",
-        weatherLabel: "Trời quang, Nắng đẹp",
-        weatherDesc: "Ánh nắng ấm áp, bầu trời trong vắt",
-        weatherIcon: "sun",
-        bgClass: "theme-sunny",
-        isDay: true,
+        weatherType: parsed.type,
+        weatherLabel: parsed.label,
+        weatherDesc: parsed.description,
+        weatherIcon: parsed.icon,
+        bgClass: parsed.bgClass,
+        isDay: fallbackIsDay,
         updatedAt: new Date()
       };
       return this.currentData;
