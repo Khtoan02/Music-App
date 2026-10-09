@@ -10,8 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const state = {
     currentWeather: null,
     currentTimeData: null,
-    selectedMood: "auto",     // "auto", "M1", "M2", "M3", "M4", "M5"
-    selectedSpace: "auto",    // "auto" or space id (e.g. "phong_ngu", "phong_gym")
+    selectedMood: "auto",         // "auto", "M1", "M2", "M3", "M4", "M5"
+    selectedSpace: "auto",        // "auto" or space id (e.g. "phong_ngu", "phong_gym")
+    selectedRegion: "auto",       // "auto", "north", "central", "south"
+    selectedSeason: "auto",       // "auto", "spring", "summer", "autumn", "winter", "dry", "rainy"
+    activeRegionId: "north",
+    activeSeasonId: "autumn",
+    currentSolar: null,
     activeCase: null,
     currentImageIndex: 0,
     activeSceneryBg: 1,
@@ -130,25 +135,82 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ===================== 5. AUTONOMOUS TRANSITION ENGINE =====================
   /**
-   * Resolves exact context from: Time Slot (T1..T8), Weather Slot (W1..W7),
-   * Mood Slot (M1..M5), and User Living Space (55 Spaces across 10 Groups).
-   * Ensures 100% distinct, non-overlapping playlists and realistic living atmosphere!
+   * Resolves exact context from:
+   * - Vietnam Region: Bắc / Trung / Nam (Accurate geography & climate)
+   * - Seasonal Solar Time: Dynamic Sunrise, Sunset, Dusk, Dawn
+   *   (Summer North: 05h15 dawn, 19h00 sunset; Winter North: 06h30 dawn, 17h20 sunset, 17h45 dark!)
+   * - Time Slot (T1..T8), Weather Slot (W1..W7), Mood Slot (M1..M5)
+   * - Living Space (55 Spaces across 10 Groups) with zero duplicate playlists!
    */
   function evaluateContext(triggerSource = "tick") {
     if (!state.currentTimeData) return;
 
     const date = state.currentTimeData.rawDate || state.currentTimeData.dateRaw || new Date();
-    const tSlot = MatrixEngine.getTimeSlot(date);
-    const hour = date.getHours();
-    const isNightByDefault = hour < 6 || hour >= 18;
 
-    // Weather slot
+    // 1. Resolve Region (Auto via GPS/IP or Manual)
+    const activeRegionId = (state.selectedRegion === "auto")
+      ? (state.currentWeather?.regionId || "north")
+      : state.selectedRegion;
+    state.activeRegionId = activeRegionId;
+    const regObj = (typeof VIETNAM_REGIONS !== "undefined" && VIETNAM_REGIONS[activeRegionId])
+      ? VIETNAM_REGIONS[activeRegionId]
+      : { id: "north", name: "Miền Bắc", shortName: "Bắc", seasons: {} };
+
+    // 2. Resolve Season (Auto via Month or Manual)
+    let activeSeasonObj;
+    if (typeof VietnamEngine !== "undefined") {
+      if (state.selectedSeason === "auto") {
+        activeSeasonObj = VietnamEngine.getSeason(activeRegionId, date);
+      } else {
+        activeSeasonObj = regObj.seasons[state.selectedSeason] || VietnamEngine.getSeason(activeRegionId, date);
+      }
+    } else {
+      activeSeasonObj = { id: "autumn", name: "Mùa Thu", icon: "leaf" };
+    }
+    state.activeSeasonId = activeSeasonObj.id;
+
+    // 3. Resolve Astronomical Solar Times (Sunrise, Sunset, Dawn, Dusk)
+    const coords = state.currentWeather ? {
+      lat: state.currentWeather.latitude,
+      lon: state.currentWeather.longitude
+    } : (regObj.defaultCoords || { lat: 21.0285, lon: 105.8542 });
+
+    let solarCalcDate = date;
+    if (state.selectedSeason !== "auto" && activeSeasonObj.months && activeSeasonObj.months.length > 0) {
+      solarCalcDate = new Date(date);
+      solarCalcDate.setMonth(activeSeasonObj.months[0] - 1);
+    }
+
+    let solar;
+    if (typeof VietnamEngine !== "undefined") {
+      solar = VietnamEngine.calculateSolarTimes(
+        coords.lat,
+        coords.lon,
+        solarCalcDate,
+        state.selectedSeason === "auto" ? state.currentWeather?.dailySunrise : null,
+        state.selectedSeason === "auto" ? state.currentWeather?.dailySunset : null
+      );
+    } else {
+      solar = { sunrise: 6, sunset: 18, dawn: 5.35, dusk: 18.5, sunriseStr: "06:00", sunsetStr: "18:00", dawnStr: "05:20", duskStr: "18:30", dayLengthHours: 12 };
+    }
+    state.currentSolar = solar;
+
+    // 4. Resolve Dynamic Time Slot (T1..T8) based on exact Solar Times
+    const tSlot = (typeof VietnamEngine !== "undefined")
+      ? VietnamEngine.resolveDynamicTimeSlot(date, solar)
+      : MatrixEngine.getTimeSlot(date);
+
+    // 5. Accurate Visual Daylight (Sun is up between sunrise and dusk)
+    const isVisualDay = (typeof VietnamEngine !== "undefined")
+      ? VietnamEngine.isVisualDaytime(date, solar)
+      : (date.getHours() >= 6 && date.getHours() < 18);
+
+    // 6. Weather Slot
     const wmoCode = state.currentWeather?.weatherCode ?? 0;
     const temp = state.currentWeather?.temp ?? 25;
-    const isDay = state.currentWeather ? (state.currentWeather.isDay ? 1 : 0) : (isNightByDefault ? 0 : 1);
-    const wSlot = MatrixEngine.getWeatherSlot(wmoCode, temp, isDay);
+    const wSlot = MatrixEngine.getWeatherSlot(wmoCode, temp, isVisualDay ? 1 : 0);
 
-    // Mood slot
+    // 7. Mood Slot
     const mSlot = (state.selectedMood === "auto")
       ? MatrixEngine.getDefaultMood(tSlot, wSlot)
       : state.selectedMood;
@@ -156,24 +218,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const targetCase = MatrixEngine.getCase(tSlot, wSlot, mSlot);
 
     const isCaseChanged = !state.activeCase || (state.activeCase.id !== targetCase.id);
-    const isUserTrigger = triggerSource === "space_switch" || triggerSource === "mood_switch" || triggerSource === "init";
+    const isUserTrigger = triggerSource === "space_switch" || triggerSource === "region_switch" || triggerSource === "mood_switch" || triggerSource === "init";
 
-    // Update Celestial Bodies (Sun Top-Left, Moon Top-Right) & Realistic Rain Canvas
+    // 8. Update Celestial Bodies (Sun Top-Left, Moon Top-Right) & Rain Canvas
     atmosphereFX.update({
-      isDay: Boolean(isDay),
+      isDay: isVisualDay,
       timeSlot: tSlot,
       weatherSlot: wSlot,
       forceRain: state.isRainSoundOn
     });
 
+    // 9. Synchronize Badges for Region & Season and Solar
+    updateRegionSeasonUI(regObj, activeSeasonObj, solar);
+
     if (isCaseChanged || isUserTrigger) {
-      console.log(`[Atmosphere Shift] ${targetCase.id} | Space: ${state.selectedSpace} | Trigger: ${triggerSource}`);
+      console.log(`[Atmosphere Shift] ${targetCase.id} | Region: ${activeRegionId} (${activeSeasonObj.name}) | Space: ${state.selectedSpace} | Trigger: ${triggerSource}`);
       state.activeCase = targetCase;
 
-      // 1. Cross-fade 4K wallpaper
+      // Cross-fade 4K wallpaper
       setScenery(false);
 
-      // 2. Determine tailored playlist and quote based on Space
+      // Determine tailored playlist and poetic quote
       let activePlaylist = targetCase.playlist;
       let activeQuote = targetCase.quote;
       let activeSpaceName = null;
@@ -185,19 +250,24 @@ document.addEventListener("DOMContentLoaded", () => {
           activePlaylist = SpaceEngine.getPlaylistForSpace(state.selectedSpace, tSlot, wSlot, mSlot);
           activeQuote = `“Tại ${spaceObj.name}, ${targetCase.description.toLowerCase()}. ${spaceObj.desc}.”`;
         }
+      } else if (typeof VietnamEngine !== "undefined") {
+        const regionalQuote = VietnamEngine.getContextualQuote(activeRegionId, activeSeasonObj.id);
+        if (regionalQuote) {
+          activeQuote = `“${regionalQuote}”`;
+        }
       }
 
-      // 3. Update Poetic Quote
+      // Update Poetic Quote
       fadeUpdateQuote(activeQuote);
 
-      // 4. Update Status Badge & Central Clock Island Space Badge
+      // Update Status Badge & Central Clock Island Space Badge
       updateMatrixBadge(activeSpaceName);
       const clockSpaceEl = document.getElementById("clock-space-name");
       if (clockSpaceEl) {
         clockSpaceEl.textContent = activeSpaceName || "Tự động cảm biến";
       }
 
-      // 5. Synchronize Playlist (Zero duplicate playlists across all cases)
+      // Synchronize Playlist
       if (isUserTrigger || !player.isPlaying) {
         player.setPlaylist(activePlaylist, isUserTrigger && triggerSource !== "init");
       } else {
@@ -455,7 +525,153 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ===================== 10. USER CONTROLS & INTERACTION =====================
+  // ===================== 10. VIETNAM REGION & SEASON MODAL SYSTEM =====================
+  const regionModal = document.getElementById("region-modal");
+  const regionsContainer = document.getElementById("vietnam-regions-container");
+  const btnRegionAuto = document.getElementById("btn-region-auto");
+
+  function openRegionModal() {
+    if (!regionModal) return;
+    regionModal.classList.add("open");
+    renderRegionModal();
+  }
+
+  function closeRegionModal() {
+    if (!regionModal) return;
+    regionModal.classList.remove("open");
+  }
+
+  function updateRegionSeasonUI(regObj, seasonObj, solar) {
+    const clockLabel = document.getElementById("clock-region-season-name");
+    const dockLabel = document.getElementById("active-region-season-label");
+    const clockIcon = document.getElementById("clock-region-season-icon");
+    const dockIcon = document.getElementById("active-region-season-icon");
+
+    const text = `${regObj.name} • ${seasonObj.name}`;
+    if (clockLabel) clockLabel.textContent = text;
+    if (dockLabel) dockLabel.textContent = text;
+
+    if (clockIcon && seasonObj.icon) clockIcon.setAttribute("data-lucide", seasonObj.icon);
+    if (dockIcon && seasonObj.icon) dockIcon.setAttribute("data-lucide", seasonObj.icon);
+
+    const sunriseEl = document.getElementById("solar-sunrise-val");
+    const sunsetEl = document.getElementById("solar-sunset-val");
+    const duskEl = document.getElementById("solar-dusk-val");
+    const lengthEl = document.getElementById("solar-daylength-val");
+
+    if (sunriseEl && solar) sunriseEl.textContent = solar.sunriseStr;
+    if (sunsetEl && solar) sunsetEl.textContent = solar.sunsetStr;
+    if (duskEl && solar) duskEl.textContent = solar.duskStr;
+    if (lengthEl && solar) lengthEl.textContent = `${solar.dayLengthHours.toFixed(1)} giờ`;
+
+    lucide.createIcons();
+  }
+
+  function renderRegionModal() {
+    if (!regionsContainer || typeof VIETNAM_REGIONS === "undefined") return;
+
+    // Highlight Auto button
+    const isAuto = state.selectedRegion === "auto" && state.selectedSeason === "auto";
+    if (btnRegionAuto) {
+      btnRegionAuto.classList.toggle("text-amber-300", isAuto);
+      btnRegionAuto.classList.toggle("border-amber-400/40", isAuto);
+      btnRegionAuto.classList.toggle("bg-amber-400/10", isAuto);
+      btnRegionAuto.classList.toggle("text-slate-400", !isAuto);
+      btnRegionAuto.classList.toggle("border-white/10", !isAuto);
+      btnRegionAuto.classList.toggle("bg-white/5", !isAuto);
+    }
+
+    let html = "";
+    for (const [rId, reg] of Object.entries(VIETNAM_REGIONS)) {
+      const isCurrentRegion = state.activeRegionId === rId;
+      html += `
+        <div class="region-card-box ${isCurrentRegion ? 'active-region' : ''}">
+          <div class="flex items-center justify-between pb-2 mb-2 border-b border-white/5">
+            <div class="flex items-center gap-2">
+              <div class="p-1.5 rounded-lg bg-white/10 text-emerald-400">
+                <i data-lucide="${reg.icon}" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-white flex items-center gap-1.5">
+                  <span>${reg.name}</span>
+                  ${isCurrentRegion ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold">Đang hoạt động</span>' : ''}
+                </h4>
+                <p class="text-[11px] text-slate-400 leading-tight">${reg.fullName}</p>
+              </div>
+            </div>
+            <button data-select-region="${rId}" class="px-2.5 py-1 rounded-lg text-xs bg-white/10 hover:bg-emerald-500/20 hover:text-emerald-300 transition-colors">
+              Chọn miền này
+            </button>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-1.5 mt-2.5">
+      `;
+
+      for (const [sId, season] of Object.entries(reg.seasons)) {
+        const isSeasonActive = isCurrentRegion && state.activeSeasonId === sId;
+        html += `
+          <button data-region="${rId}" data-season="${sId}" class="season-chip ${isSeasonActive ? 'active' : ''}" title="${season.tagline}">
+            <i data-lucide="${season.icon}" class="w-3.5 h-3.5"></i>
+            <span>${season.name}</span>
+          </button>
+        `;
+      }
+
+      html += `
+          </div>
+          <p class="text-[11px] text-slate-400 mt-2 italic flex items-center gap-1">
+            <i data-lucide="info" class="w-3 h-3 text-slate-500 flex-shrink-0"></i>
+            <span>${reg.climateType}</span>
+          </p>
+        </div>
+      `;
+    }
+
+    regionsContainer.innerHTML = html;
+    lucide.createIcons();
+
+    // Attach listeners
+    regionsContainer.querySelectorAll("[data-select-region]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const rId = btn.getAttribute("data-select-region");
+        state.selectedRegion = rId;
+        state.selectedSeason = "auto";
+        evaluateContext("region_switch");
+        renderRegionModal();
+      });
+    });
+
+    regionsContainer.querySelectorAll("[data-region][data-season]").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const rId = chip.getAttribute("data-region");
+        const sId = chip.getAttribute("data-season");
+        state.selectedRegion = rId;
+        state.selectedSeason = sId;
+        evaluateContext("region_switch");
+        renderRegionModal();
+      });
+    });
+  }
+
+  // Region Modal Buttons & Triggers
+  document.getElementById("btn-open-region-modal")?.addEventListener("click", openRegionModal);
+  document.getElementById("clock-region-season-badge")?.addEventListener("click", openRegionModal);
+  document.getElementById("btn-close-region-modal")?.addEventListener("click", closeRegionModal);
+
+  btnRegionAuto?.addEventListener("click", () => {
+    state.selectedRegion = "auto";
+    state.selectedSeason = "auto";
+    evaluateContext("region_switch");
+    renderRegionModal();
+  });
+
+  regionModal?.addEventListener("click", (e) => {
+    if (e.target === regionModal) {
+      closeRegionModal();
+    }
+  });
+
+  // ===================== 11. USER CONTROLS & INTERACTION =====================
   
   // Play / Pause
   const togglePlay = () => player.togglePlay();
@@ -477,20 +693,7 @@ document.addEventListener("DOMContentLoaded", () => {
     state.isRainSoundOn = ambientAudio.toggleTrack("rain");
     ambientRainBtn.classList.toggle("text-sky-300", state.isRainSoundOn);
     ambientRainBtn.classList.toggle("text-slate-400", !state.isRainSoundOn);
-
-    const date = state.currentTimeData?.rawDate || new Date();
-    const tSlot = MatrixEngine.getTimeSlot(date);
-    const hour = date.getHours();
-    const isNightByDefault = hour < 6 || hour >= 18;
-    const isDay = state.currentWeather ? Boolean(state.currentWeather.isDay) : !isNightByDefault;
-    const wSlot = MatrixEngine.getWeatherSlot(state.currentWeather?.weatherCode ?? 0, state.currentWeather?.temp ?? 25, isDay ? 1 : 0);
-
-    atmosphereFX.update({
-      isDay: isDay,
-      timeSlot: tSlot,
-      weatherSlot: wSlot,
-      forceRain: state.isRainSoundOn
-    });
+    evaluateContext("ambient_toggle");
   });
 
   // Next 4K Scene Manual Button (Cycle through images for current case)
@@ -512,6 +715,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       closeSpaceModal();
+      closeRegionModal();
     } else if (e.code === "Space") {
       e.preventDefault();
       togglePlay();

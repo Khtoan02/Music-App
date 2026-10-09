@@ -205,16 +205,19 @@ body {
 }
 
 /* Modal Open Transitions */
-#space-modal.open {
+#space-modal.open,
+#region-modal.open {
   opacity: 1;
   pointer-events: auto;
 }
 
-#space-modal.open > div {
+#space-modal.open > div,
+#region-modal.open > div {
   transform: scale(1);
 }
 
-#space-modal > div {
+#space-modal > div,
+#region-modal > div {
   transform: scale(0.96);
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -235,6 +238,53 @@ body {
   background: rgba(251, 191, 36, 0.15);
   border-color: rgba(251, 191, 36, 0.6);
   color: #fde68a;
+}
+
+/* Region & Season Cards */
+.region-card-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.region-card-box:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.region-card-box.active-region {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.season-chip {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.season-chip:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.season-chip.active {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border-color: #34d399 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45);
 }
 
 /* Equalizer Bars */

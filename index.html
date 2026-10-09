@@ -64,13 +64,17 @@
     
     <div class="liquid-glass-surface liquid-glass-clock-island w-full">
       
-      <!-- Top context tag (Time Slot & Space) -->
-      <div class="flex items-center gap-2 mb-2">
+      <!-- Top context tag (Time Slot & Region/Season & Space) -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-2">
         <span id="clock-slot-badge" class="liquid-glass-pill px-3 py-1 text-xs text-amber-200 font-mono font-medium flex items-center gap-1.5">
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
           <span id="clock-slot-name">Buổi tối</span>
         </span>
-        <span id="clock-space-badge" class="liquid-glass-pill px-3 py-1 text-xs text-sky-200 font-medium inline-flex items-center gap-1.5">
+        <span id="clock-region-season-badge" class="liquid-glass-pill px-3 py-1 text-xs text-emerald-200 font-medium inline-flex items-center gap-1.5 cursor-pointer" title="Bấm để đổi Vùng miền & Mùa">
+          <i id="clock-region-season-icon" data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span id="clock-region-season-name">Miền Bắc • Mùa Thu</span>
+        </span>
+        <span id="clock-space-badge" class="liquid-glass-pill px-3 py-1 text-xs text-sky-200 font-medium inline-flex items-center gap-1.5 cursor-pointer" title="Bấm để đổi Không gian">
           <i data-lucide="compass" class="w-3.5 h-3.5 text-sky-400"></i>
           <span id="clock-space-name">Tự động cảm biến</span>
         </span>
@@ -146,8 +150,17 @@
 
         </div>
 
-        <!-- Right: Space Selector Pill (Opens 10 Groups Modal) -->
-        <div class="flex items-center space-x-1.5">
+        <!-- Right: Region & Season + Space Selector Pills -->
+        <div class="flex items-center space-x-1.5 sm:space-x-2">
+          <!-- Vietnam Region & Season Pill -->
+          <button id="btn-open-region-modal" class="liquid-glass-pill flex items-center space-x-2 px-3.5 py-1.5 text-emerald-300 border-emerald-400/30 hover:border-emerald-400/60" title="Cài đặt Vùng miền (Bắc - Trung - Nam) & Mùa ở Việt Nam">
+            <i id="active-region-season-icon" data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span class="text-slate-400 text-[11px] hidden sm:inline">Khí hậu:</span>
+            <span id="active-region-season-label" class="font-semibold text-white">Miền Bắc • Mùa Thu</span>
+            <i data-lucide="chevron-up" class="w-3 h-3 text-emerald-400/80"></i>
+          </button>
+
+          <!-- Space Selector Pill (Opens 10 Groups Modal) -->
           <button id="btn-open-space-modal" class="liquid-glass-pill flex items-center space-x-2 px-3.5 py-1.5 text-amber-300 border-amber-400/30 hover:border-amber-400/60" title="Mở danh sách 10 nhóm không gian (55 bối cảnh chi tiết)">
             <i data-lucide="compass" class="w-3.5 h-3.5 text-amber-400"></i>
             <span class="text-slate-400 text-[11px] hidden sm:inline">Không gian:</span>
@@ -219,6 +232,66 @@
 
   </footer>
 
+  <!-- ===================== VIETNAM REGION & SEASON MODAL ===================== -->
+  <div id="region-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div class="relative w-full max-w-2xl max-h-[90vh] bg-slate-900/95 border border-white/20 rounded-3xl p-5 sm:p-6 shadow-2xl flex flex-col text-white">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-3.5 border-b border-white/10">
+        <div class="flex items-center space-x-2.5">
+          <div class="p-2 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+            <i data-lucide="map" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-base sm:text-lg text-white">Vùng Miền & Khí Hậu Việt Nam</h3>
+            <p class="text-xs text-slate-400">Đồng bộ thiên văn mặt trời mọc/lặn & bối cảnh 4 mùa Bắc - Trung - Nam</p>
+          </div>
+        </div>
+        <button id="btn-close-region-modal" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Solar Astronomical Info Box -->
+      <div class="mt-4 p-3.5 rounded-2xl bg-white/5 border border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+        <div class="p-2.5 rounded-xl bg-black/30 border border-white/5">
+          <span class="text-slate-400 block text-[11px] mb-1">🌅 Bình minh (Mọc)</span>
+          <span id="solar-sunrise-val" class="font-mono font-bold text-amber-300 text-sm">--:--</span>
+        </div>
+        <div class="p-2.5 rounded-xl bg-black/30 border border-white/5">
+          <span class="text-slate-400 block text-[11px] mb-1">🌇 Hoàng hôn (Lặn)</span>
+          <span id="solar-sunset-val" class="font-mono font-bold text-orange-400 text-sm">--:--</span>
+        </div>
+        <div class="p-2.5 rounded-xl bg-black/30 border border-white/5">
+          <span class="text-slate-400 block text-[11px] mb-1">🌙 Trời sụp tối hẳn</span>
+          <span id="solar-dusk-val" class="font-mono font-bold text-indigo-300 text-sm">--:--</span>
+        </div>
+        <div class="p-2.5 rounded-xl bg-black/30 border border-white/5">
+          <span class="text-slate-400 block text-[11px] mb-1">☀️ Giờ ban ngày</span>
+          <span id="solar-daylength-val" class="font-mono font-bold text-emerald-300 text-sm">-- giờ</span>
+        </div>
+      </div>
+
+      <!-- Region Selection Section -->
+      <div class="overflow-y-auto flex-1 pr-1 py-4 space-y-4 max-h-[50vh]">
+        <!-- Auto vs Manual Switch -->
+        <div class="flex items-center justify-between pb-2 border-b border-white/5 text-xs">
+          <span class="text-slate-400">Chế độ trải nghiệm:</span>
+          <button id="btn-region-auto" class="px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-all flex items-center gap-1.5 active text-amber-300 border-amber-400/40 bg-amber-400/10">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>Tự động theo GPS / Thời tiết thực</span>
+          </button>
+        </div>
+
+        <!-- 3 Regions Cards Container -->
+        <div id="vietnam-regions-container" class="space-y-3">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- ===================== SPACE SELECTION MODAL (10 Groups, 55 Spaces) ===================== -->
   <div id="space-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
     <div class="relative w-full max-w-3xl max-h-[90vh] bg-slate-900/95 border border-white/20 rounded-3xl p-5 sm:p-6 shadow-2xl flex flex-col text-white">
@@ -262,6 +335,7 @@
 
   <!-- Scripts -->
   <script src="js/playlist-data.js"></script>
+  <script src="js/vietnam-engine.js"></script>
   <script src="js/matrix-data.js"></script>
   <script src="js/space-data.js"></script>
   <script src="js/atmosphere-fx.js"></script>

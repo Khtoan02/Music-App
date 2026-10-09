@@ -200,7 +200,7 @@ class WeatherEngine {
   async fetchWeather() {
     try {
       const loc = await this.getExactLocation();
-      const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${loc.latitude}&longitude=${loc.longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,weather_code,wind_speed_10m&timezone=auto`;
+      const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${loc.latitude}&longitude=${loc.longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,weather_code,wind_speed_10m&daily=sunrise,sunset&timezone=Asia%2FHo_Chi_Minh`;
 
       const weatherRes = await fetch(weatherUrl);
       if (!weatherRes.ok) {
@@ -209,13 +209,19 @@ class WeatherEngine {
 
       const weatherJson = await weatherRes.json();
       const current = weatherJson.current;
+      const daily = weatherJson.daily || {};
       const parsed = WeatherEngine.parseWMOCode(current.weather_code, current.is_day);
+      
+      const regionId = (typeof VietnamEngine !== "undefined")
+        ? VietnamEngine.detectRegion(loc.latitude, loc.longitude, loc.city)
+        : "north";
 
       this.currentData = {
         city: loc.city,
         country: loc.country,
         latitude: loc.latitude,
         longitude: loc.longitude,
+        regionId: regionId,
         temp: Math.round(current.temperature_2m * 10) / 10,
         apparentTemp: Math.round(current.apparent_temperature * 10) / 10,
         humidity: current.relative_humidity_2m,
@@ -227,6 +233,8 @@ class WeatherEngine {
         weatherIcon: parsed.icon,
         bgClass: parsed.bgClass,
         isDay: Boolean(current.is_day),
+        dailySunrise: daily.sunrise?.[0] || null,
+        dailySunset: daily.sunset?.[0] || null,
         updatedAt: new Date()
       };
 

@@ -19288,7 +19288,18 @@ const MATRIX_280 = {
 };
 
 class MatrixEngine {
-  static getTimeSlot(date) {
+  static getTimeSlot(date, options = null) {
+    if (options && options.solar) {
+      if (typeof VietnamEngine !== "undefined") {
+        return VietnamEngine.resolveDynamicTimeSlot(date, options.solar);
+      }
+    }
+    if (typeof VietnamEngine !== "undefined") {
+      const lat = options?.lat || 21.0285;
+      const lon = options?.lon || 105.8542;
+      const solar = VietnamEngine.calculateSolarTimes(lat, lon, date, options?.dailySunrise, options?.dailySunset);
+      return VietnamEngine.resolveDynamicTimeSlot(date, solar);
+    }
     const hour = date.getHours();
     if (hour >= 4 && hour < 6) return "T1";   // 04:00 - 05:59:59 Rạng sáng
     if (hour >= 6 && hour < 8) return "T2";   // 06:00 - 07:59:59 Sáng sớm
