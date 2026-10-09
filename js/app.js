@@ -1,126 +1,47 @@
 /**
  * AuraBeat - 4K Living Weather Scenery & Autonomous Reactive Music Engine
- * Fully automatic: reacts to real-time transitions (hours, sunset, night, weather changes)
+ * Powered by MATRIX 280 (8 Time Slots x 7 Weather Conditions x 5 Moods)
+ * Fully automatic: reacts in real-time to hours, sunset, night, and weather shifts
  * without ever needing a manual page reload!
  */
-
-// Curated 4K / Ultra HD Living Sceneries (Untouched original color & clarity)
-const WEATHER_SCENES = {
-  sunny_morning: [
-    {
-      name: "Tán cây ngập nắng sớm ban mai (4K)",
-      url: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=3840&q=95&auto=format&fit=crop"
-    },
-    {
-      name: "Căn phòng ngập nắng sớm dịu dàng (4K)",
-      url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=3840&q=95&auto=format&fit=crop"
-    },
-    {
-      name: "Bờ biển sớm mai trong vắt (4K)",
-      url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=3840&q=95&auto=format&fit=crop"
-    }
-  ],
-  sunny_afternoon: [
-    {
-      name: "Góc quán cà phê chiều nắng ấm (4K)",
-      url: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=3840&q=95&auto=format&fit=crop"
-    },
-    {
-      name: "Tia nắng qua tán lá chiều (4K)",
-      url: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=3840&q=95&auto=format&fit=crop"
-    },
-    {
-      name: "Biển chiều ngập nắng vàng (4K)",
-      url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=3840&q=95&auto=format&fit=crop"
-    }
-  ],
-  rainy: [
-    {
-      name: "Hạt mưa rơi trên ô cửa kính thành phố (4K)",
-      url: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=3840&q=95&auto=format&fit=crop"
-    },
-    {
-      name: "Cà phê ngày mưa tĩnh lặng (4K)",
-      url: "https://images.unsplash.com/photo-1438449805896-28a666819a20?w=3840&q=95&auto=format&fit=crop"
-    },
-    {
-      name: "Phố mưa lung linh ánh đèn đêm (4K)",
-      url: "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=3840&q=95&auto=format&fit=crop"
-    }
-  ],
-  thunder: [
-    {
-      name: "Cơn bão dông mãnh liệt (4K)",
-      url: "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?w=3840&q=95&auto=format&fit=crop"
-    },
-    {
-      name: "Mưa dông bên cửa sổ (4K)",
-      url: "https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=3840&q=95&auto=format&fit=crop"
-    }
-  ],
-  sunset: [
-    {
-      name: "Hoàng hôn tím vàng trên đỉnh núi (4K)",
-      url: "https://images.unsplash.com/photo-1507499739999-097706ad8914?w=3840&q=95&auto=format&fit=crop"
-    },
-    {
-      name: "Ráng chiều buông trên mặt biển (4K)",
-      url: "https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?w=3840&q=95&auto=format&fit=crop"
-    }
-  ],
-  midnight: [
-    {
-      name: "Bầu trời dải Ngân Hà sâu thẳm (4K)",
-      url: "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=3840&q=95&auto=format&fit=crop"
-    },
-    {
-      name: "Thành phố đêm qua khung cửa (4K)",
-      url: "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=3840&q=95&auto=format&fit=crop"
-    }
-  ],
-  cloudy: [
-    {
-      name: "Mây trời bảng lảng râm mát (4K)",
-      url: "https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=3840&q=95&auto=format&fit=crop"
-    }
-  ]
-};
 
 document.addEventListener("DOMContentLoaded", () => {
   const state = {
     currentWeather: null,
     currentTimeData: null,
-    currentVibe: "all",
-    currentSceneIndex: 0,
-    currentBucketKey: null,
+    selectedMood: "auto", // "auto", "M1", "M2", "M3", "M4", "M5"
+    activeCase: null,
+    currentImageIndex: 0,
     activeSceneryBg: 1,
     isRainSoundOn: false
   };
 
   // ===================== 1. SCENERY MANAGER (4K SMOOTH CROSS-FADE) =====================
-  function setScenery(bucketKey, forceNext = false) {
-    const scenes = WEATHER_SCENES[bucketKey] || WEATHER_SCENES.sunny_morning;
+  function setScenery(forceNext = false) {
+    if (!state.activeCase || !state.activeCase.images || state.activeCase.images.length === 0) return;
+
+    const images = state.activeCase.images;
     if (forceNext) {
-      state.currentSceneIndex = (state.currentSceneIndex + 1) % scenes.length;
-    } else if (state.currentBucketKey !== bucketKey) {
-      state.currentSceneIndex = 0;
+      state.currentImageIndex = (state.currentImageIndex + 1) % images.length;
+    } else {
+      state.currentImageIndex = 0;
     }
 
-    const currentScene = scenes[state.currentSceneIndex] || scenes[0];
+    const currentImg = images[state.currentImageIndex] || images[0];
     const bg1 = document.getElementById("scenery-bg-1");
     const bg2 = document.getElementById("scenery-bg-2");
 
     // Preload image for instant crisp display
     const img = new Image();
-    img.src = currentScene.url;
+    img.src = currentImg.url;
     img.onload = () => {
       if (state.activeSceneryBg === 1) {
-        bg2.style.backgroundImage = `url('${currentScene.url}')`;
+        bg2.style.backgroundImage = `url('${currentImg.url}')`;
         bg2.classList.add("active");
         bg1.classList.remove("active");
         state.activeSceneryBg = 2;
       } else {
-        bg1.style.backgroundImage = `url('${currentScene.url}')`;
+        bg1.style.backgroundImage = `url('${currentImg.url}')`;
         bg1.classList.add("active");
         bg2.classList.remove("active");
         state.activeSceneryBg = 1;
@@ -128,19 +49,33 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // ===================== 2. POETIC QUOTE WITH SMOOTH FADE TRANSITION =====================
-  function fadeUpdateQuote(bucketKey) {
+  // ===================== 2. CONTEXTUAL POETIC QUOTE =====================
+  function fadeUpdateQuote() {
     const quoteEl = document.getElementById("context-quote");
-    if (!quoteEl || typeof RecommendationEngine.getRandomQuote !== "function") return;
+    if (!quoteEl || !state.activeCase) return;
 
     quoteEl.classList.add("quote-fading");
     setTimeout(() => {
-      quoteEl.textContent = RecommendationEngine.getRandomQuote(bucketKey);
+      quoteEl.textContent = state.activeCase.quote;
       quoteEl.classList.remove("quote-fading");
     }, 450);
   }
 
-  // ===================== 3. AUDIO & YOUTUBE PLAYER =====================
+  // ===================== 3. CONTEXT MATRIX BADGE =====================
+  function updateMatrixBadge() {
+    if (!state.activeCase) return;
+    const codeEl = document.getElementById("matrix-code");
+    const descEl = document.getElementById("matrix-desc");
+    const badgeEl = document.getElementById("matrix-badge");
+
+    if (codeEl) codeEl.textContent = state.activeCase.id;
+    if (descEl) descEl.textContent = state.activeCase.description;
+    if (badgeEl) {
+      badgeEl.title = `${state.activeCase.id}: ${state.activeCase.timeName} • ${state.activeCase.weatherName} • ${state.activeCase.moodName}\n"${state.activeCase.description}"`;
+    }
+  }
+
+  // ===================== 4. AUDIO & YOUTUBE PLAYER =====================
   const ambientAudio = new AmbientAudioEngine();
   const weatherEngine = new WeatherEngine();
 
@@ -181,80 +116,78 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ===================== 4. AUTONOMOUS SEAMLESS TRANSITION ENGINE =====================
+  // ===================== 5. AUTONOMOUS 280-CASE TRANSITION ENGINE =====================
   /**
-   * Automatically reacts when the day shifts (e.g., Afternoon -> Sunset -> Night)
-   * or when the weather changes (e.g., Sunny -> Rain)
-   * Without any page reload required!
+   * Evaluates exact context from time, weather, and mood selection.
+   * Seamlessly resolves to one of the 280 distinct cases BG-T{1..8}-W{1..7}-M{1..5}
    */
-  function checkAndHandleEnvironmentTransition() {
-    if (!state.currentWeather || !state.currentTimeData) return;
+  function evaluateContext(triggerSource = "tick") {
+    if (!state.currentTimeData) return;
 
-    const weatherType = state.currentWeather.weatherType || "sunny";
-    const timePeriodId = state.currentTimeData.period.id || "morning";
+    const date = state.currentTimeData.rawDate || state.currentTimeData.dateRaw || new Date();
+    const tSlot = MatrixEngine.getTimeSlot(date);
 
-    const targetBucket = RecommendationEngine.getBucketKey(weatherType, timePeriodId);
+    // Weather slot
+    const wmoCode = state.currentWeather?.weatherCode ?? 0;
+    const temp = state.currentWeather?.temp ?? 25;
+    const isDay = state.currentWeather?.isDay ? 1 : 0;
+    const wSlot = MatrixEngine.getWeatherSlot(wmoCode, temp, isDay);
 
-    // If bucket changed (e.g., from afternoon to sunset at 18:00, or to night at 19:00)
-    if (targetBucket !== state.currentBucketKey) {
-      console.log(`[Auto Reactive] Atmosphere shifted: ${state.currentBucketKey} -> ${targetBucket}`);
-      state.currentBucketKey = targetBucket;
+    // Mood slot
+    const mSlot = (state.selectedMood === "auto")
+      ? MatrixEngine.getDefaultMood(tSlot, wSlot)
+      : state.selectedMood;
 
-      // 1. Cross-fade to the new 4K scene
-      setScenery(targetBucket, false);
+    const targetCase = MatrixEngine.getCase(tSlot, wSlot, mSlot);
 
-      // 2. Fade to the new contextual quote
-      fadeUpdateQuote(targetBucket);
+    const isCaseChanged = !state.activeCase || (state.activeCase.id !== targetCase.id);
 
-      // 3. Gracefully update playlist
-      syncMusicGracefully(targetBucket);
-    }
-  }
+    if (isCaseChanged || triggerSource === "mood_switch") {
+      console.log(`[Matrix 280] Context active: ${targetCase.id} (${targetCase.timeName} • ${targetCase.weatherName} • ${targetCase.moodName})`);
+      state.activeCase = targetCase;
 
-  /**
-   * Graceful playlist update: if currently playing, keep the current song running smoothly
-   * and load the new atmosphere tracks for the upcoming queue!
-   */
-  function syncMusicGracefully(bucketKey) {
-    const weatherType = state.currentWeather?.weatherType || "sunny";
-    const timePeriod = state.currentTimeData?.period?.id || "morning";
+      // 1. Cross-fade 4K wallpaper
+      setScenery(false);
 
-    const result = RecommendationEngine.getRecommendedPlaylist(
-      weatherType,
-      timePeriod,
-      state.currentVibe
-    );
+      // 2. Fade update poetic quote
+      fadeUpdateQuote();
 
-    if (player.isPlaying) {
-      // Don't cut the song abruptly! Queue the new tracks for the next songs
-      const current = player.getCurrentTrack();
-      if (current) {
-        player.playlist = [current, ...result.tracks.filter(t => t.id !== current.id)];
-        player.currentIndex = 0;
+      // 3. Update status badge
+      updateMatrixBadge();
+
+      // 4. Synchronize playlist
+      const shouldRestart = (triggerSource === "mood_switch");
+      if (shouldRestart || !player.isPlaying) {
+        player.setPlaylist(targetCase.playlist, false);
       } else {
-        player.setPlaylist(result.tracks, false);
+        // Keep current song playing, smoothly queue remaining tracks of the new case
+        const current = player.getCurrentTrack();
+        if (current) {
+          player.playlist = [current, ...targetCase.playlist.filter(t => t.id !== current.id)];
+          player.currentIndex = 0;
+        } else {
+          player.setPlaylist(targetCase.playlist, false);
+        }
       }
-    } else {
-      player.setPlaylist(result.tracks, false);
     }
   }
 
-  // ===================== 5. TIME ENGINE (TICKS EVERY SECOND) =====================
+  // ===================== 6. TIME ENGINE (TICKS EVERY SECOND) =====================
   const timeEngine = new TimeEngine((timeData) => {
     state.currentTimeData = timeData;
 
-    // Update Clock and Date DOM
+    // Center Big Digital Clock & Date
     const clockEl = document.getElementById("time-clock");
     const dateEl = document.getElementById("time-date");
 
     if (clockEl) clockEl.textContent = timeData.time.clock;
     if (dateEl) dateEl.textContent = timeData.date.full;
 
-    // Continuously check if hour/period transitioned to next phase (e.g. 18:00 sunset, 19:00 night)
-    checkAndHandleEnvironmentTransition();
+    // Check autonomous time transition
+    evaluateContext("tick");
   });
 
-  // ===================== 6. WEATHER UI & POLLER =====================
+  // ===================== 7. WEATHER UI & POLLER =====================
   function updateWeatherUI(weather) {
     state.currentWeather = weather;
 
@@ -274,58 +207,42 @@ document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
     }
 
-    // Trigger state check to see if weather change necessitates a scenery/music shift
-    checkAndHandleEnvironmentTransition();
+    // Trigger context re-evaluation
+    evaluateContext("weather_update");
   }
 
-  // Direct Vibe switcher
-  function applyVibeFilter(vibe) {
-    state.currentVibe = vibe;
-    const weatherType = state.currentWeather?.weatherType || "sunny";
-    const timePeriod = state.currentTimeData?.period?.id || "morning";
-
-    const result = RecommendationEngine.getRecommendedPlaylist(
-      weatherType,
-      timePeriod,
-      state.currentVibe
-    );
-
-    player.setPlaylist(result.tracks, true);
-  }
-
-  // ===================== 7. PERIODIC AUTO-CYCLES (LIVING AMBIENCE) =====================
+  // ===================== 8. PERIODIC AUTO-CYCLES (LIVING AMBIENCE) =====================
   
-  // A. Auto-rotate 4K wallpapers within the current bucket every 10 minutes
+  // A. Auto-rotate 4K wallpapers within the active case every 10 minutes
   setInterval(() => {
-    if (state.currentBucketKey) {
-      setScenery(state.currentBucketKey, true);
+    if (state.activeCase) {
+      setScenery(true);
     }
   }, 10 * 60 * 1000);
 
   // B. Auto-rotate contextual quotes every 4 minutes
   setInterval(() => {
-    if (state.currentBucketKey) {
-      fadeUpdateQuote(state.currentBucketKey);
+    if (state.activeCase) {
+      fadeUpdateQuote();
     }
   }, 4 * 60 * 1000);
 
-  // C. Page Visibility & Sleep/Wake Detection
-  // When user opens laptop lid or returns to tab, immediately re-sync without reload
+  // C. Page Visibility & Sleep/Wake Detection (re-sync without page reload)
   document.addEventListener("visibilitychange", async () => {
     if (document.visibilityState === "visible") {
       timeEngine.tick();
       const freshData = await weatherEngine.fetchWeather();
       updateWeatherUI(freshData);
-      checkAndHandleEnvironmentTransition();
+      evaluateContext("wake_sync");
     }
   });
 
   window.addEventListener("focus", async () => {
     timeEngine.tick();
-    checkAndHandleEnvironmentTransition();
+    evaluateContext("focus_sync");
   });
 
-  // ===================== 8. USER INTERACTION & CONTROLS =====================
+  // ===================== 9. USER INTERACTION & CONTROLS =====================
   
   // Play / Pause
   const togglePlay = () => player.togglePlay();
@@ -349,19 +266,19 @@ document.addEventListener("DOMContentLoaded", () => {
     ambientRainBtn.classList.toggle("text-slate-400", !state.isRainSoundOn);
   });
 
-  // Next 4K Scene Manual Button
+  // Next 4K Scene Manual Button (Cycle through images for current case)
   document.getElementById("btn-next-scene")?.addEventListener("click", () => {
-    if (state.currentBucketKey) {
-      setScenery(state.currentBucketKey, true);
-    }
+    setScenery(true);
   });
 
-  // Vibe Selector Buttons
-  document.querySelectorAll(".vibe-pill").forEach(pill => {
+  // Mood Selector Pills (Ma trận 280 bối cảnh)
+  document.querySelectorAll(".mood-pill").forEach(pill => {
     pill.addEventListener("click", () => {
-      document.querySelectorAll(".vibe-pill").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll(".mood-pill").forEach(p => p.classList.remove("active"));
       pill.classList.add("active");
-      applyVibeFilter(pill.getAttribute("data-vibe"));
+      const mood = pill.getAttribute("data-mood");
+      state.selectedMood = mood;
+      evaluateContext("mood_switch");
     });
   });
 
@@ -395,11 +312,10 @@ document.addEventListener("DOMContentLoaded", () => {
     btn?.classList.add("animate-spin");
     const freshData = await weatherEngine.fetchWeather();
     updateWeatherUI(freshData);
-    checkAndHandleEnvironmentTransition();
     setTimeout(() => btn?.classList.remove("animate-spin"), 800);
   });
 
-  // Auto start on first user click anywhere
+  // Auto start audio on first user click anywhere
   let hasInteracted = false;
   window.addEventListener("click", () => {
     if (!hasInteracted) {
@@ -410,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, { once: true });
 
-  // ===================== 9. APP BOOTSTRAP =====================
+  // ===================== 10. APP BOOTSTRAP =====================
   async function init() {
     lucide.createIcons();
 
@@ -422,27 +338,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const weatherData = await weatherEngine.fetchWeather();
     state.currentWeather = weatherData;
 
-    // 3. Calculate initial atmosphere bucket (e.g. sunset if after 18:00)
-    const initialBucket = RecommendationEngine.getBucketKey(
-      weatherData.weatherType,
-      initialTimeData.period.id
-    );
-    state.currentBucketKey = initialBucket;
-
-    // 4. Render initial scenery, quote, and weather
-    setScenery(initialBucket, false);
-    fadeUpdateQuote(initialBucket);
+    // 3. Render initial weather UI
     updateWeatherUI(weatherData);
 
-    // 5. Setup initial playlist
-    const initialPlaylist = RecommendationEngine.getRecommendedPlaylist(
-      weatherData.weatherType,
-      initialTimeData.period.id,
-      state.currentVibe
-    );
-    player.setPlaylist(initialPlaylist.tracks, false);
+    // 4. Initial evaluation of 280-case context
+    evaluateContext("init");
 
-    // 6. Start 3-minute weather auto-refresh poller
+    // 5. Start 3-minute weather auto-refresh poller
     weatherEngine.startAutoRefresh((newData) => {
       updateWeatherUI(newData);
     });

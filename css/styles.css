@@ -97,7 +97,8 @@ body {
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-.vibe-pill {
+.vibe-pill,
+.mood-pill {
   padding: 3px 10px;
   font-size: 11px;
   border-radius: 9999px;
@@ -105,14 +106,17 @@ body {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
-.vibe-pill:hover {
+.vibe-pill:hover,
+.mood-pill:hover {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.14);
 }
 
-.vibe-pill.active {
+.vibe-pill.active,
+.mood-pill.active {
   color: #000000;
   background: #ffffff;
   font-weight: 700;

@@ -58,7 +58,7 @@
       <!-- Top Row of Deck: Location, Weather, Scene Switcher & Vibe Pills -->
       <div class="flex flex-wrap items-center justify-between gap-2.5 pb-2.5 border-b border-white/10 text-xs">
         
-        <!-- Left: Location + Weather + Change Scene Button -->
+        <!-- Left: Location + Weather + Change Scene Button + Matrix Case Badge -->
         <div class="flex flex-wrap items-center gap-2">
           
           <!-- Location Pill -->
@@ -85,21 +85,30 @@
             </span>
           </div>
 
+          <!-- 280 Context Case Pill -->
+          <div id="matrix-badge" class="flex items-center space-x-1.5 px-3 py-1 rounded-full glass-subtle text-amber-200 transition-all" title="Mã trường hợp trong ma trận 280 bối cảnh">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span id="matrix-code" class="font-mono font-bold tracking-wider">BG-T...</span>
+            <span class="text-slate-500 hidden sm:inline">•</span>
+            <span id="matrix-desc" class="hidden sm:inline truncate max-w-[160px] md:max-w-[240px] text-slate-300">Đang nhận diện...</span>
+          </div>
+
           <!-- Next Scene Button -->
-          <button id="btn-next-scene" class="flex items-center space-x-1 px-3 py-1 rounded-full glass-subtle text-amber-300 hover:text-white hover:bg-white/20 transition-all" title="Chuyển hình nền 4K khác của thời tiết này">
+          <button id="btn-next-scene" class="flex items-center space-x-1 px-3 py-1 rounded-full glass-subtle text-amber-300 hover:text-white hover:bg-white/20 transition-all" title="Chuyển hình nền 4K khác của bối cảnh này">
             <i data-lucide="image" class="w-3.5 h-3.5"></i>
             <span>Đổi cảnh 4K</span>
           </button>
 
         </div>
 
-        <!-- Right: Vibe Quick Filters -->
-        <div class="flex items-center space-x-1">
-          <button data-vibe="all" class="vibe-pill active">Gợi ý tự động</button>
-          <button data-vibe="jazz" class="vibe-pill">☕ Cafe Jazz</button>
-          <button data-vibe="acoustic" class="vibe-pill">🎸 Acoustic</button>
-          <button data-vibe="piano" class="vibe-pill">🎹 Piano</button>
-          <button data-vibe="lofi" class="vibe-pill">🎧 Lofi</button>
+        <!-- Right: 5 Mood Selector Pills (Ma trận 280 bối cảnh) -->
+        <div class="flex items-center space-x-1 overflow-x-auto py-0.5">
+          <button data-mood="auto" class="mood-pill active" title="Tự động nhận diện theo thời gian & thời tiết">✨ Tự động</button>
+          <button data-mood="M1" class="mood-pill" title="M1: Bình yên & Thư thái">🍃 Bình yên</button>
+          <button data-mood="M2" class="mood-pill" title="M2: Tươi vui & Năng lượng">☀️ Tươi vui</button>
+          <button data-mood="M3" class="mood-pill" title="M3: Buồn & Sâu lắng">🌧️ Buồn</button>
+          <button data-mood="M4" class="mood-pill" title="M4: Hoài niệm & Cổ điển">📻 Hoài niệm</button>
+          <button data-mood="M5" class="mood-pill" title="M5: Tập trung & Học tập">🎯 Tập trung</button>
         </div>
 
       </div>
@@ -169,6 +178,7 @@
 
   <!-- Scripts -->
   <script src="js/playlist-data.js"></script>
+  <script src="js/matrix-data.js"></script>
   <script src="js/time.js"></script>
   <script src="js/weather.js"></script>
   <script src="js/ambient-audio.js"></script>

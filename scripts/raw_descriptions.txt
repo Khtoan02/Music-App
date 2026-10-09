@@ -1,0 +1,280 @@
+BG-T1-W1-M1	Trời trong	Bình yên	Bầu trời xanh tím trước bình minh, chân trời tĩnh lặng
+BG-T1-W1-M2	Trời trong	Tươi vui	Ánh hồng đầu ngày, đường chân trời trong trẻo
+BG-T1-W1-M3	Trời trong	Buồn	Bầu trời tím lạnh, ánh sáng cô tịch
+BG-T1-W1-M4	Trời trong	Hoài niệm	Vệt sáng hồng tím dịu, không khí mơ màng
+BG-T1-W1-M5	Trời trong	Tập trung	Chân trời xanh sâu, ánh sáng dần rõ
+BG-T1-W2-M1	Nắng gắt	Bình yên	Ánh mặt trời thấp, vàng ấm dịu
+BG-T1-W2-M2	Nắng gắt	Tươi vui	Tia sáng vàng rực đầu ngày
+BG-T1-W2-M3	Nắng gắt	Buồn	Ánh sáng chói phía xa, tiền cảnh trầm
+BG-T1-W2-M4	Nắng gắt	Hoài niệm	Tia nắng vàng xuyên màn sương sớm
+BG-T1-W2-M5	Nắng gắt	Tập trung	Ánh sáng mạnh dần, màu vàng cam rõ nét
+BG-T1-W3-M1	Mây thưa	Bình yên	Mây mỏng trôi trên trời xanh tím
+BG-T1-W3-M2	Mây thưa	Tươi vui	Mây hồng nhẹ đón ánh bình minh
+BG-T1-W3-M3	Mây thưa	Buồn	Những đám mây lẻ loi trên trời lạnh
+BG-T1-W3-M4	Mây thưa	Hoài niệm	Mây tím hồng mềm, chân trời xa
+BG-T1-W3-M5	Mây thưa	Tập trung	Mây mỏng, ánh sáng xanh trong
+BG-T1-W4-M1	Âm u	Bình yên	Bầu trời xám xanh tĩnh lặng
+BG-T1-W4-M2	Âm u	Tươi vui	Mây dày hé ánh sáng đầu ngày
+BG-T1-W4-M3	Âm u	Buồn	Bầu trời xám lạnh, không gian vắng
+BG-T1-W4-M4	Âm u	Hoài niệm	Mây xám tím, ánh hồng rất nhẹ
+BG-T1-W4-M5	Âm u	Tập trung	Nền trời xám đồng đều, dịu mắt
+BG-T1-W5-M1	Mưa nhẹ	Bình yên	Hạt mưa mỏng trong ánh sáng xanh sớm
+BG-T1-W5-M2	Mưa nhẹ	Tươi vui	Mưa phùn phản chiếu ánh hồng
+BG-T1-W5-M3	Mưa nhẹ	Buồn	Mưa nhỏ trên con đường còn tối
+BG-T1-W5-M4	Mưa nhẹ	Hoài niệm	Giọt mưa lung linh dưới ánh đèn xa
+BG-T1-W5-M5	Mưa nhẹ	Tập trung	Mưa đều trên nền xanh xám
+BG-T1-W6-M1	Mưa lớn	Bình yên	Mưa dày từ xa, ánh sáng dịu
+BG-T1-W6-M2	Mưa lớn	Tươi vui	Mưa mạnh, ánh sáng mới hé sau mây
+BG-T1-W6-M3	Mưa lớn	Buồn	Mưa nặng hạt, đường phố trống
+BG-T1-W6-M4	Mưa lớn	Hoài niệm	Đèn vàng xuyên màn mưa dày
+BG-T1-W6-M5	Mưa lớn	Tập trung	Mưa mạnh, sắc xanh lạnh, tương phản rõ
+BG-T1-W7-M1	Sương mù	Bình yên	Lớp sương trắng xanh trên đường chân trời
+BG-T1-W7-M2	Sương mù	Tươi vui	Ánh sáng hồng dần hiện qua sương
+BG-T1-W7-M3	Sương mù	Buồn	Màn sương đặc, không gian cô quạnh
+BG-T1-W7-M4	Sương mù	Hoài niệm	Sương mờ tím nhạt, ánh sáng cổ điển
+BG-T1-W7-M5	Sương mù	Tập trung	Sương xanh bạc, bố cục tối giản
+BG-T2-W1-M1	Trời trong	Bình yên	Bầu trời xanh nhạt, nắng vàng mềm
+BG-T2-W1-M2	Trời trong	Tươi vui	Nắng sớm tươi sáng, màu xanh trong
+BG-T2-W1-M3	Trời trong	Buồn	Ánh sáng sớm nhạt, không gian vắng
+BG-T2-W1-M4	Trời trong	Hoài niệm	Nắng vàng cổ điển trên đường chân trời
+BG-T2-W1-M5	Trời trong	Tập trung	Nền trời xanh rõ, ánh sáng ổn định
+BG-T2-W2-M1	Nắng gắt	Bình yên	Nắng vàng rõ, bóng đổ dài
+BG-T2-W2-M2	Nắng gắt	Tươi vui	Tia nắng rực rỡ, màu vàng tươi
+BG-T2-W2-M3	Nắng gắt	Buồn	Nắng mạnh, khung cảnh vắng vẻ
+BG-T2-W2-M4	Nắng gắt	Hoài niệm	Nắng xuyên tán lá, sắc vàng phim
+BG-T2-W2-M5	Nắng gắt	Tập trung	Ánh nắng rõ nét, tương phản cao
+BG-T2-W3-M1	Mây thưa	Bình yên	Mây trắng mỏng, ánh sáng mềm
+BG-T2-W3-M2	Mây thưa	Tươi vui	Mây trắng trên nền xanh sáng
+BG-T2-W3-M3	Mây thưa	Buồn	Những cụm mây lẻ, màu xanh lạnh
+BG-T2-W3-M4	Mây thưa	Hoài niệm	Mây trắng nhuộm sắc vàng nhạt
+BG-T2-W3-M5	Mây thưa	Tập trung	Bầu trời thoáng, ánh sáng cân bằng
+BG-T2-W4-M1	Âm u	Bình yên	Mây xám sáng, không gian dịu
+BG-T2-W4-M2	Âm u	Tươi vui	Ánh sáng hé qua lớp mây xám
+BG-T2-W4-M3	Âm u	Buồn	Mây dày, màu xám xanh lạnh
+BG-T2-W4-M4	Âm u	Hoài niệm	Mây xám nhẹ, tông phim cũ
+BG-T2-W4-M5	Âm u	Tập trung	Ánh sáng khuếch tán, ít tương phản
+BG-T2-W5-M1	Mưa nhẹ	Bình yên	Mưa nhỏ trên lá xanh buổi sáng
+BG-T2-W5-M2	Mưa nhẹ	Tươi vui	Giọt mưa sáng lấp lánh, sắc xanh
+BG-T2-W5-M3	Mưa nhẹ	Buồn	Cửa kính đọng mưa, nền trời xám
+BG-T2-W5-M4	Mưa nhẹ	Hoài niệm	Mưa phùn qua tán cây, ánh vàng
+BG-T2-W5-M5	Mưa nhẹ	Tập trung	Mưa đều, ánh sáng xanh xám mềm
+BG-T2-W6-M1	Mưa lớn	Bình yên	Màn mưa dày, góc nhìn tĩnh
+BG-T2-W6-M2	Mưa lớn	Tươi vui	Mưa rào sáng, mặt đường phản quang
+BG-T2-W6-M3	Mưa lớn	Buồn	Trời xám đậm, nước mưa chảy dài
+BG-T2-W6-M4	Mưa lớn	Hoài niệm	Mưa trên mái hiên, sắc vàng ấm
+BG-T2-W6-M5	Mưa lớn	Tập trung	Dòng mưa mạnh, nền xám có chiều sâu
+BG-T2-W7-M1	Sương mù	Bình yên	Sương nhẹ trên cánh đồng buổi sớm
+BG-T2-W7-M2	Sương mù	Tươi vui	Nắng vàng xuyên sương trắng
+BG-T2-W7-M3	Sương mù	Buồn	Lối đi mờ dần trong sương lạnh
+BG-T2-W7-M4	Sương mù	Hoài niệm	Tán cây xa trong lớp sương vàng
+BG-T2-W7-M5	Sương mù	Tập trung	Sương trắng bạc, hình khối tối giản
+BG-T3-W1-M1	Trời trong	Bình yên	Bầu trời xanh sáng, ánh nắng dịu
+BG-T3-W1-M2	Trời trong	Tươi vui	Trời xanh rực rỡ, cây lá tươi
+BG-T3-W1-M3	Trời trong	Buồn	Ánh sáng trắng nhạt, đường phố vắng
+BG-T3-W1-M4	Trời trong	Hoài niệm	Nắng vàng phủ lên khung cảnh quen
+BG-T3-W1-M5	Trời trong	Tập trung	Bầu trời xanh sáng, đường nét rõ
+BG-T3-W2-M1	Nắng gắt	Bình yên	Nắng mạnh trên nền màu kem dịu
+BG-T3-W2-M2	Nắng gắt	Tươi vui	Nắng vàng rực, bóng cây sắc nét
+BG-T3-W2-M3	Nắng gắt	Buồn	Khoảng sân vắng dưới nắng chói
+BG-T3-W2-M4	Nắng gắt	Hoài niệm	Nắng xuyên cửa sổ, sắc màu vintage
+BG-T3-W2-M5	Nắng gắt	Tập trung	Ánh sáng mạnh, bố cục sạch
+BG-T3-W3-M1	Mây thưa	Bình yên	Mây trắng trôi trên trời xanh nhạt
+BG-T3-W3-M2	Mây thưa	Tươi vui	Mây bông trắng, nắng sáng trong
+BG-T3-W3-M3	Mây thưa	Buồn	Cụm mây nhỏ trên khoảng trời rộng
+BG-T3-W3-M4	Mây thưa	Hoài niệm	Mây trắng mềm, sắc vàng pastel
+BG-T3-W3-M5	Mây thưa	Tập trung	Nắng lọc qua mây, màu trung tính
+BG-T3-W4-M1	Âm u	Bình yên	Trời phủ mây nhẹ, ánh sáng đều
+BG-T3-W4-M2	Âm u	Tươi vui	Vùng sáng xuyên mây, sắc xanh tươi
+BG-T3-W4-M3	Âm u	Buồn	Mây xám dày, khung cảnh lặng
+BG-T3-W4-M4	Âm u	Hoài niệm	Trời xám dịu, tông màu phim cũ
+BG-T3-W4-M5	Âm u	Tập trung	Ánh sáng tán xạ, nền xám xanh
+BG-T3-W5-M1	Mưa nhẹ	Bình yên	Mưa tí tách trên tán lá
+BG-T3-W5-M2	Mưa nhẹ	Tươi vui	Những giọt mưa trong ánh sáng trắng
+BG-T3-W5-M3	Mưa nhẹ	Buồn	Đường phố ướt, mưa nhỏ kéo dài
+BG-T3-W5-M4	Mưa nhẹ	Hoài niệm	Mưa qua ô cửa, ánh vàng dịu
+BG-T3-W5-M5	Mưa nhẹ	Tập trung	Mưa rơi đều trên kính, nền mờ
+BG-T3-W6-M1	Mưa lớn	Bình yên	Mưa rào ngoài cửa kính, ánh sáng mềm
+BG-T3-W6-M2	Mưa lớn	Tươi vui	Mưa nhiệt đới, cây xanh rực
+BG-T3-W6-M3	Mưa lớn	Buồn	Mưa dày trên con phố xám
+BG-T3-W6-M4	Mưa lớn	Hoài niệm	Dãy mái nhà cũ dưới mưa
+BG-T3-W6-M5	Mưa lớn	Tập trung	Màn mưa dày, họa tiết giọt nước
+BG-T3-W7-M1	Sương mù	Bình yên	Sương sáng mỏng trên đồi
+BG-T3-W7-M2	Sương mù	Tươi vui	Nắng trắng xuyên qua màn sương
+BG-T3-W7-M3	Sương mù	Buồn	Hàng cây chìm trong sương xám
+BG-T3-W7-M4	Sương mù	Hoài niệm	Đường nhỏ phủ sương, màu phim
+BG-T3-W7-M5	Sương mù	Tập trung	Sương tan dần, hình ảnh gọn gàng
+BG-T4-W1-M1	Trời trong	Bình yên	Trời xanh cao, nắng trưa dịu màu
+BG-T4-W1-M2	Trời trong	Tươi vui	Ánh nắng trắng sáng, bầu trời xanh
+BG-T4-W1-M3	Trời trong	Buồn	Không gian vắng, ánh sáng trưa nhạt
+BG-T4-W1-M4	Trời trong	Hoài niệm	Sân nhà cũ ngập nắng vàng
+BG-T4-W1-M5	Trời trong	Tập trung	Ánh sáng trực diện, nền trời rõ
+BG-T4-W2-M1	Nắng gắt	Bình yên	Bóng râm dưới nắng trưa rực
+BG-T4-W2-M2	Nắng gắt	Tươi vui	Nắng vàng tươi, sắc màu sống động
+BG-T4-W2-M3	Nắng gắt	Buồn	Đường vắng dưới ánh nắng chói
+BG-T4-W2-M4	Nắng gắt	Hoài niệm	Nắng trưa chiếu lên tường cũ
+BG-T4-W2-M5	Nắng gắt	Tập trung	Bóng đổ ngắn, ánh sáng mạnh
+BG-T4-W3-M1	Mây thưa	Bình yên	Mây trắng thưa, trời xanh êm
+BG-T4-W3-M2	Mây thưa	Tươi vui	Mây bông sáng, nắng dịu dễ chịu
+BG-T4-W3-M3	Mây thưa	Buồn	Trời rộng với vài cụm mây đơn độc
+BG-T4-W3-M4	Mây thưa	Hoài niệm	Mây trôi chậm, ánh sáng vàng nhạt
+BG-T4-W3-M5	Mây thưa	Tập trung	Mây thưa, ánh sáng đồng đều
+BG-T4-W4-M1	Âm u	Bình yên	Mây dày che nắng, không khí êm
+BG-T4-W4-M2	Âm u	Tươi vui	Trời mây sáng, khoảng sáng mở rộng
+BG-T4-W4-M3	Âm u	Buồn	Trời xám phủ kín giữa trưa
+BG-T4-W4-M4	Âm u	Hoài niệm	Khung cảnh xưa dưới trời xám
+BG-T4-W4-M5	Âm u	Tập trung	Ánh sáng xám trung tính, ít bóng
+BG-T4-W5-M1	Mưa nhẹ	Bình yên	Mưa trưa nhẹ trên hiên nhà
+BG-T4-W5-M2	Mưa nhẹ	Tươi vui	Mưa dưới ánh sáng ban ngày
+BG-T4-W5-M3	Mưa nhẹ	Buồn	Mưa lất phất trên con phố vắng
+BG-T4-W5-M4	Mưa nhẹ	Hoài niệm	Giọt mưa trên mái ngói cũ
+BG-T4-W5-M5	Mưa nhẹ	Tập trung	Cửa kính đọng mưa, nền sáng mờ
+BG-T4-W6-M1	Mưa lớn	Bình yên	Mưa lớn ngoài hiên, góc nhìn yên tĩnh
+BG-T4-W6-M2	Mưa lớn	Tươi vui	Mưa rào nhiệt đới, cây lá xanh
+BG-T4-W6-M3	Mưa lớn	Buồn	Đường phố chìm trong mưa xám
+BG-T4-W6-M4	Mưa lớn	Hoài niệm	Mưa xối xả trên mái nhà xưa
+BG-T4-W6-M5	Mưa lớn	Tập trung	Màn mưa trắng xám, chuyển động mạnh
+BG-T4-W7-M1	Sương mù	Bình yên	Mây thấp phủ đồi núi giữa trưa
+BG-T4-W7-M2	Sương mù	Tươi vui	Nắng mờ xuyên lớp sương trắng
+BG-T4-W7-M3	Sương mù	Buồn	Núi xa ẩn trong màn sương xám
+BG-T4-W7-M4	Sương mù	Hoài niệm	Thung lũng phủ mây trắng cổ điển
+BG-T4-W7-M5	Sương mù	Tập trung	Lớp sương trắng tạo nền tối giản
+BG-T5-W1-M1	Trời trong	Bình yên	Trời xanh chiều, nắng nhẹ trên tán cây
+BG-T5-W1-M2	Trời trong	Tươi vui	Ánh nắng chiều tươi, màu sắc rực rỡ
+BG-T5-W1-M3	Trời trong	Buồn	Con đường vắng dưới nắng nhạt
+BG-T5-W1-M4	Trời trong	Hoài niệm	Nắng vàng xiên nhẹ, tông phim ấm
+BG-T5-W1-M5	Trời trong	Tập trung	Ánh sáng chiều rõ, sắc xanh trung tính
+BG-T5-W2-M1	Nắng gắt	Bình yên	Bóng mát dưới ánh nắng chiều mạnh
+BG-T5-W2-M2	Nắng gắt	Tươi vui	Nắng vàng rực, tán cây sáng
+BG-T5-W2-M3	Nắng gắt	Buồn	Bức tường cũ, bóng nắng dài
+BG-T5-W2-M4	Nắng gắt	Hoài niệm	Ánh vàng xuyên cửa sổ, chất phim
+BG-T5-W2-M5	Nắng gắt	Tập trung	Ánh nắng rõ, hình khối tương phản
+BG-T5-W3-M1	Mây thưa	Bình yên	Mây trắng thưa, bầu trời xanh dịu
+BG-T5-W3-M2	Mây thưa	Tươi vui	Mây trắng nhẹ, nắng chiều sáng
+BG-T5-W3-M3	Mây thưa	Buồn	Cụm mây trôi trên nền xanh lạnh
+BG-T5-W3-M4	Mây thưa	Hoài niệm	Mây vàng nhạt, ánh chiều dịu
+BG-T5-W3-M5	Mây thưa	Tập trung	Trời xanh thoáng, ánh sáng ổn định
+BG-T5-W4-M1	Âm u	Bình yên	Trời nhiều mây, ánh sáng mềm
+BG-T5-W4-M2	Âm u	Tươi vui	Mây xám hé nắng, màu xanh tươi
+BG-T5-W4-M3	Âm u	Buồn	Trời xám lạnh, phong cảnh vắng
+BG-T5-W4-M4	Âm u	Hoài niệm	Mây xám phủ phố cũ, màu phim
+BG-T5-W4-M5	Âm u	Tập trung	Nền xám đồng đều, ít chi tiết gây nhiễu
+BG-T5-W5-M1	Mưa nhẹ	Bình yên	Mưa chiều trên hàng cây xanh
+BG-T5-W5-M2	Mưa nhẹ	Tươi vui	Mưa lấp lánh dưới ánh sáng dịu
+BG-T5-W5-M3	Mưa nhẹ	Buồn	Mưa nhỏ bên cửa kính, sắc xanh trầm
+BG-T5-W5-M4	Mưa nhẹ	Hoài niệm	Mưa chiều trên con phố cũ
+BG-T5-W5-M5	Mưa nhẹ	Tập trung	Hạt mưa đều, nền màu trung tính
+BG-T5-W6-M1	Mưa lớn	Bình yên	Mưa rào ngoài hiên, góc nhìn tĩnh
+BG-T5-W6-M2	Mưa lớn	Tươi vui	Mưa chiều mát, cây xanh sau mưa
+BG-T5-W6-M3	Mưa lớn	Buồn	Mưa dày phủ kín con phố
+BG-T5-W6-M4	Mưa lớn	Hoài niệm	Mái hiên cũ dưới cơn mưa chiều
+BG-T5-W6-M5	Mưa lớn	Tập trung	Màn mưa mạnh, họa tiết dòng nước
+BG-T5-W7-M1	Sương mù	Bình yên	Sương núi nhẹ, sắc xanh bạc
+BG-T5-W7-M2	Sương mù	Tươi vui	Ánh nắng xuyên làn sương chiều
+BG-T5-W7-M3	Sương mù	Buồn	Thung lũng mờ xám, không gian vắng
+BG-T5-W7-M4	Sương mù	Hoài niệm	Đồi núi mờ trong sắc vàng cũ
+BG-T5-W7-M5	Sương mù	Tập trung	Mây thấp và sương mềm, ít chi tiết
+BG-T6-W1-M1	Trời trong	Bình yên	Hoàng hôn vàng cam dịu trên chân trời
+BG-T6-W1-M2	Trời trong	Tươi vui	Hoàng hôn cam hồng rực rỡ
+BG-T6-W1-M3	Trời trong	Buồn	Mặt trời thấp, khung cảnh lẻ loi
+BG-T6-W1-M4	Trời trong	Hoài niệm	Ánh hoàng hôn vàng cổ điển
+BG-T6-W1-M5	Trời trong	Tập trung	Bầu trời cam xanh, đường nét rõ
+BG-T6-W2-M1	Nắng gắt	Bình yên	Ánh nắng cuối ngày rực nhưng mềm
+BG-T6-W2-M2	Nắng gắt	Tươi vui	Mặt trời vàng rực gần đường chân trời
+BG-T6-W2-M3	Nắng gắt	Buồn	Bóng dài dưới nắng chiều chói
+BG-T6-W2-M4	Nắng gắt	Hoài niệm	Nắng vàng đậm trên đường phố xưa
+BG-T6-W2-M5	Nắng gắt	Tập trung	Ánh nắng xiên, tương phản rõ
+BG-T6-W3-M1	Mây thưa	Bình yên	Mây hồng cam trải trên trời chiều
+BG-T6-W3-M2	Mây thưa	Tươi vui	Mây vàng rực, hoàng hôn sáng
+BG-T6-W3-M3	Mây thưa	Buồn	Những cụm mây tím dưới trời chiều
+BG-T6-W3-M4	Mây thưa	Hoài niệm	Mây hồng tím, ánh chiều mơ màng
+BG-T6-W3-M5	Mây thưa	Tập trung	Mây thưa, sắc cam xanh cân bằng
+BG-T6-W4-M1	Âm u	Bình yên	Mây xám tím phủ hoàng hôn
+BG-T6-W4-M2	Âm u	Tươi vui	Vệt nắng vàng xuyên mây cuối ngày
+BG-T6-W4-M3	Âm u	Buồn	Trời xám tối dần, cảnh vắng
+BG-T6-W4-M4	Âm u	Hoài niệm	Mây tím đậm, ánh vàng xa
+BG-T6-W4-M5	Âm u	Tập trung	Trời xám xanh, ánh sáng dịu
+BG-T6-W5-M1	Mưa nhẹ	Bình yên	Mưa chiều phản chiếu ánh hoàng hôn
+BG-T6-W5-M2	Mưa nhẹ	Tươi vui	Mưa phùn dưới ánh cam hồng
+BG-T6-W5-M3	Mưa nhẹ	Buồn	Mưa trên cửa kính, trời tím xám
+BG-T6-W5-M4	Mưa nhẹ	Hoài niệm	Đường phố ướt phản chiếu ánh vàng
+BG-T6-W5-M5	Mưa nhẹ	Tập trung	Mưa đều, nền chiều xanh xám
+BG-T6-W6-M1	Mưa lớn	Bình yên	Cơn mưa chiều nhìn qua mái hiên
+BG-T6-W6-M2	Mưa lớn	Tươi vui	Mưa rào dưới ánh sáng cuối ngày
+BG-T6-W6-M3	Mưa lớn	Buồn	Bầu trời tối, mưa phủ kín phố
+BG-T6-W6-M4	Mưa lớn	Hoài niệm	Đèn đường vàng vừa sáng dưới mưa
+BG-T6-W6-M5	Mưa lớn	Tập trung	Mưa mạnh trên nền tím xanh
+BG-T6-W7-M1	Sương mù	Bình yên	Sương chiều phủ thung lũng
+BG-T6-W7-M2	Sương mù	Tươi vui	Nắng cuối ngày xuyên làn sương
+BG-T6-W7-M3	Sương mù	Buồn	Rặng núi khuất trong sương tím
+BG-T6-W7-M4	Sương mù	Hoài niệm	Hoàng hôn mờ sương, màu vàng cũ
+BG-T6-W7-M5	Sương mù	Tập trung	Sương xanh tím, bố cục giản lược
+BG-T7-W1-M1	Trời trong	Bình yên	Trời xanh đậm, ánh đèn ấm dịu
+BG-T7-W1-M2	Trời trong	Tươi vui	Thành phố lên đèn, bầu trời trong
+BG-T7-W1-M3	Trời trong	Buồn	Bầu trời tối, một vùng sáng đơn độc
+BG-T7-W1-M4	Trời trong	Hoài niệm	Đèn đường vàng, bầu trời xanh tím
+BG-T7-W1-M5	Trời trong	Tập trung	Nền trời xanh đêm, ánh sáng rõ
+BG-T7-W2-M1	Nắng gắt	Bình yên	Ánh vàng cuối ngày còn sót lại
+BG-T7-W2-M2	Nắng gắt	Tươi vui	Chân trời đỏ cam rực lúc chạng vạng
+BG-T7-W2-M3	Nắng gắt	Buồn	Tàn nắng đỏ trên khung cảnh vắng
+BG-T7-W2-M4	Nắng gắt	Hoài niệm	Ánh hoàng hôn muộn màu vàng cũ
+BG-T7-W2-M5	Nắng gắt	Tập trung	Tia sáng cuối ngày, tương phản mạnh
+BG-T7-W3-M1	Mây thưa	Bình yên	Mây mỏng trên nền trời xanh đêm
+BG-T7-W3-M2	Mây thưa	Tươi vui	Mây tím hồng, ánh đèn lung linh
+BG-T7-W3-M3	Mây thưa	Buồn	Mây lẻ trên nền trời tối
+BG-T7-W3-M4	Mây thưa	Hoài niệm	Mây tím trôi trên ánh đèn vàng
+BG-T7-W3-M5	Mây thưa	Tập trung	Trời xanh sâu, mây xám mỏng
+BG-T7-W4-M1	Âm u	Bình yên	Trời nhiều mây, ánh đèn mềm
+BG-T7-W4-M2	Âm u	Tươi vui	Thành phố sáng dưới mây xám
+BG-T7-W4-M3	Âm u	Buồn	Mây đen phủ bầu trời, phố vắng
+BG-T7-W4-M4	Âm u	Hoài niệm	Ánh đèn vàng trên nền trời xám tím
+BG-T7-W4-M5	Âm u	Tập trung	Nền trời xám xanh tối, ít chi tiết
+BG-T7-W5-M1	Mưa nhẹ	Bình yên	Mưa tối phản chiếu ánh đèn dịu
+BG-T7-W5-M2	Mưa nhẹ	Tươi vui	Giọt mưa lung linh dưới đèn phố
+BG-T7-W5-M3	Mưa nhẹ	Buồn	Cửa kính mưa, ánh đèn xanh xa
+BG-T7-W5-M4	Mưa nhẹ	Hoài niệm	Phố đêm mưa nhẹ, đèn vàng cổ điển
+BG-T7-W5-M5	Mưa nhẹ	Tập trung	Hạt mưa đều trên nền tối
+BG-T7-W6-M1	Mưa lớn	Bình yên	Mưa lớn ngoài cửa, ánh đèn ấm
+BG-T7-W6-M2	Mưa lớn	Tươi vui	Đường phố nhiều ánh sáng phản chiếu mưa
+BG-T7-W6-M3	Mưa lớn	Buồn	Mưa xối xả trên phố đêm trống
+BG-T7-W6-M4	Mưa lớn	Hoài niệm	Đèn vàng nhòe qua màn mưa dày
+BG-T7-W6-M5	Mưa lớn	Tập trung	Mưa đêm, ánh xanh lạnh sắc nét
+BG-T7-W7-M1	Sương mù	Bình yên	Sương nhẹ quanh đèn đường
+BG-T7-W7-M2	Sương mù	Tươi vui	Ánh đèn ấm xuyên sương trắng
+BG-T7-W7-M3	Sương mù	Buồn	Lối phố vắng chìm trong sương
+BG-T7-W7-M4	Sương mù	Hoài niệm	Đèn vàng mờ trong sương tím
+BG-T7-W7-M5	Sương mù	Tập trung	Sương xanh đậm, ánh sáng tối giản
+BG-T8-W1-M1	Trời trong	Bình yên	Bầu trời đêm trong, trăng sáng dịu
+BG-T8-W1-M2	Trời trong	Tươi vui	Trời đầy sao, ánh sáng lung linh
+BG-T8-W1-M3	Trời trong	Buồn	Trăng đơn độc trên nền trời xanh đậm
+BG-T8-W1-M4	Trời trong	Hoài niệm	Ánh trăng bạc trên phong cảnh xưa
+BG-T8-W1-M5	Trời trong	Tập trung	Nền xanh đêm sâu, ít nguồn sáng
+BG-T8-W2-M1	Nắng gắt	Bình yên	Đêm quang, ánh trăng sáng rõ
+BG-T8-W2-M2	Nắng gắt	Tươi vui	Bầu trời sao rực, ánh trăng trắng
+BG-T8-W2-M3	Nắng gắt	Buồn	Đêm quang, ánh trăng lạnh
+BG-T8-W2-M4	Nắng gắt	Hoài niệm	Trăng sáng và bóng cây cổ điển
+BG-T8-W2-M5	Nắng gắt	Tập trung	Trời đêm trong, ánh trăng tương phản
+BG-T8-W3-M1	Mây thưa	Bình yên	Mây mỏng trôi qua ánh trăng
+BG-T8-W3-M2	Mây thưa	Tươi vui	Mây bạc dưới bầu trời đầy sao
+BG-T8-W3-M3	Mây thưa	Buồn	Trăng bị che một phần bởi mây xám
+BG-T8-W3-M4	Mây thưa	Hoài niệm	Mây tím xanh quanh ánh trăng
+BG-T8-W3-M5	Mây thưa	Tập trung	Mây mỏng trên nền trời xanh sâu
+BG-T8-W4-M1	Âm u	Bình yên	Trời đêm nhiều mây, ánh sáng rất dịu
+BG-T8-W4-M2	Âm u	Tươi vui	Ánh đèn thành phố phản sáng lên mây
+BG-T8-W4-M3	Âm u	Buồn	Mây đen dày, khung cảnh đêm vắng
+BG-T8-W4-M4	Âm u	Hoài niệm	Nền trời tím xám, ánh đèn vàng xa
+BG-T8-W4-M5	Âm u	Tập trung	Nền trời tối đồng nhất, ít tương phản
+BG-T8-W5-M1	Mưa nhẹ	Bình yên	Giọt mưa đêm dưới ánh đèn dịu
+BG-T8-W5-M2	Mưa nhẹ	Tươi vui	Đèn màu phản chiếu trên nền đường ướt
+BG-T8-W5-M3	Mưa nhẹ	Buồn	Mưa nhỏ trên kính, ánh đèn đơn độc
+BG-T8-W5-M4	Mưa nhẹ	Hoài niệm	Phố khuya ướt mưa, đèn vàng nhòe
+BG-T8-W5-M5	Mưa nhẹ	Tập trung	Mưa đều, nền xanh đen tối giản
+BG-T8-W6-M1	Mưa lớn	Bình yên	Mưa đêm ngoài ô cửa, ánh đèn ấm
+BG-T8-W6-M2	Mưa lớn	Tươi vui	Mưa đêm phản chiếu đèn thành phố
+BG-T8-W6-M3	Mưa lớn	Buồn	Con đường trống dưới màn mưa dày
+BG-T8-W6-M4	Mưa lớn	Hoài niệm	Đèn đường cũ xuyên cơn mưa đêm
+BG-T8-W6-M5	Mưa lớn	Tập trung	Dòng mưa rõ trên kính, ánh xanh lạnh
+BG-T8-W7-M1	Sương mù	Bình yên	Sương khuya phủ đồng cỏ dưới trăng
+BG-T8-W7-M2	Sương mù	Tươi vui	Đèn ấm xuyên màn sương đêm
+BG-T8-W7-M3	Sương mù	Buồn	Con đường chìm trong sương đen xám
+BG-T8-W7-M4	Sương mù	Hoài niệm	Đèn vàng mờ trong lớp sương khuya
+BG-T8-W7-M5	Sương mù	Tập trung	Sương xanh đậm, ánh sáng tối thiểu

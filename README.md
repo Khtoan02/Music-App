@@ -1,104 +1,83 @@
-# 🎵 AuraBeat - App Nghe Nhạc Theo Thời Tiết, Cảm Xúc & Thời Gian
+# 🎵 AuraBeat - 4K Ultra HD Living Weather & Ambient Music App
 
-Ứng dụng web nghe nhạc thông minh cá nhân chạy trên môi trường ServBay, tự động định vị tọa độ, xác định thời tiết và khung giờ trong ngày theo thời gian thực để gợi ý danh sách nhạc phù hợp nhất từ YouTube.
-
----
-
-## 🌟 Tính Năng Nổi Bật
-
-1. **Định vị & Thời tiết chính xác (High Accuracy Weather & Geolocation):**
-   - Sử dụng HTML5 Geolocation API kết hợp Open-Meteo API (cập nhật theo phút, chuẩn mã WMO quốc tế).
-   - Tự động nhận diện tình trạng thời tiết: Nắng rực rỡ, Trời mây râm mát, Mưa phùn, Mưa rào, Dông bão sét, Gió buốt.
-   - Nhận diện địa danh, nhiệt độ, độ ẩm và tốc độ gió tại vị trí của bạn.
-
-2. **Cảm biến Thời Gian Thực (Temporal Rhythm):**
-   - Đồng hồ số và phân loại 7 khung thời gian trong ngày:
-     - *Bình minh (05:00 - 07:00)*: Nhẹ nhàng, khởi đầu ngày mới
-     - *Buổi sáng (07:00 - 11:30)*: Năng lượng, tỉnh táo làm việc
-     - *Buổi trưa (11:30 - 14:00)*: Thư thái, nghỉ ngơi
-     - *Buổi chiều (14:00 - 18:00)*: Cà phê chiều, tập trung hoàn tất việc
-     - *Hoàng hôn (18:00 - 19:00)*: Lãng mạn, êm đềm
-     - *Buổi tối (19:00 - 23:00)*: Thư giãn, chill
-     - *Đêm khuya (23:00 - 05:00)*: Tĩnh mịch, suy tư, lofi & ru ngủ
-
-3. **Thuật toán Gợi ý Đa Chiều (Recommendation Matrix):**
-   - Kết hợp 3 yếu tố: `[Thời tiết] × [Thời gian] × [Tâm trạng]` để tính điểm tương thích (Match Score) cho từng bản nhạc.
-   - 7 trạng thái cảm xúc: *Tự động cảm biến, Chill / Thư giãn, Tập trung làm việc, Trầm lắng / Tâm trạng, Năng động / Vui vẻ, Lãng mạn, Ngủ ngon / Bình yên*.
-   - Hỗ trợ lọc theo thể loại: *Tất cả, Nhạc Việt (V-Pop / Indie / Acoustic), Quốc Tế (US-UK / Lofi Girl), Không Lời (Piano / Study Jazz)*.
-
-4. **Trình phát YouTube Player Cao Cấp:**
-   - Điều khiển đầy đủ: Play/Pause, Next, Previous, Tua thanh tiến trình (Seek), Âm lượng, Trộn bài (Shuffle), Lặp lại (Repeat).
-   - Đĩa than quay hoạt họa (Vinyl Record) & Equalizer sóng nhạc động theo nhịp phát.
-   - Nút bật/tắt khung xem Video MV YouTube tùy thích.
-   - Hỗ trợ dán bất kỳ link YouTube hoặc ID bài hát yêu thích để phát ngay lập tức.
-
-5. **Bộ Trộn Âm Thanh Môi Trường Tự Nhiên (Ambient Nature Mixer):**
-   - Sinh âm thanh mượt mà trực tiếp bằng Web Audio API (không tốn băng thông, không giật lag):
-     - 🌧️ Tiếng Mưa rơi (Rain)
-     - 🍃 Gió mát (Wind)
-     - ⚡ Sấm chớp rền vang (Thunder)
-     - 🔥 Lửa trại bập bùng (Campfire)
-     - 🌊 Sóng biển dạt dào (Ocean Waves)
-   - Có thể bật chạy đồng thời cùng nhạc YouTube để tạo không gian chill sâu nhất.
-
-6. **Hiệu Ứng Thị Giác Đổi Theo Thời Tiết (Dynamic Atmosphere Canvas):**
-   - Hạt mưa rơi trên màn hình khi trời mưa / bão.
-   - Đom đóm / ánh sao lấp lánh khi về đêm.
-   - Vệt sáng ấm áp lơ lửng khi trời nắng.
-   - Tone màu nền chuyển biến mượt mà theo từng trạng thái thời tiết.
-
-7. **Bộ Thử Nghiệm Mô Phỏng (Simulation Sandbox):**
-   - Cho phép bạn thử nghe nhạc ngày mưa rào hoặc đêm khuya bất kỳ lúc nào dù ngoài trời đang là buổi trưa nắng gắt.
+Ứng dụng web nghe nhạc và thưởng thức hình nền sống động 4K theo thời gian thực, tự động thích ứng với **280 bối cảnh môi trường đa chiều** (`[8 Khung Giờ] × [7 Kiểu Thời Tiết] × [5 Trạng Thái Cảm Xúc]`).
 
 ---
 
-## 🚀 Cách Mở Ứng Dụng Trên ServBay
+## 🌟 Trải Nghiệm & Tính Năng Đột Phá
 
-Bạn có thể truy cập ứng dụng ngay trên trình duyệt bằng một trong các cách sau:
+1. **Thiết Kế Tối Giản Ultra-Zen (Zen Minimalist Layout):**
+   - **Màn hình trung tâm:** Dành trọn vẹn cho đồng hồ số điện tử siêu nét (Digital Clock), ngày tháng tiếng Việt chuẩn xác và một câu danh ngôn / thơ ngữ cảnh tinh tế (Contextual Quote).
+   - **Thanh điều khiển đáy đồng nhất (Unified Bottom Dock):** Gom toàn bộ định vị GPS, thời tiết theo thời gian thực, huy hiệu mã bối cảnh (Matrix Badge), nút chuyển cảnh 4K, bộ chọn cảm xúc (Mood Pills), và trình phát nhạc vào một thanh dock kính mờ sang trọng.
+   - **Hình ảnh 4K nguyên bản (Pure 4K Original Clarity):** Giữ nguyên độ sắc nét và màu sắc gốc của ảnh chất lượng cao 4K/3K, không dùng lớp phủ tối màu (overlay/tint) để bạn ngắm nhìn cảnh sắc chân thực nhất.
 
-1. **Địa chỉ ServBay trực tiếp:**
-   👉 [https://servbay.host/music/](https://servbay.host/music/)
+2. **Ma Trận 280 Bối Cảnh Toàn Diện (Matrix 280 Grid):**
+   - Công thức: $8 \text{ Khung giờ } (T_1..T_8) \times 7 \text{ Thời tiết } (W_1..W_7) \times 5 \text{ Cảm xúc } (M_1..M_5) = 280 \text{ trường hợp}$.
+   - **8 Khung giờ:**
+     - `T1`: Rạng sáng (04:00–06:00)
+     - `T2`: Sáng sớm (06:00–08:00)
+     - `T3`: Buổi sáng (08:00–11:00)
+     - `T4`: Buổi trưa (11:00–13:00)
+     - `T5`: Buổi chiều (13:00–16:00)
+     - `T6`: Chiều tà / Hoàng hôn (16:00–18:00)
+     - `T7`: Buổi tối (18:00–21:00)
+     - `T8`: Đêm khuya (21:00–04:00)
+   - **7 Kiểu thời tiết:**
+     - `W1`: Trời trong
+     - `W2`: Nắng gắt
+     - `W3`: Mây thưa
+     - `W4`: Âm u
+     - `W5`: Mưa nhẹ
+     - `W6`: Mưa lớn
+     - `W7`: Sương mù
+   - **5 Trạng thái cảm xúc:**
+     - `M1`: Bình yên
+     - `M2`: Tươi vui
+     - `M3`: Buồn
+     - `M4`: Hoài niệm
+     - `M5`: Tập trung
 
-2. **Hoặc mở trực tiếp file HTML:**
-   👉 Nhấp đúp chuột vào file `index.html` trong thư mục:
-   `/Applications/ServBay/www/music/index.html`
+3. **Kho Hình Ảnh 4K & Âm Nhạc Tuyển Chọn 100% Khả Dụng:**
+   - Mỗi bối cảnh trong 280 trường hợp sở hữu **2–3 hình nền 4K chuẩn sắc nét** đúng với mô tả chi tiết của từng khoảnh khắc.
+   - Sở hữu **5–8 bản nhạc tuyển chọn** cho từng bối cảnh, 100% đã được kiểm định khả dụng nhúng (oEmbed 200 OK) trên YouTube Player, loại bỏ hoàn toàn lỗi bản quyền 101/150/404.
 
-*(Lưu ý: Khi trình duyệt hỏi xin quyền truy cập vị trí Geolocation, hãy chọn **Allow / Cho phép** để app định vị chính xác vị trí và thời tiết của bạn).*
+4. **Chuyển Đổi Trạng Thái Hoàn Toàn Tự Động (Autonomous Transition):**
+   - Hệ thống tự nhận diện sự chuyển giao của thời gian (ví dụ: từ chiều tà sang hoàng hôn lúc 18:00, sang đêm khuya lúc 21:00) và cập nhật thời tiết mỗi 3 phút từ Open-Meteo API.
+   - **Tự động chuyển đổi hình nền, quote thơ và hàng đợi bài hát mượt mà không cần load lại trang!**
+   - Khi gập mở laptop hoặc quay lại tab trình duyệt, hệ thống tự động đồng bộ tức thì.
+
+5. **Trình Tạo Âm Thanh Môi Trường (Procedural Web Audio Rain):**
+   - Tạo tiếng mưa rơi tự nhiên bằng thuật toán Web Audio API, hòa quyện cùng bản nhạc đang phát để tăng cảm giác thư giãn sâu.
 
 ---
 
-## 📁 Cấu Trúc Thư Mục
+## 🚀 Cách Chạy Ứng Dụng
+
+- **Địa chỉ ServBay trực tiếp:** 👉 [https://servbay.host/music/](https://servbay.host/music/)
+- **Hoặc mở file trực tiếp:** `/Applications/ServBay/www/music/index.html`
+
+---
+
+## 📁 Cấu Trúc Dự Án
 
 ```
 /Applications/ServBay/www/music/
-├── index.html             # Giao diện chính (Tailwind CSS + Glassmorphism)
+├── index.html                  # Giao diện chính Ultra-Zen
 ├── css/
-│   └── styles.css         # Hiệu ứng visualizer, chuyển màu theme, animations
+│   └── styles.css              # Kiểu dáng giao diện kính mờ & typography
+├── data/
+│   ├── matrix_280.json         # Cơ sở dữ liệu 280 bối cảnh hoàn chỉnh
+│   ├── master_verified_songs.json # Danh mục 110+ bài hát YouTube đã xác thực
+│   └── verified_photos.json    # Danh mục ảnh 4K Unsplash đã kiểm định
 ├── js/
-│   ├── weather.js         # Module định vị GPS & Open-Meteo Weather API
-│   ├── time.js            # Module đồng hồ số & chu kỳ thời gian trong ngày
-│   ├── ambient-audio.js   # Bộ tổng hợp âm thanh thiên nhiên (Web Audio API)
-│   ├── playlist-data.js   # Kho bài hát tuyển chọn & thuật toán chấm điểm Match Score
-│   ├── player.js          # Bộ điều khiển YouTube IFrame API
-│   └── app.js             # Điều phối kết nối toàn bộ hệ thống & hiệu ứng Canvas
-└── README.md              # Tài liệu hướng dẫn sử dụng
-```
-
----
-
-## ➕ Cách Thêm Bài Hát Yêu Thích Của Bạn
-
-Để thêm bài hát mới vào kho gợi ý tự động, bạn chỉ cần mở file [`js/playlist-data.js`](file:///Applications/ServBay/www/music/js/playlist-data.js) và bổ sung một object vào mảng `PLAYLIST_DATA`:
-
-```javascript
-{
-  id: "ID_VIDEO_YOUTUBE",       // Ví dụ: "g6fnFALEseI" từ youtube.com/watch?v=g6fnFALEseI
-  title: "Tên Bài Hát",
-  artist: "Tên Ca Sĩ",
-  duration: "4:15",
-  category: "vietnam",           // "vietnam" | "international" | "instrumental"
-  weathers: ["rainy", "cloudy"], // ["sunny", "cloudy", "rainy", "drizzle", "thunder", "cold"]
-  times: ["sunset", "evening"],  // ["dawn", "morning", "noon", "afternoon", "sunset", "evening", "midnight"]
-  moods: ["chill", "romantic"]   // ["chill", "focus", "melancholy", "energetic", "romantic", "sleep"]
-}
+│   ├── matrix-data.js          # MatrixEngine & dữ liệu ma trận 280 bối cảnh
+│   ├── time.js                 # Bộ đếm thời gian thực & phân loại khung giờ T1..T8
+│   ├── weather.js              # Định vị GPS & Open-Meteo API
+│   ├── player.js               # Trình phát YouTube IFrame API với cơ chế tự phục hồi
+│   ├── ambient-audio.js        # Bộ tổng hợp âm thanh mưa Web Audio API
+│   └── app.js                  # Bộ não điều phối chuyển đổi bối cảnh tự động
+├── scripts/
+│   ├── raw_descriptions.txt   # 280 bản mô tả bối cảnh chi tiết gốc
+│   └── build_280_matrix.py     # Script tự động xây dựng & kiểm định ma trận
+└── README.md
 ```
