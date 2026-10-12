@@ -1,0 +1,28 @@
+{
+  "name": "AuraBeat - 4K Living Weather & Ambient Music",
+  "short_name": "AuraBeat",
+  "description": "Autonomous Atmospheric Music Experience with 4K Living Visuals and Solar Synchronization",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0a0f1d",
+  "theme_color": "#0a0f1d",
+  "icons": [
+    {
+      "src": "favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
