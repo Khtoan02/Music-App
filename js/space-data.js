@@ -2018,907 +2018,1058 @@ const MASTER_SONGS = {
     "id": "TURbeWK2wwg",
     "title": "Coffee Shop Relaxing Instrumental BGM",
     "artist": "Cafe Music",
-    "vibe": "jazz"
+    "vibe": "jazz",
+    "origin": "intl"
   },
   "Zzn9-ATB9aU": {
     "id": "Zzn9-ATB9aU",
     "title": "Nàng Thơ (Acoustic Guitar)",
     "artist": "Hoàng Dũng",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "anpql8S469Q": {
     "id": "anpql8S469Q",
     "title": "Relaxing Studio Ghibli Piano Collection",
     "artist": "Calm Piano Cafe",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "LZN4I3K8SC0": {
     "id": "LZN4I3K8SC0",
     "title": "Cứ Chill Thôi",
     "artist": "Chillies",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "lSD_L-xic9o": {
     "id": "lSD_L-xic9o",
     "title": "From The Start (Acoustic Jazz)",
     "artist": "Laufey",
-    "vibe": "jazz"
+    "vibe": "jazz",
+    "origin": "intl"
   },
   "akgNYX8i9Xs": {
     "id": "akgNYX8i9Xs",
     "title": "Chuyện Rằng",
     "artist": "Thịnh Suy",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "F5tS5m86bOI": {
     "id": "F5tS5m86bOI",
     "title": "Lạ Lùng (Original Acoustic)",
     "artist": "Vũ.",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "3UyotSd-Cp4": {
     "id": "3UyotSd-Cp4",
     "title": "Ánh Nắng Của Anh",
     "artist": "Đức Phúc",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "Ej8RhiSv2-4": {
     "id": "Ej8RhiSv2-4",
     "title": "Falling Behind",
     "artist": "Laufey",
-    "vibe": "jazz"
+    "vibe": "jazz",
+    "origin": "intl"
   },
   "_YzngEllRgM": {
     "id": "_YzngEllRgM",
     "title": "Có Em Chờ (Acoustic Chill)",
     "artist": "MIN ft. Mr A",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "RWopiMiKKwI": {
     "id": "RWopiMiKKwI",
     "title": "Studio Ghibli Relaxing Guitar Collection",
     "artist": "Joe Hisaishi Guitar",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "TK1Ij_-mank": {
     "id": "TK1Ij_-mank",
     "title": "One Summer's Day (Piano)",
     "artist": "Joe Hisaishi",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "jO2viLEW-1A": {
     "id": "jO2viLEW-1A",
     "title": "comethru (Acoustic Chill)",
     "artist": "Jeremy Zucker",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "PWK8EuUSMSI": {
     "id": "PWK8EuUSMSI",
     "title": "Easy",
     "artist": "Mac Ayres",
-    "vibe": "jazz"
+    "vibe": "jazz",
+    "origin": "intl"
   },
   "jfKfPfyJRdk": {
     "id": "jfKfPfyJRdk",
     "title": "Lofi Girl - Chill Beats for Cloudy Days",
     "artist": "Lofi Girl",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "ixdSsW5n2rI": {
     "id": "ixdSsW5n2rI",
     "title": "Bước Qua Nhau",
     "artist": "Vũ.",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "tO4dxvguQDk": {
     "id": "tO4dxvguQDk",
     "title": "Don't Know Why",
     "artist": "Norah Jones",
-    "vibe": "jazz"
+    "vibe": "jazz",
+    "origin": "intl"
   },
   "_ngKuGvZvrU": {
     "id": "_ngKuGvZvrU",
     "title": "Ngày Mai Em Đi (Acoustic Live)",
     "artist": "Lê Hiếu ft. Soobin",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "UCXao7aTDQM": {
     "id": "UCXao7aTDQM",
     "title": "Tháng Tư Là Lời Nói Dối Của Em",
     "artist": "Hà Anh Tuấn",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "ucRVDoFkcxc": {
     "id": "ucRVDoFkcxc",
     "title": "Nothing",
     "artist": "Bruno Major",
-    "vibe": "jazz"
+    "vibe": "jazz",
+    "origin": "intl"
   },
   "1nml-_YE2OU": {
     "id": "1nml-_YE2OU",
     "title": "The Most Beautiful Thing",
     "artist": "Bruno Major",
-    "vibe": "jazz"
+    "vibe": "jazz",
+    "origin": "intl"
   },
   "btIQvYcLNoI": {
     "id": "btIQvYcLNoI",
     "title": "Location Unknown (Brooklyn Session)",
     "artist": "HONNE",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "lB4PRX737-0": {
     "id": "lB4PRX737-0",
     "title": "Merry-Go-Round of Life (Piano)",
     "artist": "Joe Hisaishi",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "20046_vi1vA": {
     "id": "20046_vi1vA",
     "title": "Warm Autumn Coffee Lofi Beats",
     "artist": "Lofi Cafe",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "2OEL4P1Rz04": {
     "id": "2OEL4P1Rz04",
     "title": "Cozy Stormy Night - Warm Jazz & Thunder",
     "artist": "Cozy Jazz BGM",
-    "vibe": "jazz"
+    "vibe": "jazz",
+    "origin": "intl"
   },
   "pDYM_JBAnp4": {
     "id": "pDYM_JBAnp4",
     "title": "Dấu Mưa (Original)",
     "artist": "Trung Quân",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "so6ExplQlaY": {
     "id": "so6ExplQlaY",
     "title": "Kiss The Rain",
     "artist": "Yiruma",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "ntEoGvhoVac": {
     "id": "ntEoGvhoVac",
     "title": "Mascara",
     "artist": "Chillies",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "rm7AG7rqvg8": {
     "id": "rm7AG7rqvg8",
     "title": "Chưa Bao Giờ (Live at Wow Sunset)",
     "artist": "Trung Quân",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "R2LQdh42neg": {
     "id": "R2LQdh42neg",
     "title": "Apocalypse & Dreampop",
     "artist": "Cigarettes After Sex",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "b1kbLwvqugk": {
     "id": "b1kbLwvqugk",
     "title": "Paris in the Rain",
     "artist": "Lauv",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "7maJOI3QMu0": {
     "id": "7maJOI3QMu0",
     "title": "River Flows In You",
     "artist": "Yiruma",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "Qzc_aX8c8g4": {
     "id": "Qzc_aX8c8g4",
     "title": "Dancing With Your Ghost",
     "artist": "Sasha Alex Sloan",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "intl"
   },
   "50VNCymT-Cs": {
     "id": "50VNCymT-Cs",
     "title": "Let Me Down Slowly",
     "artist": "Alec Benjamin",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "intl"
   },
   "PaXKf0JEzEA": {
     "id": "PaXKf0JEzEA",
     "title": "Comptine d'un autre été",
     "artist": "Yann Tiersen",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "vYIYIVmOo3Q": {
     "id": "vYIYIVmOo3Q",
     "title": "Rain & Thunderstorm Lofi Chill Beats",
     "artist": "Lofi Rain",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "eUDVUZZyA0M": {
     "id": "eUDVUZZyA0M",
     "title": "Experience (Live in Milano)",
     "artist": "Ludovico Einaudi",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "4VR-6AS0-l4": {
     "id": "4VR-6AS0-l4",
     "title": "Nuvole Bianche",
     "artist": "Ludovico Einaudi",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "5MU_z4kzZIQ": {
     "id": "5MU_z4kzZIQ",
     "title": "Interstellar Main Theme (Piano Solo)",
     "artist": "Lola Piano",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "CX5f0NcqlMs": {
     "id": "CX5f0NcqlMs",
     "title": "Warm On A Cold Night",
     "artist": "HONNE",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "vVhKA9Av6vA": {
     "id": "vVhKA9Av6vA",
     "title": "Bao Tiền Một Mớ Bình Yên?",
     "artist": "14 Casper & Bon Nghiêm",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "Zu2Spp4nrTM": {
     "id": "Zu2Spp4nrTM",
     "title": "Promise",
     "artist": "Laufey",
-    "vibe": "jazz"
+    "vibe": "jazz",
+    "origin": "intl"
   },
   "Qa622LwgGLY": {
     "id": "Qa622LwgGLY",
     "title": "Lời Tạm Biệt Chưa Nói",
     "artist": "GREY D x Orange x Kai Đinh",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "T0sHaz4H9MQ": {
     "id": "T0sHaz4H9MQ",
     "title": "Vùng Ký Ức",
     "artist": "Chillies",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "cX2uLlc0su4": {
     "id": "cX2uLlc0su4",
     "title": "Đoạn Kết Mới",
     "artist": "Hoàng Dũng",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "tdV_jKCrRUo": {
     "id": "tdV_jKCrRUo",
     "title": "Hẹn Một Mai",
     "artist": "Bùi Anh Tuấn",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "7P9-R_sa0RY": {
     "id": "7P9-R_sa0RY",
     "title": "Painkiller (Live Acoustic)",
     "artist": "Ruel",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "intl"
   },
   "1fueZCTYkpA": {
     "id": "1fueZCTYkpA",
     "title": "Deep Sleep & Insomnia Delta Waves Music",
     "artist": "Body Mind Zone",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "JD-kMIpDfnY": {
     "id": "JD-kMIpDfnY",
     "title": "Lofi Hip Hop Radio - Beats to Sleep/Chill to",
     "artist": "Lofi Girl Sleep",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "9vaLkYElidg": {
     "id": "9vaLkYElidg",
     "title": "Ánh Sao Và Bầu Trời",
     "artist": "T.R.I x Cá",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "UyXngX4kTfE": {
     "id": "UyXngX4kTfE",
     "title": "Tháng Năm (The Playah)",
     "artist": "SOOBIN x SlimV",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "F13eXG8GuhU": {
     "id": "F13eXG8GuhU",
     "title": "Bên Trên Tầng Lầu (Lofi Version)",
     "artist": "Tăng Duy Tân x Zeaplee",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "vn"
   },
   "uBHOIb3pT_E": {
     "id": "uBHOIb3pT_E",
     "title": "Dạ Vũ (Lofi Ambient)",
     "artist": "Tăng Duy Tân",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "vn"
   },
   "4HLumkaPcCI": {
     "id": "4HLumkaPcCI",
     "title": "drunk",
     "artist": "keshi",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "8ulR00x-B1I": {
     "id": "8ulR00x-B1I",
     "title": "right here",
     "artist": "keshi",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "LKZyp2cSAy4": {
     "id": "LKZyp2cSAy4",
     "title": "2 soon",
     "artist": "keshi",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "mtoeTzYKyaQ": {
     "id": "mtoeTzYKyaQ",
     "title": "less of you",
     "artist": "keshi",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "2WfaotSK3mI": {
     "id": "2WfaotSK3mI",
     "title": "Gymnopédie No. 1",
     "artist": "Erik Satie",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "WNcsUNKlAKw": {
     "id": "WNcsUNKlAKw",
     "title": "Clair de Lune",
     "artist": "Debussy",
-    "vibe": "piano"
+    "vibe": "piano",
+    "origin": "intl"
   },
   "GedLli_YXEI": {
     "id": "GedLli_YXEI",
     "title": "Midnight Lofi Hip Hop Radio",
     "artist": "Midnight Lofi",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "1Tl2FtV06qo": {
     "id": "1Tl2FtV06qo",
     "title": "Asian Lofi Radio",
     "artist": "Asian Lofi",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "aG9YL6Semn0": {
     "id": "aG9YL6Semn0",
     "title": "Tuyết Rơi Mùa Hè",
     "artist": "Hà Anh Tuấn",
-    "vibe": "acoustic"
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "NLphEFOyoqM": {
     "id": "NLphEFOyoqM",
     "title": "Let You Break My Heart Again",
     "artist": "Laufey",
-    "vibe": "jazz"
+    "vibe": "jazz",
+    "origin": "intl"
   },
   "uKxWP56VStM": {
     "id": "uKxWP56VStM",
     "title": "all the kids are depressed",
     "artist": "Jeremy Zucker",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "t0WFOnwp3MM": {
     "id": "t0WFOnwp3MM",
-    "title": "Mặt Trời Của Em - Official MV | Phương Ly ft JustaTee",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Mặt Trời Của Em",
+    "artist": "Phương Ly ft. JustaTee",
+    "vibe": "pop",
+    "origin": "vn"
   },
   "HXkh7EOqcQ4": {
     "id": "HXkh7EOqcQ4",
-    "title": "THẰNG ĐIÊN | JUSTATEE x PHƯƠNG LY | OFFICIAL MV",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Thằng Điên",
+    "artist": "JustaTee x Phương Ly",
+    "vibe": "pop",
+    "origin": "vn"
   },
   "W2FRMzCuPzY": {
     "id": "W2FRMzCuPzY",
-    "title": "Ghé Qua - Dick x Tofu x PC [Official Audio]",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Ghé Qua",
+    "artist": "Dick x Tofu x PC",
+    "vibe": "indie",
+    "origin": "vn"
   },
   "ff7dvE-4mMA": {
     "id": "ff7dvE-4mMA",
-    "title": "Ex's Hate Me | B Ray x Masew (Ft AMEE) | Official Lyrics Video",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Ex's Hate Me",
+    "artist": "B Ray x Masew ft. AMEE",
+    "vibe": "pop",
+    "origin": "vn"
   },
   "TKlXc3iywoM": {
     "id": "TKlXc3iywoM",
-    "title": "Da LAB - Một Nhà (Official Lyric Video)",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Một Nhà",
+    "artist": "Da LAB",
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "GgQFO8dL5XQ": {
     "id": "GgQFO8dL5XQ",
-    "title": "Da LAB - Thanh Xuân (Official Music Video)",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Thanh Xuân",
+    "artist": "Da LAB",
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "ghUh0NPHXy8": {
     "id": "ghUh0NPHXy8",
-    "title": "Bài Ka Tuổi Trẻ - TamKa PKL | Official Music Video",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Bài Ka Tuổi Trẻ",
+    "artist": "TamKa PKL",
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "5e7e_KZINA4": {
     "id": "5e7e_KZINA4",
-    "title": "Đen - Đưa Nhau Đi Trốn ft. Linh Cáo [M/V]",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Đưa Nhau Đi Trốn",
+    "artist": "Đen ft. Linh Cáo",
+    "vibe": "indie",
+    "origin": "vn"
   },
   "-nnWBhKZeg0": {
     "id": "-nnWBhKZeg0",
-    "title": "Yêu Là \"Tha Thu\" | Only C | Em Chưa 18 OST | Official Music Video",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Yêu Là Tha Thu",
+    "artist": "Only C",
+    "vibe": "pop",
+    "origin": "vn"
   },
   "S2Cti12XBw4": {
     "id": "S2Cti12XBw4",
-    "title": "Maroon 5 - Sunday Morning",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Sunday Morning",
+    "artist": "Maroon 5",
+    "vibe": "chill",
+    "origin": "intl"
   },
   "WyVfkr6nsrk": {
     "id": "WyVfkr6nsrk",
-    "title": "Ritt Momney - Put Your Records On (Official Video)",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Put Your Records On",
+    "artist": "Ritt Momney",
+    "vibe": "chill",
+    "origin": "intl"
   },
   "U8Z0sI7vWyY": {
     "id": "U8Z0sI7vWyY",
-    "title": "Here Comes The Sun - The Beatles (George’s Vocal & Acoustic Guitars Only)",
-    "artist": "Acoustic Classic",
-    "vibe": "acoustic"
+    "title": "Here Comes The Sun",
+    "artist": "The Beatles",
+    "vibe": "acoustic",
+    "origin": "intl"
   },
   "EkHTsc9PU2A": {
     "id": "EkHTsc9PU2A",
-    "title": "Jason Mraz - I'm Yours (Official Video) [4K Remaster]",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "I'm Yours",
+    "artist": "Jason Mraz",
+    "vibe": "acoustic",
+    "origin": "intl"
   },
   "6k8cpUkKK4c": {
     "id": "6k8cpUkKK4c",
-    "title": "Bruno Mars - Count on Me (Official Lyric Video)",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Count On Me",
+    "artist": "Bruno Mars",
+    "vibe": "acoustic",
+    "origin": "intl"
   },
   "zshxAlfZYAI": {
     "id": "zshxAlfZYAI",
-    "title": "Noo Phước Thịnh - Chạm Khẽ Tim Anh Một Chút Thôi (Official Music Video)",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Chạm Khẽ Tim Anh Một Chút Thôi",
+    "artist": "Noo Phước Thịnh",
+    "vibe": "pop",
+    "origin": "vn"
   },
   "DZDYZ9nRHfU": {
     "id": "DZDYZ9nRHfU",
-    "title": "Đức Phúc - Hết Thương Cạn Nhớ (Official Music Video)",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Hết Thương Cạn Nhớ",
+    "artist": "Đức Phúc",
+    "vibe": "pop",
+    "origin": "vn"
   },
   "vCIc1g_4JWM": {
     "id": "vCIc1g_4JWM",
-    "title": "Phía Sau Một Cô Gái - Soobin Hoàng Sơn (Official Music Video 4K)",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Phía Sau Một Cô Gái",
+    "artist": "Soobin Hoàng Sơn",
+    "vibe": "pop",
+    "origin": "vn"
   },
   "X2TxXIqbHhw": {
     "id": "X2TxXIqbHhw",
-    "title": "Lặng Lẽ Tổn Thương | Mr. Siro - Day 7 Fanconcert Hà Nội",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Lặng Lẽ Tổn Thương",
+    "artist": "Mr. Siro",
+    "vibe": "ballad",
+    "origin": "vn"
   },
   "TfDHpsZQYeE": {
     "id": "TfDHpsZQYeE",
-    "title": "Dưới Những Cơn Mưa - Mr.Siro (Lyrics Video)",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Dưới Những Cơn Mưa",
+    "artist": "Mr. Siro",
+    "vibe": "ballad",
+    "origin": "vn"
   },
   "ilKg0DZrOwY": {
     "id": "ilKg0DZrOwY",
-    "title": "AI MANG CÔ ĐƠN ĐI - ICM x APJ | OFFICIAL AUDIO",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Ai Mang Cô Đơn Đi",
+    "artist": "K-ICM x APJ",
+    "vibe": "ballad",
+    "origin": "vn"
   },
   "X-GCJwz4PnY": {
     "id": "X-GCJwz4PnY",
-    "title": "Buồn Thì Cứ Khóc Đi - Lynk Lee | Official MV",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Buồn Thì Cứ Khóc Đi",
+    "artist": "Lynk Lee",
+    "vibe": "ballad",
+    "origin": "vn"
   },
   "kV3famkRaA4": {
     "id": "kV3famkRaA4",
-    "title": "TÂM SỰ TUỔI 30 | TRỊNH THĂNG BÌNH | OST ÔNG NGOẠI TUỔI 30",
-    "artist": "Acoustic Trữ Tình",
-    "vibe": "vintage"
+    "title": "Tâm Sự Tuổi 30",
+    "artist": "Trịnh Thăng Bình",
+    "vibe": "acoustic",
+    "origin": "vn"
   },
   "zABLecsR5UE": {
     "id": "zABLecsR5UE",
-    "title": "Lewis Capaldi - Someone You Loved",
-    "artist": "Acoustic Classic",
-    "vibe": "acoustic"
+    "title": "Someone You Loved",
+    "artist": "Lewis Capaldi",
+    "vibe": "acoustic",
+    "origin": "intl"
   },
   "mtf7hC17IBM": {
     "id": "mtf7hC17IBM",
-    "title": "Kodaline - All I Want (Part 1)",
-    "artist": "Acoustic Classic",
-    "vibe": "acoustic"
+    "title": "All I Want",
+    "artist": "Kodaline",
+    "vibe": "acoustic",
+    "origin": "intl"
   },
   "k4V3Mo61fJM": {
     "id": "k4V3Mo61fJM",
-    "title": "Coldplay - Fix You (Official Video)",
-    "artist": "Acoustic Classic",
-    "vibe": "acoustic"
+    "title": "Fix You",
+    "artist": "Coldplay",
+    "vibe": "acoustic",
+    "origin": "intl"
   },
   "FvOpPeKSf_4": {
     "id": "FvOpPeKSf_4",
-    "title": "Joji -  Glimpse of Us",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Glimpse of Us",
+    "artist": "Joji",
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "K3Qzzggn--s": {
     "id": "K3Qzzggn--s",
-    "title": "Joji - SLOW DANCING IN THE DARK",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "SLOW DANCING IN THE DARK",
+    "artist": "Joji",
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "IQqaN5aRZ_Q": {
     "id": "IQqaN5aRZ_Q",
-    "title": "CÒN TUỔI NÀO CHO EM - Lân Nhã 「 Official Music Video 」",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Còn Tuổi Nào Cho Em",
+    "artist": "Lân Nhã",
+    "vibe": "vintage",
+    "origin": "vn"
   },
   "HUEzO7WY_3Y": {
     "id": "HUEzO7WY_3Y",
-    "title": "Hà An Huy - DIỄM XƯA | Musique de Salon \"Đêm nhạc Trịnh Công Sơn\" 2026",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Diễm Xưa",
+    "artist": "Hà An Huy",
+    "vibe": "vintage",
+    "origin": "vn"
   },
   "5KVZS1ulb50": {
     "id": "5KVZS1ulb50",
-    "title": "Hạ Trắng  | Nhạc Sĩ: Trịnh Công Sơn | Khánh Ly",
-    "artist": "Acoustic Trữ Tình",
-    "vibe": "vintage"
+    "title": "Hạ Trắng",
+    "artist": "Khánh Ly (Trịnh Công Sơn)",
+    "vibe": "vintage",
+    "origin": "vn"
   },
   "lpKFtStuYvs": {
     "id": "lpKFtStuYvs",
-    "title": "Ru Em Từng Ngón Xuân Nồng (Sáng Tác: Trịnh Công Sơn) - KHÁNH LY | OFFICIAL",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Ru Em Từng Ngón Xuân Nồng",
+    "artist": "Khánh Ly (Trịnh Công Sơn)",
+    "vibe": "vintage",
+    "origin": "vn"
   },
   "PbOb4HFawM0": {
     "id": "PbOb4HFawM0",
-    "title": "EM CÒN NHỚ HAY EM ĐÃ QUÊN - LÂN NHÃ 「 Official Music Video 」",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Em Còn Nhớ Hay Em Đã Quên",
+    "artist": "Lân Nhã",
+    "vibe": "vintage",
+    "origin": "vn"
   },
   "_7WukrlfcyI": {
     "id": "_7WukrlfcyI",
-    "title": "Nỗi lòng người đi | Anh Bằng - Tuấn Ngọc & Tấn Minh",
-    "artist": "Acoustic Trữ Tình",
-    "vibe": "vintage"
+    "title": "Nỗi Lòng Người Đi",
+    "artist": "Tuấn Ngọc & Tấn Minh",
+    "vibe": "vintage",
+    "origin": "vn"
   },
   "FjTmEApbUOc": {
     "id": "FjTmEApbUOc",
-    "title": "Chế Linh | Thành Phố Buồn (Lam Phương) | Làng Văn Video 12 - Nỗi Buồn Hoa Phượng | Official MV",
-    "artist": "Acoustic Trữ Tình",
-    "vibe": "vintage"
+    "title": "Thành Phố Buồn",
+    "artist": "Chế Linh",
+    "vibe": "vintage",
+    "origin": "vn"
   },
   "zk0EryONOfs": {
     "id": "zk0EryONOfs",
-    "title": "PBN 38 | Tuấn Ngọc - Riêng Một Góc Trời",
-    "artist": "Acoustic Trữ Tình",
-    "vibe": "vintage"
+    "title": "Riêng Một Góc Trời",
+    "artist": "Tuấn Ngọc",
+    "vibe": "vintage",
+    "origin": "vn"
   },
   "chiavKkZW6s": {
     "id": "chiavKkZW6s",
-    "title": "\"Chờ Người Nơi Ấy\" (OST Mỹ Nhân Kế - phim Tết 2013) - Uyên Linh [Full MV]",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Chờ Người Nơi Ấy",
+    "artist": "Uyên Linh",
+    "vibe": "ballad",
+    "origin": "vn"
   },
   "JYuyWrkwpok": {
     "id": "JYuyWrkwpok",
-    "title": "Frank Sinatra - Fly Me To The Moon (Audio) ft. Count Basie And His Orchestra",
-    "artist": "Jazz Classic",
-    "vibe": "jazz"
+    "title": "Fly Me To The Moon",
+    "artist": "Frank Sinatra",
+    "vibe": "jazz",
+    "origin": "intl"
   },
   "ZEMCeymW1Ow": {
     "id": "ZEMCeymW1Ow",
-    "title": "The Autumn Leaves By Nat King Cole",
-    "artist": "Jazz Classic",
-    "vibe": "jazz"
+    "title": "Autumn Leaves",
+    "artist": "Nat King Cole",
+    "vibe": "jazz",
+    "origin": "intl"
   },
   "MqazV4hbu8E": {
     "id": "MqazV4hbu8E",
-    "title": "Elvis Presley - Can't Help Falling in Love (Lyrics)",
-    "artist": "Acoustic Classic",
-    "vibe": "acoustic"
+    "title": "Can't Help Falling in Love",
+    "artist": "Elvis Presley",
+    "vibe": "acoustic",
+    "origin": "intl"
   },
   "wXTJBr9tt8Q": {
     "id": "wXTJBr9tt8Q",
-    "title": "The Beatles - Yesterday (Live With Spoken Word Intro, New York) [Remastered 2015]",
-    "artist": "Acoustic Classic",
-    "vibe": "acoustic"
+    "title": "Yesterday",
+    "artist": "The Beatles",
+    "vibe": "acoustic",
+    "origin": "intl"
   },
   "hwZNL7QVJjE": {
     "id": "hwZNL7QVJjE",
-    "title": "Ben E. King - Stand By Me (Audio)",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Stand By Me",
+    "artist": "Ben E. King",
+    "vibe": "acoustic",
+    "origin": "intl"
   },
   "sAcj8me7wGI": {
     "id": "sAcj8me7wGI",
     "title": "Relaxing Piano Music For Study and Focus",
     "artist": "Lofi Ambience",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "f02mOEt11OQ": {
     "id": "f02mOEt11OQ",
     "title": "code-fi / lofi beats to code/relax to",
     "artist": "Lofi Ambience",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "tDY6AkWFytQ": {
     "id": "tDY6AkWFytQ",
-    "title": "Deep Work Music | Background Ambience for Focus & Productivity",
-    "artist": "V-Pop / Indie",
-    "vibe": "acoustic"
+    "title": "Deep Work Ambient Focus",
+    "artist": "Deep Focus BGM",
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "WPni755-Krg": {
     "id": "WPni755-Krg",
     "title": "Study Music Alpha Waves: Relaxing Studying Music, Brain Power, Focus Concentration Music, ☯161",
     "artist": "Lofi Ambience",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "am1VJP0RnmQ": {
     "id": "am1VJP0RnmQ",
     "title": "Flow State - Chillstep & Synthwave for Deep Focus | Coding Session",
     "artist": "Lofi Ambience",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "9M4jZuqdw04": {
     "id": "9M4jZuqdw04",
     "title": "In the Zone 🐾 [lofi focus beats / work mix]",
     "artist": "Lofi Ambience",
-    "vibe": "lofi"
+    "vibe": "lofi",
+    "origin": "intl"
   },
   "UfcAVejslrU": {
     "id": "UfcAVejslrU",
     "title": "Weightless (Official Audio)",
     "artist": "Marconi Union",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "hT_nvWreIhg": {
     "id": "hT_nvWreIhg",
     "title": "Counting Stars",
     "artist": "OneRepublic",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "btPJPFnesV4": {
     "id": "btPJPFnesV4",
     "title": "Survivor - Eye Of The Tiger",
     "artist": "Survivor",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "uelHwf8o7_U": {
     "id": "uelHwf8o7_U",
     "title": "Eminem - Love The Way You Lie ft. Rihanna",
     "artist": "Eminem",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "09R8_2nJtjg": {
     "id": "09R8_2nJtjg",
     "title": "Maroon 5 - Sugar",
     "artist": "Maroon 5",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "YqeW9_5kURI": {
     "id": "YqeW9_5kURI",
     "title": "Major Lazer & DJ Snake - Lean On",
     "artist": "Major Lazer",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "2vjPBrBU-TM": {
     "id": "2vjPBrBU-TM",
     "title": "Sia - Chandelier (Official Video)",
     "artist": "Sia",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "CevxZvSJLk8": {
     "id": "CevxZvSJLk8",
     "title": "Katy Perry - Roar",
     "artist": "Katy Perry",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "bKDdT_nyP54": {
     "id": "bKDdT_nyP54",
     "title": "Avicii - Wake Me Up",
     "artist": "Avicii",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "hLQl3WQQoQ0": {
     "id": "hLQl3WQQoQ0",
     "title": "Adele - Someone Like You",
     "artist": "Adele",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "fJ9rUzIMcZQ": {
     "id": "fJ9rUzIMcZQ",
     "title": "Queen - Bohemian Rhapsody",
     "artist": "Queen",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "04854XqcfCY": {
     "id": "04854XqcfCY",
     "title": "Coldplay - Hymn For The Weekend",
     "artist": "Coldplay",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "RBumgq5yVrA": {
     "id": "RBumgq5yVrA",
     "title": "Passenger - Let Her Go",
     "artist": "Passenger",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "L3wKzyIN1yk": {
     "id": "L3wKzyIN1yk",
     "title": "Vance Joy - Riptide",
     "artist": "Vance Joy",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "YQHsXMglC9A": {
     "id": "YQHsXMglC9A",
     "title": "Adele - Hello",
     "artist": "Adele",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "h_D3VFfhvs4": {
     "id": "h_D3VFfhvs4",
     "title": "Ed Sheeran - Perfect",
     "artist": "Ed Sheeran",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "lp-EO5I60KA": {
     "id": "lp-EO5I60KA",
     "title": "Ed Sheeran - Thinking Out Loud",
     "artist": "Ed Sheeran",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "YkADj0TPrJA": {
     "id": "YkADj0TPrJA",
     "title": "Phil Collins - In The Air Tonight",
     "artist": "Phil Collins",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "J_ub7Etch2U": {
     "id": "J_ub7Etch2U",
     "title": "Đen - Trốn Tìm ft. MTV Band",
     "artist": "Đen Vâu",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "vn"
   },
   "Llw9Q6akRo4": {
     "id": "Llw9Q6akRo4",
     "title": "Đen - Bài Này Chill Phết ft. MIN",
     "artist": "Đen Vâu",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "vn"
   },
   "k1-TrAvp_xs": {
     "id": "k1-TrAvp_xs",
     "title": "The Girl From Ipanema - Stan Getz & Astrud Gilberto",
     "artist": "Astrud Gilberto",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "vmDDOFXSgAs": {
     "id": "vmDDOFXSgAs",
     "title": "Louis Armstrong - What A Wonderful World",
     "artist": "Louis Armstrong",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "sElE_BfQ67s": {
     "id": "sElE_BfQ67s",
     "title": "The xx - Intro",
     "artist": "The xx",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "4NRXx6U8ABQ": {
     "id": "4NRXx6U8ABQ",
     "title": "The Weeknd - Blinding Lights",
     "artist": "The Weeknd",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "D1NdGBldg3w": {
     "id": "D1NdGBldg3w",
     "title": "Beach House - Space Song",
     "artist": "Beach House",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "JGwWNGJdvx8": {
     "id": "JGwWNGJdvx8",
     "title": "Ed Sheeran - Shape of You",
     "artist": "Ed Sheeran",
-    "vibe": "chill"
+    "vibe": "chill",
+    "origin": "intl"
   },
   "e-ORhEE9VVg": {
     "id": "e-ORhEE9VVg",
     "title": "Taylor Swift - Blank Space",
     "artist": "Taylor Swift",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "nfWlot6h_JM": {
     "id": "nfWlot6h_JM",
     "title": "Taylor Swift - Shake It Off",
     "artist": "Taylor Swift",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "3tmd-ClpJxA": {
     "id": "3tmd-ClpJxA",
     "title": "Taylor Swift - Look What You Made Me Do",
     "artist": "Taylor Swift",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "K5KAc5CoCuk": {
     "id": "K5KAc5CoCuk",
     "title": "Indila - Dernière Danse",
     "artist": "Indila",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "k2qgadSvNyU": {
     "id": "k2qgadSvNyU",
     "title": "Dua Lipa - New Rules",
     "artist": "Dua Lipa",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "1w7OgIMMRc4": {
     "id": "1w7OgIMMRc4",
     "title": "Guns N Roses - Sweet Child O Mine",
     "artist": "Guns N Roses",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "7wtfhZwyrcc": {
     "id": "7wtfhZwyrcc",
     "title": "Imagine Dragons - Believer",
     "artist": "Imagine Dragons",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "fKopy74weus": {
     "id": "fKopy74weus",
     "title": "Imagine Dragons - Thunder",
     "artist": "Imagine Dragons",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "ktvTqknDobU": {
     "id": "ktvTqknDobU",
     "title": "Imagine Dragons - Radioactive",
     "artist": "Imagine Dragons",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "mWRsgZuwf_8": {
     "id": "mWRsgZuwf_8",
     "title": "Imagine Dragons - Demons",
     "artist": "Imagine Dragons",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "nfs8NYg7yQM": {
     "id": "nfs8NYg7yQM",
     "title": "Maroon 5 - Memories",
     "artist": "Maroon 5",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "aJOTlE1K90k": {
     "id": "aJOTlE1K90k",
     "title": "Maroon 5 - Girls Like You ft. Cardi B",
     "artist": "Maroon 5",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "rYEDA3JcQqw": {
     "id": "rYEDA3JcQqw",
     "title": "Adele - Rolling in the Deep",
     "artist": "Adele",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   },
   "OPf0YbXqDm0": {
     "id": "OPf0YbXqDm0",
     "title": "Mark Ronson - Uptown Funk ft. Bruno Mars",
     "artist": "Mark Ronson",
-    "vibe": "energetic"
+    "vibe": "energetic",
+    "origin": "intl"
   }
 };
 
@@ -2936,10 +3087,11 @@ class SpaceEngine {
   }
 
   /**
-   * Deterministically generates a unique, non-colliding playlist for (spaceId, timeSlot, weatherSlot, moodSlot).
+   * Deterministically generates a unique, non-colliding playlist for (spaceId, timeSlot, weatherSlot, moodSlot, origin).
    * Guarantees each space context possesses an authentic, individualized musical signature.
+   * Origin supports: 'all' (Tất cả), 'vn' (Nhạc Việt Nam), 'intl' (Nhạc Nước Ngoài / Quốc Tế).
    */
-  static getPlaylistForSpace(spaceId, timeSlot = "T3", weatherSlot = "W1", moodSlot = "M1") {
+  static getPlaylistForSpace(spaceId, timeSlot = "T3", weatherSlot = "W1", moodSlot = "M1", origin = "all") {
     const space = SPACE_INDEX[spaceId];
     const genre = space ? space.genre : "cafe_bossa";
     let poolSongIds = [...(GENRE_POOLS[genre] || GENRE_POOLS["cafe_bossa"])];
@@ -2955,11 +3107,22 @@ class SpaceEngine {
       poolSongIds.push("1fueZCTYkpA", "JD-kMIpDfnY", "2WfaotSK3mI");
     }
 
+    // Origin filtering: vn / intl / all
+    if (origin === "vn" || origin === "intl") {
+      const filtered = poolSongIds.filter(sid => MASTER_SONGS[sid] && MASTER_SONGS[sid].origin === origin);
+      if (filtered.length >= 6) {
+        poolSongIds = filtered;
+      } else {
+        const fallbackOriginIds = Object.keys(MASTER_SONGS).filter(sid => MASTER_SONGS[sid].origin === origin);
+        poolSongIds = [...filtered, ...fallbackOriginIds];
+      }
+    }
+
     // De-duplicate candidate list
     const uniqueIds = Array.from(new Set(poolSongIds));
 
     // Compute deterministic hash seed for the exact context combination
-    const key = `${spaceId || 'auto'}_${timeSlot}_${weatherSlot}_${moodSlot}`;
+    const key = `${spaceId || 'auto'}_${timeSlot}_${weatherSlot}_${moodSlot}_${origin}`;
     let hash = 0;
     for (let i = 0; i < key.length; i++) {
       hash = (hash << 5) - hash + key.charCodeAt(i);
@@ -2978,7 +3141,7 @@ class SpaceEngine {
       if (MASTER_SONGS[sid]) {
         tracks.push(MASTER_SONGS[sid]);
       }
-      if (tracks.length >= 7) break;
+      if (tracks.length >= 8) break;
     }
 
     return tracks;

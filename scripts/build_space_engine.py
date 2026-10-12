@@ -263,10 +263,11 @@ class SpaceEngine {{
   }}
 
   /**
-   * Deterministically generates a unique, non-colliding playlist for (spaceId, timeSlot, weatherSlot, moodSlot).
+   * Deterministically generates a unique, non-colliding playlist for (spaceId, timeSlot, weatherSlot, moodSlot, origin).
    * Guarantees each space context possesses an authentic, individualized musical signature.
+   * Origin supports: 'all' (Tất cả), 'vn' (Nhạc Việt Nam), 'intl' (Nhạc Nước Ngoài / Quốc Tế).
    */
-  static getPlaylistForSpace(spaceId, timeSlot = "T3", weatherSlot = "W1", moodSlot = "M1") {{
+  static getPlaylistForSpace(spaceId, timeSlot = "T3", weatherSlot = "W1", moodSlot = "M1", origin = "all") {{
     const space = SPACE_INDEX[spaceId];
     const genre = space ? space.genre : "cafe_bossa";
     let poolSongIds = [...(GENRE_POOLS[genre] || GENRE_POOLS["cafe_bossa"])];
@@ -282,11 +283,22 @@ class SpaceEngine {{
       poolSongIds.push("1fueZCTYkpA", "JD-kMIpDfnY", "2WfaotSK3mI");
     }}
 
+    // Origin filtering: vn / intl / all
+    if (origin === "vn" || origin === "intl") {{
+      const filtered = poolSongIds.filter(sid => MASTER_SONGS[sid] && MASTER_SONGS[sid].origin === origin);
+      if (filtered.length >= 6) {{
+        poolSongIds = filtered;
+      }} else {{
+        const fallbackOriginIds = Object.keys(MASTER_SONGS).filter(sid => MASTER_SONGS[sid].origin === origin);
+        poolSongIds = [...filtered, ...fallbackOriginIds];
+      }}
+    }}
+
     // De-duplicate candidate list
     const uniqueIds = Array.from(new Set(poolSongIds));
 
     // Compute deterministic hash seed for the exact context combination
-    const key = `${{spaceId || 'auto'}}_${{timeSlot}}_${{weatherSlot}}_${{moodSlot}}`;
+    const key = `${{spaceId || 'auto'}}_${{timeSlot}}_${{weatherSlot}}_${{moodSlot}}_${{origin}}`;
     let hash = 0;
     for (let i = 0; i < key.length; i++) {{
       hash = (hash << 5) - hash + key.charCodeAt(i);
@@ -305,7 +317,7 @@ class SpaceEngine {{
       if (MASTER_SONGS[sid]) {{
         tracks.push(MASTER_SONGS[sid]);
       }}
-      if (tracks.length >= 7) break;
+      if (tracks.length >= 8) break;
     }}
 
     return tracks;

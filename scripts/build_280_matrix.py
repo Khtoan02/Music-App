@@ -179,7 +179,7 @@ for idx, item in enumerate(cases_raw):
         ordered_ids.insert(0, 'so6ExplQlaY')
 
     playlist = []
-    for sid in ordered_ids[:7]:
+    for sid in ordered_ids[:10]:
         if sid in master_songs:
             playlist.append(master_songs[sid])
 
@@ -300,6 +300,13 @@ class MatrixEngine {{
   static getCase(tSlot, wSlot, mSlot) {{
     const key = `BG-${{tSlot}}-${{wSlot}}-${{mSlot}}`;
     return MATRIX_280[key] || MATRIX_280["BG-T2-W1-M1"];
+  }}
+
+  static filterPlaylist(playlist, origin = "all") {{
+    if (!playlist || playlist.length === 0) return [];
+    if (origin === "all") return playlist;
+    const filtered = playlist.filter(track => track.origin === origin);
+    return filtered.length > 0 ? filtered : playlist;
   }}
 }}
 """
