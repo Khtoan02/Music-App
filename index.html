@@ -143,8 +143,11 @@
           </div>
         </a>
 
-        <button id="btn-toggle-top-ad" class="text-slate-400 hover:text-white transition-colors p-0.5" title="Thu gọn / Mở rộng banner quảng cáo">
+        <button id="btn-toggle-top-ad" class="text-slate-400 hover:text-white transition-colors p-0.5" title="Thu gọn / Mở rộng banner">
           <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
+        </button>
+        <button id="btn-close-top-ad" class="text-slate-400 hover:text-rose-400 transition-colors p-0.5 ml-0.5" title="Tắt banner quảng cáo này">
+          <i data-lucide="x" class="w-3.5 h-3.5"></i>
         </button>
       </div>
     </div>
@@ -319,6 +322,11 @@
             <i data-lucide="tv" class="w-4 h-4"></i>
           </button>
 
+          <!-- Zen Mode: Chỉ để lại âm thanh & sóng nhạc -->
+          <button id="btn-zen-mode" class="p-2 rounded-xl text-slate-400 hover:text-amber-300 hover:bg-white/10 transition-all" title="Chế độ Zen: Chỉ để lại âm thanh & sóng nhạc (Z)">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+          </button>
+
           <!-- Fullscreen -->
           <button id="btn-fullscreen" class="p-2 text-slate-400 hover:text-white transition-colors" title="Toàn màn hình (F)">
             <i data-lucide="maximize" class="w-4 h-4"></i>
@@ -331,7 +339,49 @@
 
   </footer>
 
+  <!-- ===================== ZEN FLOATING SOUNDWAVE ISLAND (CHỈ ĐỂ ÂM THANH & SÓNG NHẠC) ===================== -->
+  <div id="zen-wave-dock" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 select-none">
+    <div class="zen-wave-surface px-4 sm:px-5 py-2.5 rounded-full flex items-center gap-3 sm:gap-4 shadow-2xl cursor-pointer hover:border-amber-400/50 transition-all group" id="zen-dock-card" title="Bấm vào để khôi phục bảng điều khiển đầy đủ">
+      
+      <!-- Sóng nhạc Equalizer -->
+      <div id="zen-equalizer" class="eq-container flex-shrink-0">
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+      </div>
 
+      <!-- Tên bài hát & Nghệ sĩ -->
+      <div class="truncate max-w-[150px] sm:max-w-[220px] text-left">
+        <h4 id="zen-track-title" class="text-xs sm:text-sm font-semibold text-white truncate">
+          AuraBeat 4K
+        </h4>
+        <p id="zen-track-artist" class="text-[11px] text-amber-300 truncate">
+          Ambient Soundscape
+        </p>
+      </div>
+
+      <!-- Điều khiển Mini -->
+      <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0" onclick="event.stopPropagation()">
+        <button id="btn-zen-prev" class="p-1.5 text-slate-300 hover:text-white transition-colors" title="Bài trước (←)">
+          <i data-lucide="skip-back" class="w-3.5 h-3.5"></i>
+        </button>
+
+        <button id="btn-zen-play-pause" class="w-8 h-8 rounded-full bg-white text-zinc-950 flex items-center justify-center shadow-lg hover:scale-105 transition-transform" title="Phát / Dừng (Space)">
+          <i data-lucide="pause" class="w-3.5 h-3.5"></i>
+        </button>
+
+        <button id="btn-zen-next" class="p-1.5 text-slate-300 hover:text-white transition-colors" title="Bài tiếp (→)">
+          <i data-lucide="skip-forward" class="w-3.5 h-3.5"></i>
+        </button>
+
+        <button id="btn-zen-exit" class="p-1.5 ml-1 text-slate-400 hover:text-amber-300 hover:bg-white/10 rounded-lg transition-colors" title="Mở lại giao diện đầy đủ (Z)">
+          <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
 
   <!-- ===================== SPACE SELECTION MODAL (10 Groups, 55 Spaces) ===================== -->
   <div id="space-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">

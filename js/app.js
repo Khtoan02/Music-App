@@ -200,24 +200,34 @@ document.addEventListener("DOMContentLoaded", () => {
       const artistEl = document.getElementById("now-playing-artist");
       const dockTitleEl = document.getElementById("dock-track-title");
       const dockStatusEl = document.getElementById("dock-track-status");
+      const zenTitleEl = document.getElementById("zen-track-title");
+      const zenArtistEl = document.getElementById("zen-track-artist");
 
       if (titleEl) titleEl.textContent = track.title;
       if (artistEl) artistEl.textContent = track.artist;
       if (dockTitleEl) dockTitleEl.textContent = track.title;
+      if (zenTitleEl) zenTitleEl.textContent = track.title;
+      if (zenArtistEl) zenArtistEl.textContent = track.artist;
       if (dockStatusEl) {
         dockStatusEl.textContent = track.origin === "vn" ? "VIỆT NAM" : "QUỐC TẾ";
       }
     },
     onStateChange: (pState) => {
       const playBtn = document.getElementById("btn-play-pause");
+      const zenPlayBtn = document.getElementById("btn-zen-play-pause");
       const eq = document.getElementById("equalizer");
+      const zenEq = document.getElementById("zen-equalizer");
 
       if (pState === "playing") {
-        playBtn.innerHTML = `<i data-lucide="pause" class="w-4 h-4"></i>`;
+        if (playBtn) playBtn.innerHTML = `<i data-lucide="pause" class="w-4 h-4"></i>`;
+        if (zenPlayBtn) zenPlayBtn.innerHTML = `<i data-lucide="pause" class="w-3.5 h-3.5"></i>`;
         eq?.classList.remove("paused");
+        zenEq?.classList.remove("paused");
       } else {
-        playBtn.innerHTML = `<i data-lucide="play" class="w-4 h-4 translate-x-0.5"></i>`;
+        if (playBtn) playBtn.innerHTML = `<i data-lucide="play" class="w-4 h-4 translate-x-0.5"></i>`;
+        if (zenPlayBtn) zenPlayBtn.innerHTML = `<i data-lucide="play" class="w-3.5 h-3.5 translate-x-0.5"></i>`;
         eq?.classList.add("paused");
+        zenEq?.classList.add("paused");
       }
       lucide.createIcons();
     },
@@ -727,6 +737,8 @@ document.addEventListener("DOMContentLoaded", () => {
       toggleFullscreen();
     } else if (e.key === "v" || e.key === "V") {
       toggleVideoDock();
+    } else if (e.key === "z" || e.key === "Z") {
+      toggleZenMode();
     } else if (e.code === "ArrowRight") {
       player.next();
     } else if (e.code === "ArrowLeft") {
@@ -817,6 +829,63 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnToggleTopAd = document.getElementById("btn-toggle-top-ad");
   btnToggleTopAd?.addEventListener("click", () => {
     topAdContainer?.classList.toggle("collapsed");
+  });
+
+  // Top Ad Dismiss Button
+  const btnCloseTopAd = document.getElementById("btn-close-top-ad");
+  if (sessionStorage.getItem("aurabeat_top_ad_dismissed") === "true") {
+    if (topAdContainer) topAdContainer.style.display = "none";
+  }
+  btnCloseTopAd?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (topAdContainer) topAdContainer.style.display = "none";
+    sessionStorage.setItem("aurabeat_top_ad_dismissed", "true");
+    showToast("Đã ẩn banner quảng cáo.", "info", 2000);
+  });
+
+  // ===================== 14. ZEN MODE: CHỈ ĐỂ ÂM THANH & SÓNG NHẠC =====================
+  let isZenMode = false;
+  const btnZenMode = document.getElementById("btn-zen-mode");
+  const btnZenExit = document.getElementById("btn-zen-exit");
+  const zenDockCard = document.getElementById("zen-dock-card");
+  const btnZenPlayPause = document.getElementById("btn-zen-play-pause");
+  const btnZenPrev = document.getElementById("btn-zen-prev");
+  const btnZenNext = document.getElementById("btn-zen-next");
+
+  function toggleZenMode() {
+    isZenMode = !isZenMode;
+    document.body.classList.toggle("zen-mode", isZenMode);
+    btnZenMode?.classList.toggle("text-amber-300", isZenMode);
+    btnZenMode?.classList.toggle("active", isZenMode);
+
+    if (isZenMode) {
+      showToast("Chế độ Zen: Chỉ phát âm thanh & sóng nhạc (Nhấn Z để thoát)", "info", 3000);
+    } else {
+      showToast("Đã khôi phục bảng điều khiển đầy đủ.", "info", 2000);
+    }
+  }
+
+  btnZenMode?.addEventListener("click", toggleZenMode);
+  btnZenExit?.addEventListener("click", toggleZenMode);
+  zenDockCard?.addEventListener("click", (e) => {
+    if (!e.target.closest("button")) {
+      toggleZenMode();
+    }
+  });
+
+  btnZenPlayPause?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    player.togglePlay();
+  });
+
+  btnZenPrev?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    player.prev();
+  });
+
+  btnZenNext?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    player.next();
   });
 
   // Auto start audio on first user click anywhere (if not started)
