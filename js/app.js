@@ -97,12 +97,95 @@ document.addEventListener("DOMContentLoaded", () => {
   const weatherEngine = new WeatherEngine();
   const atmosphereFX = new AtmosphereFX();
 
+  // Helper: Find replacement song when YouTube triggers errors 101, 150, 100, 2
+  function findFallbackTrack(failedTrack, errCode) {
+    if (typeof MASTER_SONGS === "undefined") return null;
+
+    const currentOrigin = state.musicOrigin || "all";
+    const failedId = failedTrack ? failedTrack.id : null;
+    const currentPlaylistIds = new Set(player.playlist.map(t => t.id));
+
+    const allSongKeys = Object.keys(MASTER_SONGS);
+    let candidates = allSongKeys.filter(sid => {
+      if (sid === failedId) return false;
+      if (player.failedTrackIds.has(sid)) return false;
+      if (currentPlaylistIds.has(sid)) return false;
+
+      const s = MASTER_SONGS[sid];
+      if (!s) return false;
+      if (currentOrigin !== "all" && s.origin !== currentOrigin) return false;
+      return true;
+    });
+
+    if (candidates.length === 0) {
+      candidates = allSongKeys.filter(sid => {
+        if (sid === failedId || player.failedTrackIds.has(sid)) return false;
+        const s = MASTER_SONGS[sid];
+        if (!s) return false;
+        if (currentOrigin !== "all" && s.origin !== currentOrigin) return false;
+        return true;
+      });
+    }
+
+    if (candidates.length > 0) {
+      const randomIndex = Math.floor(Math.random() * candidates.length);
+      const chosenKey = candidates[randomIndex];
+      return MASTER_SONGS[chosenKey];
+    }
+    return null;
+  }
+
+  // Toast Notification System
+  function showToast(message, type = "info", duration = 3800) {
+    const container = document.getElementById("toast-container");
+    if (!container) return;
+
+    const toast = document.createElement("div");
+    toast.className = `glass-toast toast-${type}`;
+
+    let iconName = "info";
+    if (type === "warning") iconName = "alert-triangle";
+    if (type === "success") iconName = "check-circle-2";
+
+    toast.innerHTML = `
+      <div class="toast-icon flex-shrink-0 mt-0.5">
+        <i data-lucide="${iconName}" class="w-4 h-4"></i>
+      </div>
+      <div class="flex-1">
+        <p class="font-medium text-white">${message}</p>
+      </div>
+    `;
+
+    container.appendChild(toast);
+    lucide.createIcons({ root: toast });
+
+    requestAnimationFrame(() => {
+      toast.classList.add("show");
+    });
+
+    setTimeout(() => {
+      toast.classList.remove("show");
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.parentNode.removeChild(toast);
+        }
+      }, 400);
+    }, duration);
+  }
+
   const player = new MusicPlayer({
     onTrackChange: (track) => {
       const titleEl = document.getElementById("now-playing-title");
       const artistEl = document.getElementById("now-playing-artist");
+      const dockTitleEl = document.getElementById("dock-track-title");
+      const dockStatusEl = document.getElementById("dock-track-status");
+
       if (titleEl) titleEl.textContent = track.title;
       if (artistEl) artistEl.textContent = track.artist;
+      if (dockTitleEl) dockTitleEl.textContent = track.title;
+      if (dockStatusEl) {
+        dockStatusEl.textContent = track.origin === "vn" ? "VIỆT NAM" : "QUỐC TẾ";
+      }
     },
     onStateChange: (pState) => {
       const playBtn = document.getElementById("btn-play-pause");
@@ -131,6 +214,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         lucide.createIcons();
       }
+    },
+    onTrackFallback: (failedTrack, errCode) => {
+      return findFallbackTrack(failedTrack, errCode);
+    },
+    onShowToast: (message, type) => {
+      showToast(message, type);
     }
   });
 
@@ -593,12 +682,13 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       closeSpaceModal();
-      closeRegionModal();
     } else if (e.code === "Space") {
       e.preventDefault();
       togglePlay();
     } else if (e.key === "f" || e.key === "F") {
       toggleFullscreen();
+    } else if (e.key === "v" || e.key === "V") {
+      toggleVideoDock();
     } else if (e.code === "ArrowRight") {
       player.next();
     } else if (e.code === "ArrowLeft") {
@@ -615,12 +705,84 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => btn?.classList.remove("animate-spin"), 800);
   });
 
-  // Auto start audio on first user click anywhere
+  // ===================== 12. AUTOPLAY USER GESTURE STARTER MODAL =====================
+  const starterModal = document.getElementById("gesture-starter-modal");
+  const btnStartExp = document.getElementById("btn-start-experience");
+  const btnDismissStarter = document.getElementById("btn-dismiss-starter");
+
+  function closeStarterModal() {
+    if (!starterModal) return;
+    starterModal.classList.add("closing");
+    sessionStorage.setItem("aurabeat_gesture_started", "true");
+  }
+
+  // Check if user already acknowledged starter gesture in this session
+  if (sessionStorage.getItem("aurabeat_gesture_started") === "true") {
+    starterModal?.classList.add("closing");
+  }
+
+  btnStartExp?.addEventListener("click", () => {
+    closeStarterModal();
+    player.play();
+    showToast("Đã kích hoạt luồng âm thanh theo không gian & tâm trạng hiện tại!", "success");
+  });
+
+  btnDismissStarter?.addEventListener("click", () => {
+    closeStarterModal();
+    showToast("Chế độ giao diện tĩnh. Bạn có thể bấm Play bất kỳ lúc nào để phát nhạc.", "info");
+  });
+
+  // ===================== 13. YOUTUBE COMPLIANT MINI-PLAYER DOCK =====================
+  const ytDock = document.getElementById("yt-player-dock");
+  const btnToggleVideo = document.getElementById("btn-toggle-video");
+  const btnDockMinimize = document.getElementById("btn-dock-minimize");
+  const btnDockSize = document.getElementById("btn-dock-size");
+
+  function toggleVideoDock() {
+    if (!ytDock) return;
+    const isCollapsed = ytDock.classList.toggle("collapsed");
+    if (btnToggleVideo) {
+      btnToggleVideo.classList.toggle("text-amber-300", !isCollapsed);
+      btnToggleVideo.classList.toggle("active", !isCollapsed);
+      btnToggleVideo.classList.toggle("text-slate-400", isCollapsed);
+    }
+    if (isCollapsed) {
+      showToast("Đã thu gọn mini-player. Nhạc YouTube vẫn phát nền liên tục chuẩn ToS.", "info", 2500);
+    } else {
+      showToast("Đã mở mini-player YouTube (kích thước chuẩn ToS).", "info", 2500);
+    }
+  }
+
+  btnToggleVideo?.addEventListener("click", toggleVideoDock);
+
+  btnDockMinimize?.addEventListener("click", () => {
+    if (!ytDock) return;
+    ytDock.classList.add("collapsed");
+    if (btnToggleVideo) {
+      btnToggleVideo.classList.remove("text-amber-300", "active");
+      btnToggleVideo.classList.add("text-slate-400");
+    }
+    showToast("Đã thu nhỏ video dock. Bấm phím V hoặc icon TV để mở lại.", "info", 2500);
+  });
+
+  btnDockSize?.addEventListener("click", () => {
+    if (!ytDock) return;
+    const isExpanded = ytDock.classList.toggle("expanded");
+    btnDockSize.innerHTML = isExpanded 
+      ? `<i data-lucide="minimize-2" class="w-3.5 h-3.5"></i>`
+      : `<i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>`;
+    lucide.createIcons({ root: btnDockSize });
+  });
+
+  // Auto start audio on first user click anywhere (if not started)
   let hasInteracted = false;
-  window.addEventListener("click", () => {
+  window.addEventListener("click", (e) => {
     if (!hasInteracted) {
       hasInteracted = true;
-      if (!player.isPlaying) {
+      if (!sessionStorage.getItem("aurabeat_gesture_started")) {
+        closeStarterModal();
+      }
+      if (!player.isPlaying && !e.target.closest("#btn-dismiss-starter")) {
         player.play();
       }
     }

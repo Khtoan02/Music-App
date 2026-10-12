@@ -9,7 +9,9 @@ class MusicPlayer {
       onTrackChange: callbacks.onTrackChange || (() => {}),
       onStateChange: callbacks.onStateChange || (() => {}),
       onTimeUpdate: callbacks.onTimeUpdate || (() => {}),
-      onVolumeChange: callbacks.onVolumeChange || (() => {})
+      onVolumeChange: callbacks.onVolumeChange || (() => {}),
+      onTrackFallback: callbacks.onTrackFallback || (() => null),
+      onShowToast: callbacks.onShowToast || (() => {})
     };
 
     this.ytPlayer = null;
@@ -22,7 +24,16 @@ class MusicPlayer {
     this.volume = 80;
     this.isMuted = false;
     this.timeUpdateTimer = null;
-    this.videoVisible = false;
+    this.videoVisible = true;
+
+    // Track blacklisted / non-embeddable YouTube IDs (errors 101, 150, 100)
+    let storedFailed = [];
+    try {
+      storedFailed = JSON.parse(sessionStorage.getItem("aurabeat_failed_tracks") || "[]");
+    } catch (e) {
+      storedFailed = [];
+    }
+    this.failedTrackIds = new Set(storedFailed);
 
     this.initYouTubeAPI();
   }
@@ -50,9 +61,9 @@ class MusicPlayer {
       width: "100%",
       playerVars: {
         playsinline: 1,
-        controls: 0,
-        disablekb: 1,
-        fs: 0,
+        controls: 1,
+        disablekb: 0,
+        fs: 1,
         rel: 0,
         modestbranding: 1,
         iv_load_policy: 3
@@ -68,15 +79,65 @@ class MusicPlayer {
         onStateChange: (event) => {
           this.handleStateChange(event.data);
         },
-        onError: (err) => {
-          console.warn("YouTube Player Error:", err);
-          // Auto skip if video cannot be played or embedded
-          setTimeout(() => {
-            this.next();
-          }, 1500);
+        onError: (event) => {
+          const errCode = (event && typeof event.data !== "undefined") ? event.data : 0;
+          this.handlePlaybackError(errCode);
         }
       }
     });
+  }
+
+  /**
+   * Resilient Error Recovery for YouTube Codes 101, 150, 100, 2
+   * Automatically blacklists unplayable ID and switches to an equivalent track in same mood
+   */
+  handlePlaybackError(errCode) {
+    const failedTrack = this.getCurrentTrack();
+    const failedId = failedTrack ? failedTrack.id : null;
+
+    console.warn(`[AuraBeat MusicPlayer] YouTube error code ${errCode} on track:`, failedTrack);
+
+    if (failedId) {
+      this.failedTrackIds.add(failedId);
+      try {
+        sessionStorage.setItem("aurabeat_failed_tracks", JSON.stringify([...this.failedTrackIds]));
+      } catch (e) {}
+    }
+
+    let toastMsg = "Đang chuyển sang bài hát tiếp theo...";
+    if (errCode === 101 || errCode === 150) {
+      toastMsg = `Video "${failedTrack ? failedTrack.title : 'bài hát'}" bị hạn chế nhúng (Lỗi 150/101). Đang chuyển bài tương đương...`;
+    } else if (errCode === 100) {
+      toastMsg = `Video "${failedTrack ? failedTrack.title : 'bài hát'}" không khả dụng (Lỗi 100). Đang chuyển bài mới...`;
+    } else if (errCode === 2 || errCode === 5) {
+      toastMsg = "Lỗi kết nối YouTube. Đang tìm bài hát thay thế...";
+    }
+
+    this.callbacks.onShowToast(toastMsg, "warning");
+
+    // Remove the broken track from current playlist
+    if (this.playlist.length > 0 && this.currentIndex >= 0 && this.currentIndex < this.playlist.length) {
+      this.playlist.splice(this.currentIndex, 1);
+    }
+
+    // Try finding equivalent fallback track via host engine
+    const fallbackTrack = this.callbacks.onTrackFallback(failedTrack, errCode);
+    if (fallbackTrack && fallbackTrack.id) {
+      this.playlist.splice(this.currentIndex, 0, fallbackTrack);
+      setTimeout(() => {
+        this.loadTrack(fallbackTrack);
+      }, 250);
+    } else {
+      // Fallback to next track in remaining playlist
+      if (this.playlist.length > 0) {
+        if (this.currentIndex >= this.playlist.length) {
+          this.currentIndex = 0;
+        }
+        setTimeout(() => {
+          this.loadTrack(this.playlist[this.currentIndex]);
+        }, 300);
+      }
+    }
   }
 
   handleStateChange(state) {
@@ -133,7 +194,10 @@ class MusicPlayer {
 
   setPlaylist(newTracks, autoPlay = false) {
     if (!newTracks || newTracks.length === 0) return;
-    this.playlist = newTracks;
+    
+    // Automatically filter out any known broken YouTube IDs
+    const cleanTracks = newTracks.filter(t => !this.failedTrackIds.has(t.id));
+    this.playlist = cleanTracks.length > 0 ? cleanTracks : newTracks;
     this.currentIndex = 0;
     const currentTrack = this.playlist[0];
 
