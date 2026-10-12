@@ -730,6 +730,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       closeSpaceModal();
+      closeDisclaimerModal();
     } else if (e.code === "Space") {
       e.preventDefault();
       togglePlay();
@@ -901,6 +902,38 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }, { once: true });
+
+  // ===================== 15. ALGORITHMIC POSITIONING & LEGAL DISCLAIMER MODAL =====================
+  const disclaimerModal = document.getElementById("disclaimer-modal");
+  const btnOpenDisclaimer = document.getElementById("btn-open-disclaimer");
+  const btnCloseDisclaimer = document.getElementById("btn-close-disclaimer-modal");
+  const btnAgreeDisclaimer = document.getElementById("btn-agree-disclaimer");
+  const btnStarterDisclaimerLink = document.getElementById("btn-starter-disclaimer-link");
+
+  function openDisclaimerModal() {
+    if (!disclaimerModal) return;
+    disclaimerModal.classList.add("open");
+    lucide.createIcons({ root: disclaimerModal });
+  }
+
+  function closeDisclaimerModal() {
+    if (!disclaimerModal) return;
+    disclaimerModal.classList.remove("open");
+  }
+
+  btnOpenDisclaimer?.addEventListener("click", openDisclaimerModal);
+  btnCloseDisclaimer?.addEventListener("click", closeDisclaimerModal);
+  btnAgreeDisclaimer?.addEventListener("click", () => {
+    closeDisclaimerModal();
+    showToast("Đã xác nhận định vị thuật toán và chính sách bản quyền.", "success", 2500);
+  });
+  btnStarterDisclaimerLink?.addEventListener("click", openDisclaimerModal);
+
+  disclaimerModal?.addEventListener("click", (e) => {
+    if (e.target === disclaimerModal) {
+      closeDisclaimerModal();
+    }
+  });
 
   // ===================== 11. APP BOOTSTRAP =====================
   async function init() {

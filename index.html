@@ -106,13 +106,18 @@
 
   <!-- ===================== TOP BAR: BRAND PILL & GOOGLE ADS CONTAINER ===================== -->
   <header class="relative z-20 w-full max-w-6xl mx-auto flex items-center justify-between gap-3 pointer-events-auto">
-    <!-- Brand / Ambient Indicator -->
+    <!-- Brand / Ambient Indicator & Disclaimer Button -->
     <div class="flex items-center gap-2">
       <div class="liquid-glass-pill px-3 py-1 flex items-center gap-2 text-xs font-semibold text-white tracking-wide">
         <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
         <span class="font-bold tracking-wider">AURABEAT</span>
         <span class="text-[10px] text-slate-400 font-mono hidden sm:inline">4K LIVING</span>
       </div>
+      <button id="btn-open-disclaimer" class="liquid-glass-pill px-2.5 py-1 flex items-center gap-1.5 text-[11px] text-slate-300 hover:text-white hover:border-amber-400/40 transition-all cursor-pointer" title="Định vị Thuật toán & Tuyên bố Bản quyền">
+        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+        <span class="hidden md:inline font-medium">Thuật toán & Bản quyền</span>
+        <span class="md:hidden font-medium">Bản quyền</span>
+      </button>
     </div>
 
     <!-- Top Google Ads Glass Slot (Leaderboard Responsive: 728x90 desktop / 320x50 mobile) -->
@@ -503,10 +508,136 @@
         </button>
       </div>
 
-      <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-center gap-2 text-[11px] text-slate-400">
-        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
-        <span>Tương tác mở khóa âm thanh chuẩn theo chính sách Autoplay</span>
+      <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-2 text-[11px] text-slate-400">
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span>Autoplay chuẩn chính sách</span>
+        </div>
+        <button id="btn-starter-disclaimer-link" class="text-amber-400 hover:text-amber-300 hover:underline text-[10px] cursor-pointer">
+          Thuật toán & Pháp lý
+        </button>
       </div>
+    </div>
+  </div>
+
+  <!-- ===================== ALGORITHMIC POSITIONING & LEGAL DISCLAIMER MODAL ===================== -->
+  <div id="disclaimer-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/75 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div class="liquid-glass-surface max-w-2xl w-full max-h-[88vh] rounded-3xl border border-white/20 shadow-2xl flex flex-col overflow-hidden relative">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between p-4 sm:p-5 border-b border-white/10 bg-white/5">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-amber-300 flex-shrink-0 shadow-inner">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
+              <span>Định Vị Nền Tảng & Tuyên Bố Pháp Lý</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono">100% Tuân thủ YouTube</span>
+            </h3>
+            <p class="text-xs text-slate-300 mt-0.5">
+              Cam kết minh bạch về thuật toán tính toán và quyền sở hữu trí tuệ
+            </p>
+          </div>
+        </div>
+        <button id="btn-close-disclaimer-modal" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer" title="Đóng cửa sổ (Esc)">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-200 custom-scrollbar leading-relaxed">
+        
+        <!-- Section 1: Định vị Thuật toán & Không phải Kho nhạc -->
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-amber-400/30 transition-colors">
+          <div class="flex items-center gap-2.5 mb-2">
+            <div class="w-7 h-7 rounded-xl bg-amber-400/20 flex items-center justify-center text-amber-300 flex-shrink-0">
+              <i data-lucide="cpu" class="w-4 h-4"></i>
+            </div>
+            <h4 class="font-bold text-white text-sm">
+              1. Khẳng Định Giá Trị: Thuật Toán Ngữ Cảnh, Không Phải Kho Nhạc
+            </h4>
+          </div>
+          <p class="text-slate-300 mb-2">
+            AuraBeat được định vị độc quyền là <strong class="text-amber-300 font-semibold">"Nền tảng cá nhân hóa tâm trạng và không gian sống theo thời gian thực"</strong>, tuyệt đối <em>KHÔNG PHẢI</em> là một "Kho nhạc miễn phí" (Free Music Warehouse).
+          </p>
+          <ul class="space-y-1.5 pl-3 border-l-2 border-amber-400/40 text-slate-300 text-[11px] sm:text-xs">
+            <li><strong class="text-white">• Động cơ tính toán đa chiều (Multi-Contextual Engine):</strong> Thuật toán tự động đo đạc 8 khung thời gian sinh học trong ngày (T1 - T8), chu kỳ mặt trời, điều kiện thời tiết thực tế (mưa, nắng, mây mù) và 55 không gian sống khác nhau để tính toán năng lượng âm thanh phù hợp nhất.</li>
+            <li><strong class="text-white">• Không bán bài hát hay bản quyền MP3:</strong> AuraBeat không bán tệp âm nhạc, không thu phí nghe nhạc. Trải nghiệm người dùng hoặc các hình thức tài trợ/quảng cáo chỉ nhằm bù đắp chi phí máy chủ, hạ tầng tính toán ngữ cảnh và băng thông giao diện 4K sống động.</li>
+          </ul>
+        </div>
+
+        <!-- Section 2: Tuân thủ 100% Điều khoản Dịch vụ YouTube -->
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-emerald-400/30 transition-colors">
+          <div class="flex items-center gap-2.5 mb-2">
+            <div class="w-7 h-7 rounded-xl bg-emerald-400/20 flex items-center justify-center text-emerald-300 flex-shrink-0">
+              <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+            </div>
+            <h4 class="font-bold text-white text-sm">
+              2. Tuân Thủ 100% Điều Khoản Dịch Vụ YouTube (YouTube Developer Terms)
+            </h4>
+          </div>
+          <p class="text-slate-300 mb-2">
+            Hệ thống phát nhạc của AuraBeat tuân thủ nghiêm ngặt các chính sách nhà phát triển YouTube:
+          </p>
+          <ul class="space-y-1.5 pl-3 border-l-2 border-emerald-400/40 text-slate-300 text-[11px] sm:text-xs">
+            <li><strong class="text-white">• Không lưu trữ & Không tách luồng (No Stream Ripping):</strong> Tuyệt đối không có bất kỳ tệp MP3/MP4 nào được tải về hay lưu trữ trên máy chủ của AuraBeat. Toàn bộ nội dung âm nhạc được phát trực tiếp thông qua <em>YouTube IFrame Player API</em> chính thức.</li>
+            <li><strong class="text-white">• Toàn quyền doanh thu & Lượt xem về Nghệ sĩ:</strong> Mọi lượt xem (Views), lượt hiển thị quảng cáo và doanh thu tác quyền (AdSense / Content ID / YouTube Royalties) hoàn toàn được chuyển trực tiếp về cho nghệ sĩ và đơn vị phát hành gốc trên YouTube.</li>
+            <li><strong class="text-white">• Khung phát chuẩn kích thước:</strong> Khung Mini-Player YouTube luôn đảm bảo kích thước tối thiểu hợp lệ (&ge; 240 &times; 135 px) trên màn hình, không giấu ngầm player để trục lợi hay vi phạm chính sách hiển thị.</li>
+          </ul>
+        </div>
+
+        <!-- Section 3: Minh bạch Tài trợ & Chi phí Vận hành -->
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-sky-400/30 transition-colors">
+          <div class="flex items-center gap-2.5 mb-2">
+            <div class="w-7 h-7 rounded-xl bg-sky-400/20 flex items-center justify-center text-sky-300 flex-shrink-0">
+              <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+            </div>
+            <h4 class="font-bold text-white text-sm">
+              3. Minh Bạch Mô Hình Vận Hành & Hiển Thị Tài Trợ
+            </h4>
+          </div>
+          <p class="text-slate-300 text-[11px] sm:text-xs leading-relaxed">
+            Các vị trí tài trợ (như Google Ads hoặc đối tác thiết bị âm thanh) xuất hiện nhằm chi trả cho chi phí máy chủ điện toán đám mây, API định vị khí tượng thời gian thực và mạng phân phối hình ảnh 4K Unsplash tốc độ cao. Bạn có thể sử dụng <strong class="text-white">Chế độ Zen (Phím Z)</strong> bất kỳ lúc nào để ẩn toàn bộ giao diện và chỉ tận hưởng âm thanh cùng sóng nhạc.
+          </p>
+        </div>
+
+        <!-- Section 4: Kênh Tiếp nhận & Cơ chế Tác giả (DMCA / Copyright Holders) -->
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-rose-400/30 transition-colors">
+          <div class="flex items-center gap-2.5 mb-2">
+            <div class="w-7 h-7 rounded-xl bg-rose-400/20 flex items-center justify-center text-rose-300 flex-shrink-0">
+              <i data-lucide="mail" class="w-4 h-4"></i>
+            </div>
+            <h4 class="font-bold text-white text-sm">
+              4. Kênh Tiếp Nhận & Tôn Trọng Nguyện Vọng Tác Giả
+            </h4>
+          </div>
+          <p class="text-slate-300 text-[11px] sm:text-xs leading-relaxed">
+            AuraBeat luôn tôn trọng tuyệt đối quyền tác giả và nhà sáng tạo nội dung. Nếu bạn là tác giả hoặc đại diện sở hữu bản quyền và không muốn tác phẩm của mình xuất hiện trong danh mục thuật toán gợi ý của chúng tôi, vui lòng liên hệ qua email:
+          </p>
+          <div class="mt-2.5 flex flex-wrap items-center gap-3">
+            <a href="mailto:copyright@aurabeat.app" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 font-mono text-xs border border-rose-500/30 transition-colors">
+              <i data-lucide="at-sign" class="w-3.5 h-3.5"></i>
+              <span>copyright@aurabeat.app</span>
+            </a>
+            <span class="text-[11px] text-slate-400">Cam kết gỡ bỏ đề xuất trong vòng <strong>24 giờ làm việc</strong>.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 sm:p-5 border-t border-white/10 bg-white/5 flex items-center justify-between gap-3">
+        <div class="text-[11px] text-slate-400 hidden sm:flex items-center gap-1.5">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span>AuraBeat 4K Living Space & Mood Engine</span>
+        </div>
+        <button id="btn-agree-disclaimer" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 transition-all cursor-pointer">
+          <i data-lucide="check" class="w-4 h-4"></i>
+          <span>Tôi đã hiểu & Tiếp tục trải nghiệm</span>
+        </button>
+      </div>
+
     </div>
   </div>
 
