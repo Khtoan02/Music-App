@@ -611,3 +611,31 @@ input[type="range"]::-webkit-slider-thumb:hover {
   85% { transform: translateY(120px); opacity: 0.85; }
   100% { transform: translateY(150px); opacity: 0; }
 }
+
+/* ===================== GOOGLE ADS LIQUID GLASS SLOTS ===================== */
+.google-ad-slot-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+}
+
+#top-ad-container.collapsed .google-ad-slot-top {
+  display: none;
+}
+
+#top-ad-container.collapsed #btn-toggle-top-ad i {
+  transform: rotate(180deg);
+}
+
+.google-ad-slot-modal {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.2s ease;
+}
+
+.google-ad-slot-modal:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+}

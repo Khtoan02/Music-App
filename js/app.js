@@ -812,6 +812,13 @@ document.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons({ root: btnDockSize });
   });
 
+  // Top Google Ads Container toggle
+  const topAdContainer = document.getElementById("top-ad-container");
+  const btnToggleTopAd = document.getElementById("btn-toggle-top-ad");
+  btnToggleTopAd?.addEventListener("click", () => {
+    topAdContainer?.classList.toggle("collapsed");
+  });
+
   // Auto start audio on first user click anywhere (if not started)
   let hasInteracted = false;
   window.addEventListener("click", (e) => {
