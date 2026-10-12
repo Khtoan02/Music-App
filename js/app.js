@@ -22,14 +22,29 @@ document.addEventListener("DOMContentLoaded", () => {
     currentImageIndex: 0,
     activeSceneryBg: 1,
     isRainSoundOn: false,
-    activeGroupFilter: "all"
+    activeGroupFilter: "all",
+    activeSceneryList: []
   };
 
   // ===================== 1. SCENERY MANAGER (4K SMOOTH CROSS-FADE) =====================
   function setScenery(forceNext = false) {
-    if (!state.activeCase || !state.activeCase.images || state.activeCase.images.length === 0) return;
+    let images = state.activeSceneryList;
+    if (!images || images.length === 0) {
+      if (typeof SceneryEngine !== "undefined") {
+        images = SceneryEngine.getImages({
+          spaceId: state.selectedSpace,
+          timeSlot: state.activeCase?.timeSlot || "T5",
+          weatherSlot: state.activeCase?.weatherSlot || "W1",
+          isDay: true
+        });
+        state.activeSceneryList = images;
+      } else if (state.activeCase && state.activeCase.images) {
+        images = state.activeCase.images;
+      }
+    }
 
-    const images = state.activeCase.images;
+    if (!images || images.length === 0) return;
+
     if (forceNext) {
       state.currentImageIndex = (state.currentImageIndex + 1) % images.length;
     } else {
@@ -39,6 +54,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentImg = images[state.currentImageIndex] || images[0];
     const bg1 = document.getElementById("scenery-bg-1");
     const bg2 = document.getElementById("scenery-bg-2");
+
+    // Update button tooltip
+    const nextBtn = document.getElementById("btn-next-scene");
+    if (nextBtn) {
+      nextBtn.title = `Đổi cảnh 4K (${state.currentImageIndex + 1}/${images.length}): ${currentImg.title}`;
+    }
 
     // Preload image for instant crisp display
     const img = new Image();
@@ -306,6 +327,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isCaseChanged || isUserTrigger) {
       console.log(`[Atmosphere Shift] ${targetCase.id} | Region: ${activeRegionId} (${activeSeasonObj.name}) | Space: ${state.selectedSpace} | Origin: ${state.musicOrigin} | Trigger: ${triggerSource}`);
       state.activeCase = targetCase;
+
+      // Update 4K Scenery pool from SceneryEngine
+      if (typeof SceneryEngine !== "undefined") {
+        state.activeSceneryList = SceneryEngine.getImages({
+          spaceId: state.selectedSpace,
+          timeSlot: tSlot,
+          weatherSlot: wSlot,
+          isDay: isVisualDay
+        });
+      } else {
+        state.activeSceneryList = targetCase.images || [];
+      }
 
       // Cross-fade 4K wallpaper
       setScenery(false);
@@ -663,9 +696,14 @@ document.addEventListener("DOMContentLoaded", () => {
     evaluateContext("ambient_toggle");
   });
 
-  // Next 4K Scene Manual Button (Cycle through images for current case)
+  // Next 4K Scene Manual Button (Cycle through images for current case / space)
   document.getElementById("btn-next-scene")?.addEventListener("click", () => {
     setScenery(true);
+    const images = state.activeSceneryList || [];
+    const current = images[state.currentImageIndex];
+    if (current) {
+      showToast(`Đổi cảnh 4K (${state.currentImageIndex + 1}/${images.length}): ${current.title}`, "info", 2400);
+    }
   });
 
   // Fullscreen
