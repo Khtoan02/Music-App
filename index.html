@@ -118,21 +118,30 @@
     <!-- Top Google Ads Glass Slot (Leaderboard Responsive: 728x90 desktop / 320x50 mobile) -->
     <div id="top-ad-container" class="relative group">
       <div class="liquid-glass-pill px-3 py-1.5 flex items-center gap-2.5 transition-all duration-300 border border-white/15 hover:border-white/30 text-xs">
-        <span class="text-[9px] px-1.5 py-0.5 rounded bg-white/10 text-amber-300 uppercase tracking-widest font-mono font-bold">Ad</span>
+        <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 uppercase tracking-widest font-mono font-bold border border-amber-400/30">Ad</span>
         
-        <!-- Standard Google AdSense slot -->
-        <div class="google-ad-slot-top min-w-[200px] sm:min-w-[300px] md:min-w-[420px] text-center">
+        <!-- Standard Google AdSense slot + Realistic Demo Ad -->
+        <a href="https://www.google.com/adsense/start/" target="_blank" rel="noopener noreferrer" class="google-ad-slot-top flex items-center gap-2.5 text-left hover:opacity-90 transition-opacity" title="Quảng cáo ví dụ (Google Ads Demo)">
           <ins class="adsbygoogle"
-               style="display:inline-block;height:24px;width:100%"
+               style="display:none"
                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
                data-ad-slot="XXXXXXXXXX"
                data-ad-format="horizontal"></ins>
-          <!-- Fallback Preview Badge when waiting for live AdSense Approval -->
-          <div class="ad-preview-content flex items-center justify-between w-full text-[11px] text-slate-300">
-            <span class="truncate">Không gian Google Ads (Vị trí 1 - Top Banner)</span>
-            <span class="text-amber-400/90 font-mono text-[10px] hidden md:inline ml-2">Leaderboard</span>
+
+          <div class="w-5 h-5 rounded-md bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center flex-shrink-0 text-white text-xs shadow-sm">
+            🎧
           </div>
-        </div>
+          <div class="flex items-center gap-1.5 truncate">
+            <span class="font-semibold text-white truncate text-xs">Sony WH-1000XM5</span>
+            <span class="text-slate-400 text-[11px] hidden sm:inline truncate">— Âm thanh Hi-Res đỉnh cao</span>
+          </div>
+          <span class="px-2.5 py-0.5 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-[10px] flex-shrink-0 shadow transition-colors">
+            Khám phá
+          </span>
+          <div class="flex items-center text-[9px] text-slate-400 font-mono gap-0.5" title="Quảng cáo của Google">
+            <svg class="w-2.5 h-2.5 fill-current text-sky-400" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          </div>
+        </a>
 
         <button id="btn-toggle-top-ad" class="text-slate-400 hover:text-white transition-colors p-0.5" title="Thu gọn / Mở rộng banner quảng cáo">
           <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
@@ -362,30 +371,55 @@
         <!-- Populated dynamically via JS -->
       </div>
 
-      <!-- In-Modal Google AdSense Display Slot (Vị trí 2: In-Modal Banner / Native 300x250 hoặc Responsive) -->
+      <!-- In-Modal Google AdSense Display Slot (Vị trí 2: In-Modal Banner / Native Display Ad) -->
       <div id="modal-ad-container" class="mt-3 pt-2.5 border-t border-white/10 flex flex-col items-center justify-center flex-shrink-0">
-        <div class="flex items-center justify-between w-full text-[10px] text-slate-400 mb-1 px-1">
-          <span class="uppercase tracking-widest font-mono font-medium text-amber-300/80">Quảng cáo tài trợ</span>
-          <span class="text-slate-500 font-mono">Google AdSense</span>
+        <div class="flex items-center justify-between w-full text-[10px] text-slate-400 mb-1.5 px-1">
+          <div class="flex items-center gap-1.5">
+            <span class="px-1.5 py-0.2 rounded bg-amber-400/20 text-amber-300 font-mono text-[9px] font-bold border border-amber-400/30">Ad</span>
+            <span class="text-slate-400">Quảng cáo của Google (Ví dụ)</span>
+          </div>
+          <a href="https://www.google.com/adsense/start/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1 text-[10px] text-sky-400 hover:underline">
+            <span>AdChoices</span>
+            <svg class="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          </a>
         </div>
-        <div class="google-ad-slot-modal w-full rounded-2xl p-2.5 flex items-center justify-center min-h-[68px] text-center overflow-hidden">
+
+        <a href="https://www.google.com/adsense/start/" target="_blank" rel="noopener noreferrer" class="google-ad-slot-modal w-full rounded-2xl p-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-left overflow-hidden hover:border-amber-400/40 transition-all cursor-pointer group" title="Bấm để xem mẫu quảng cáo Google AdSense">
           <ins class="adsbygoogle"
-               style="display:block;width:100%;height:68px"
+               style="display:none"
                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
                data-ad-slot="YYYYYYYYYY"
                data-ad-format="auto"
                data-full-width-responsive="true"></ins>
-          <!-- Fallback Preview Badge when waiting for live AdSense ID -->
-          <div class="ad-modal-preview flex items-center justify-center gap-3 text-xs text-slate-300">
-            <div class="p-1.5 rounded-lg bg-amber-400/10 text-amber-300">
-              <i data-lucide="sparkles" class="w-4 h-4"></i>
+
+          <div class="flex items-center gap-3 overflow-hidden">
+            <!-- Product Avatar -->
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-950 to-slate-900 border border-white/15 flex items-center justify-center flex-shrink-0 text-2xl shadow-inner group-hover:scale-105 transition-transform">
+              🎧
             </div>
-            <div class="text-left">
-              <p class="font-medium text-white text-xs">Vị trí Quảng cáo Tự nhiên (In-Modal Display Ad)</p>
-              <p class="text-[11px] text-slate-400">Tối ưu doanh thu eCPM cao nhất mà không ảnh hưởng màn hình 4K chính</p>
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="font-bold text-white text-xs sm:text-sm group-hover:text-amber-300 transition-colors">Tai Nghe Không Dây Sony WH-1000XM5</h4>
+                <span class="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold">-35%</span>
+              </div>
+              <p class="text-[11px] text-slate-300 line-clamp-1 mt-0.5">Âm thanh vòm Hi-Res đỉnh cao, công nghệ chống ồn AI hòa quyện cùng AuraBeat.</p>
+              <div class="flex items-center gap-2 text-[10px] text-slate-400 mt-1">
+                <span class="text-amber-400">★★★★★</span>
+                <span>4.9 (1.8k đánh giá)</span>
+                <span>•</span>
+                <span class="text-slate-400">sony.com.vn</span>
+              </div>
             </div>
           </div>
-        </div>
+
+          <!-- Action Button -->
+          <div class="flex-shrink-0 w-full sm:w-auto">
+            <span class="w-full sm:w-auto px-4 py-2 rounded-xl bg-amber-400 group-hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-amber-500/20 transition-all">
+              <span>Xem Ưu Đãi</span>
+              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </span>
+          </div>
+        </a>
       </div>
 
     </div>
