@@ -107,10 +107,20 @@
         </button>
       </form>
 
-      <!-- Footnote Hints -->
-      <div class="mt-6 pt-4 border-t border-white/10 w-full text-[11px] text-slate-500 flex flex-col gap-1">
-        <span class="text-amber-400/80 font-medium">Mật khẩu mặc định: <strong>1234</strong></span>
-        <span>Đăng nhập 1 lần cho cả ngày • Khóa tự động khi sang ngày mới</span>
+      <!-- Footnote Hints & Server IP Config -->
+      <div class="mt-5 pt-3.5 border-t border-white/10 w-full text-[11px] text-slate-400 flex flex-col gap-2">
+        <div class="flex items-center justify-between">
+          <span class="text-amber-400/80 font-medium">Mật khẩu mặc định: <strong>1234</strong></span>
+          <button type="button" id="btn-toggle-server-config" class="text-slate-400 hover:text-amber-300 transition-colors flex items-center gap-1 cursor-pointer" title="Cấu hình IP máy chủ nếu mở từ máy khác">
+            <i data-lucide="wifi" class="w-3 h-3"></i>
+            <span id="lbl-active-server-host">Máy chủ: 192.168.100.163</span>
+          </button>
+        </div>
+        <div id="server-config-drawer" class="hidden flex items-center gap-1.5 mt-0.5">
+          <input type="text" id="input-custom-server" placeholder="http://192.168.100.163/music" class="flex-1 glass-input px-2.5 py-1 rounded-xl text-[11px] text-white font-mono">
+          <button type="button" id="btn-save-custom-server" class="px-2.5 py-1 rounded-xl bg-amber-400 text-slate-950 font-bold text-[10px] cursor-pointer">Lưu</button>
+        </div>
+        <span class="text-[10px] text-slate-500">Đăng nhập 1 lần cho cả ngày • Khóa tự động khi sang ngày mới</span>
       </div>
 
     </div>
@@ -150,6 +160,12 @@
 
       <!-- Right Header Actions -->
       <div class="flex items-center gap-1.5 sm:gap-2">
+        <!-- Open on Phone / QR Code button -->
+        <button id="btn-open-qr-modal" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer" title="Quét mã QR để mở trang này trên điện thoại hoặc máy khác">
+          <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Mở trên điện thoại</span>
+        </button>
+
         <!-- Return to Music -->
         <a href="index.html" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs font-medium flex items-center gap-1.5 border border-white/10 transition-colors" title="Trở về trang phát nhạc 4K">
           <i data-lucide="headphones" class="w-3.5 h-3.5 text-amber-400"></i>
@@ -364,6 +380,44 @@
     </div>
   </div>
 
+  <!-- ======================== 5. QR CODE & CROSS-DEVICE MODAL ======================== -->
+  <div id="qr-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div class="glass-panel max-w-sm w-full rounded-3xl p-6 border border-white/20 shadow-2xl relative text-center flex flex-col items-center">
+      
+      <div class="flex items-center justify-between w-full pb-3 mb-4 border-b border-white/10">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i data-lucide="smartphone" class="w-5 h-5 text-amber-400"></i>
+          <span>Mở Trên Máy Khác / Điện Thoại</span>
+        </h3>
+        <button id="btn-close-qr-modal" class="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-white/10 cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- QR Code Image Container -->
+      <div class="p-3 bg-white rounded-2xl shadow-xl mb-4">
+        <img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=4&data=http%3A%2F%2F192.168.100.163%2Fmusic%2Fcloud.html" alt="QR Code mở trên điện thoại" class="w-48 h-48 rounded-xl object-contain">
+      </div>
+
+      <p class="text-xs text-slate-300 mb-3">
+        Dùng Camera điện thoại quét mã QR ở trên để mở ngay trang Cloud (điện thoại cần kết nối cùng mạng Wi-Fi với máy tính này).
+      </p>
+
+      <!-- Copy Link Box -->
+      <div class="w-full p-2.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-2 mb-3 text-left">
+        <span class="text-xs text-amber-300 font-mono truncate select-all" id="lbl-lan-url">http://192.168.100.163/music/cloud.html</span>
+        <button id="btn-copy-lan-url" class="px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-semibold flex-shrink-0 cursor-pointer">
+          Copy
+        </button>
+      </div>
+
+      <div class="w-full text-left p-3 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-[11px] text-sky-300">
+        <strong>💡 Kết nối từ xa (4G/Khác mạng):</strong> Nếu điện thoại dùng 4G hoặc máy tính ở cơ quan khác mạng Wi-Fi, chạy script <code class="text-white font-mono bg-black/40 px-1 py-0.5 rounded">./scripts/start_public_tunnel.sh</code> để lấy đường link online toàn cầu!
+      </div>
+
+    </div>
+  </div>
+
   <!-- ======================== APPLICATION CLIENT JAVASCRIPT ======================== -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -547,13 +601,19 @@
           btnSubmitPin.innerHTML = `<span class="animate-spin inline-block w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full mr-2"></span> Đang xác thực...`;
         }
 
-        // Try API endpoints (relative, localhost, 127.0.0.1, servbay.host)
+        // Try API endpoints (custom saved, relative, LAN IP, localhost, servbay.host)
+        const savedCustom = localStorage.getItem("aura_cloud_custom_server") || "";
+        const currentOrigin = window.location.origin;
+
         const endpoints = [
+          (savedCustom ? `${savedCustom.replace(/\/$/, '')}/cloud-api.php?action=login` : null),
           "cloud-api.php?action=login",
+          (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/music/cloud-api.php?action=login` : null),
+          "http://192.168.100.163/music/cloud-api.php?action=login",
           "http://127.0.0.1/music/cloud-api.php?action=login",
           "http://localhost/music/cloud-api.php?action=login",
           "https://servbay.host/music/cloud-api.php?action=login"
-        ];
+        ].filter(Boolean);
 
         let success = false;
         let lastError = "";
@@ -1311,6 +1371,73 @@
           }
         }
       }, 30000);
+
+      // ======================== SERVER CONFIG DRAWER & QR MODAL ========================
+      const btnToggleServerConfig = document.getElementById("btn-toggle-server-config");
+      const serverConfigDrawer = document.getElementById("server-config-drawer");
+      const inputCustomServer = document.getElementById("input-custom-server");
+      const btnSaveCustomServer = document.getElementById("btn-save-custom-server");
+      const lblActiveServerHost = document.getElementById("lbl-active-server-host");
+
+      // Load saved custom server if any
+      const savedServer = localStorage.getItem("aura_cloud_custom_server");
+      if (savedServer && inputCustomServer) {
+        inputCustomServer.value = savedServer;
+        if (lblActiveServerHost) lblActiveServerHost.textContent = "IP: " + savedServer.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+      }
+
+      btnToggleServerConfig?.addEventListener("click", () => {
+        serverConfigDrawer?.classList.toggle("hidden");
+        if (!serverConfigDrawer?.classList.contains("hidden")) {
+          inputCustomServer?.focus();
+        }
+      });
+
+      btnSaveCustomServer?.addEventListener("click", () => {
+        const val = (inputCustomServer?.value || "").trim().replace(/\/$/, "");
+        if (val) {
+          localStorage.setItem("aura_cloud_custom_server", val);
+          window.ACTIVE_API_BASE = `${val}/cloud-api.php`;
+          if (lblActiveServerHost) lblActiveServerHost.textContent = "IP: " + val.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+          showToast("Đã lưu địa chỉ máy chủ!", "success");
+          serverConfigDrawer?.classList.add("hidden");
+        } else {
+          localStorage.removeItem("aura_cloud_custom_server");
+          showToast("Đã xóa địa chỉ máy chủ tùy chỉnh, dùng mặc định.", "info");
+          serverConfigDrawer?.classList.add("hidden");
+        }
+      });
+
+      // QR Code Modal
+      const btnOpenQrModal = document.getElementById("btn-open-qr-modal");
+      const qrModal = document.getElementById("qr-modal");
+      const btnCloseQrModal = document.getElementById("btn-close-qr-modal");
+      const btnCopyLanUrl = document.getElementById("btn-copy-lan-url");
+      const lblLanUrl = document.getElementById("lbl-lan-url");
+
+      btnOpenQrModal?.addEventListener("click", () => {
+        qrModal.style.opacity = "1";
+        qrModal.style.pointerEvents = "auto";
+      });
+
+      btnCloseQrModal?.addEventListener("click", () => {
+        qrModal.style.opacity = "0";
+        qrModal.style.pointerEvents = "none";
+      });
+
+      qrModal?.addEventListener("click", (e) => {
+        if (e.target === qrModal) {
+          qrModal.style.opacity = "0";
+          qrModal.style.pointerEvents = "none";
+        }
+      });
+
+      btnCopyLanUrl?.addEventListener("click", () => {
+        const url = lblLanUrl?.textContent || "http://192.168.100.163/music/cloud.html";
+        navigator.clipboard.writeText(url).then(() => {
+          showToast("Đã sao chép link mạng Wi-Fi!", "success");
+        });
+      });
 
       // STARTUP
       verifySessionOnStartup();
