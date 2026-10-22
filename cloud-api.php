@@ -13,8 +13,16 @@ ini_set('display_errors', '0');
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 // CORS and JSON Headers
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, X-Cloud-Token');
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 $storageDir = __DIR__ . '/storage';
 $uploadDir = $storageDir . '/uploads';
@@ -282,6 +290,13 @@ try {
         $ins = $db->prepare("INSERT INTO sessions (token, date_valid, device, created_at) VALUES (?, ?, ?, datetime('now', 'localtime'))");
         $ins->execute([$token, $today, $device]);
 
+        // Set secure cookie for image/file requests without custom headers
+        @setcookie('cloud_token', $token, [
+            'expires' => strtotime('tomorrow'),
+            'path' => '/',
+            'samesite' => 'Lax'
+        ]);
+
         // Check if using default PIN (1234)
         $isDefaultPin = password_verify('1234', $pinHash);
 
@@ -393,6 +408,8 @@ try {
         $stmt = $db->prepare($sql);
         $stmt->execute($params);
         $rows = $stmt->fetchAll();
+        $authToken = get_token();
+        $tokenQuery = $authToken ? '&token=' . rawurlencode($authToken) : '';
 
         // Process rows with friendly formatting
         $items = [];
@@ -402,8 +419,8 @@ try {
             $previewUrl = null;
 
             if ($r['file_path']) {
-                $downloadUrl = 'cloud-api.php?action=download&id=' . $r['id'];
-                $previewUrl = 'cloud-api.php?action=download&id=' . $r['id'] . '&inline=1';
+                $downloadUrl = 'cloud-api.php?action=download&id=' . $r['id'] . $tokenQuery;
+                $previewUrl = 'cloud-api.php?action=download&id=' . $r['id'] . '&inline=1' . $tokenQuery;
             }
 
             $items[] = [
