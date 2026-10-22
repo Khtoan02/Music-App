@@ -250,14 +250,18 @@ try {
     $db = get_db();
     cleanup_old_sessions($db);
 
-    $action = $_GET['action'] ?? $_POST['action'] ?? '';
+    $rawInput = file_get_contents('php://input');
+    $jsonBody = !empty($rawInput) ? json_decode($rawInput, true) : [];
+    if (!is_array($jsonBody)) $jsonBody = [];
+
+    $action = $_GET['action'] ?? $_POST['action'] ?? $jsonBody['action'] ?? '';
     $clientIp = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
 
     // 1. ACTION: LOGIN WITH 4-DIGIT PIN
     if ($action === 'login') {
         check_rate_limit($db, $clientIp);
 
-        $pin = trim($_POST['pin'] ?? '');
+        $pin = trim((string)($_POST['pin'] ?? $jsonBody['pin'] ?? $_GET['pin'] ?? ''));
         if (!preg_match('/^[0-9]{4}$/', $pin)) {
             json_out(400, [
                 'ok' => false,
