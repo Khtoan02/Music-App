@@ -580,6 +580,9 @@ try {
         header_remove('Content-Type');
         header('Content-Type: ' . $contentType);
         header('Content-Length: ' . filesize($fullPath));
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, X-Cloud-Token');
         header('Cache-Control: private, max-age=86400');
 
         $disposition = $isInline ? 'inline' : 'attachment';

@@ -71,57 +71,29 @@
   <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-2 pointer-events-none max-w-sm w-full"></div>
 
   <!-- ======================== 1. PASSCODE LOCK SCREEN (MÃ PIN 4 SỐ) ======================== -->
-  <div id="lock-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-2xl transition-all duration-500">
-    <div class="relative w-full max-w-sm glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl text-center flex flex-col items-center">
+  <div id="lock-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/95 backdrop-blur-2xl transition-all duration-300">
+    <div class="relative w-full max-w-xs glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl text-center flex flex-col items-center">
       
-      <!-- Lock Ambient Glow -->
-      <div class="absolute -top-12 w-32 h-32 bg-amber-400/20 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- Subtle Glow -->
+      <div class="absolute -top-10 w-28 h-28 bg-amber-400/15 rounded-full blur-2xl pointer-events-none"></div>
 
-      <!-- Icon & Header -->
-      <div class="w-16 h-16 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 mb-4 shadow-inner">
-        <i data-lucide="shield-check" class="w-8 h-8"></i>
-      </div>
+      <!-- Chỉ duy nhất chữ: Đăng nhập -->
+      <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white mb-6">Đăng nhập</h2>
 
-      <h2 class="text-xl font-bold tracking-tight text-white mb-1">Aura Cloud</h2>
-      <p id="lock-subtitle" class="text-xs text-slate-400 mb-6 leading-relaxed">
-        Nhập mật khẩu 4 số để bắt đầu phiên làm việc hôm nay
-      </p>
-
-      <!-- 4 PIN Input Boxes Form (Không dùng bàn phím số ảo, nhập trực tiếp bằng bàn phím máy/điện thoại) -->
+      <!-- 4 Ô Nhập Mật Khẩu -->
       <form id="pin-form" class="w-full flex flex-col items-center">
-        <!-- 4 Separate Password Boxes -->
-        <div class="flex items-center justify-center gap-3 sm:gap-3.5 mb-4" id="pin-boxes-container">
+        <div class="flex items-center justify-center gap-2.5 sm:gap-3 mb-2" id="pin-boxes-container">
           <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 sm:w-14 sm:h-16 text-center text-xl sm:text-2xl font-bold font-mono rounded-2xl glass-input text-white border-2 border-white/20 focus:border-amber-400 focus:bg-amber-400/10 focus:shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-all outline-none" data-idx="0" autocomplete="off" autofocus>
           <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 sm:w-14 sm:h-16 text-center text-xl sm:text-2xl font-bold font-mono rounded-2xl glass-input text-white border-2 border-white/20 focus:border-amber-400 focus:bg-amber-400/10 focus:shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-all outline-none" data-idx="1" autocomplete="off">
           <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 sm:w-14 sm:h-16 text-center text-xl sm:text-2xl font-bold font-mono rounded-2xl glass-input text-white border-2 border-white/20 focus:border-amber-400 focus:bg-amber-400/10 focus:shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-all outline-none" data-idx="2" autocomplete="off">
           <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 sm:w-14 sm:h-16 text-center text-xl sm:text-2xl font-bold font-mono rounded-2xl glass-input text-white border-2 border-white/20 focus:border-amber-400 focus:bg-amber-400/10 focus:shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-all outline-none" data-idx="3" autocomplete="off">
         </div>
 
-        <!-- Error message container -->
-        <div id="pin-error-msg" class="text-xs font-medium text-rose-400 min-h-[20px] mb-3"></div>
+        <!-- Thông báo lỗi (chỉ xuất hiện khi nhập sai) -->
+        <div id="pin-error-msg" class="text-xs font-medium text-rose-400 min-h-[22px] mt-2 text-center"></div>
 
-        <!-- Submit Button -->
-        <button type="submit" id="btn-submit-pin" class="w-full py-3.5 rounded-2xl bg-amber-400 hover:bg-amber-300 active:scale-95 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition-all cursor-pointer">
-          <i data-lucide="unlock" class="w-4 h-4"></i>
-          <span>Mở Khóa Phiên Làm Việc</span>
-        </button>
+        <button type="submit" id="btn-submit-pin" class="sr-only">Đăng nhập</button>
       </form>
-
-      <!-- Footnote Hints & Server IP Config -->
-      <div class="mt-5 pt-3.5 border-t border-white/10 w-full text-[11px] text-slate-400 flex flex-col gap-2">
-        <div class="flex items-center justify-between">
-          <span class="text-amber-400/80 font-medium">Mật khẩu mặc định: <strong>1234</strong></span>
-          <button type="button" id="btn-toggle-server-config" class="text-slate-400 hover:text-amber-300 transition-colors flex items-center gap-1 cursor-pointer" title="Cấu hình IP máy chủ nếu mở từ máy khác">
-            <i data-lucide="wifi" class="w-3 h-3"></i>
-            <span id="lbl-active-server-host">Máy chủ: 192.168.100.163</span>
-          </button>
-        </div>
-        <div id="server-config-drawer" class="hidden flex items-center gap-1.5 mt-0.5">
-          <input type="text" id="input-custom-server" placeholder="http://192.168.100.163/music" class="flex-1 glass-input px-2.5 py-1 rounded-xl text-[11px] text-white font-mono">
-          <button type="button" id="btn-save-custom-server" class="px-2.5 py-1 rounded-xl bg-amber-400 text-slate-950 font-bold text-[10px] cursor-pointer">Lưu</button>
-        </div>
-        <span class="text-[10px] text-slate-500">Đăng nhập 1 lần cho cả ngày • Khóa tự động khi sang ngày mới</span>
-      </div>
 
     </div>
   </div>
@@ -353,18 +325,41 @@
   </div>
 
   <!-- ======================== 4. LIGHTBOX MODAL FOR IMAGE PREVIEW ======================== -->
-  <div id="lightbox-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-300 cursor-zoom-out">
-    <div class="relative max-w-4xl max-h-[90vh] flex flex-col items-center">
-      <img id="lightbox-img" src="" alt="Xem trước ảnh" class="max-w-full max-h-[80vh] rounded-2xl object-contain shadow-2xl">
-      <div class="mt-3 flex items-center gap-3">
-        <a id="lightbox-download-link" href="#" class="px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow" download>
-          <i data-lucide="download" class="w-4 h-4"></i>
-          <span>Tải ảnh gốc về máy</span>
-        </a>
-        <button id="btn-close-lightbox" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-xs flex items-center gap-1.5 cursor-pointer">
-          <i data-lucide="x" class="w-4 h-4"></i>
-          <span>Đóng</span>
+  <div id="lightbox-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-300">
+    <div class="relative max-w-4xl max-h-[92vh] w-full flex flex-col items-center">
+      
+      <!-- Lightbox Header -->
+      <div class="w-full flex items-center justify-between pb-2 mb-2 text-white border-b border-white/10">
+        <span id="lightbox-filename" class="text-xs sm:text-sm font-medium truncate max-w-md text-slate-300">Xem trước ảnh</span>
+        <button id="btn-close-lightbox" class="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white cursor-pointer transition-colors" title="Đóng (Esc)">
+          <i data-lucide="x" class="w-5 h-5"></i>
         </button>
+      </div>
+
+      <!-- Image display -->
+      <div class="relative max-h-[72vh] flex items-center justify-center overflow-hidden rounded-2xl bg-black/50 p-2 border border-white/10 w-full">
+        <img id="lightbox-img" src="" alt="Xem trước ảnh" class="max-w-full max-h-[68vh] object-contain rounded-xl shadow-2xl" crossorigin="anonymous">
+      </div>
+
+      <!-- Action buttons -->
+      <div class="mt-3.5 flex flex-wrap items-center justify-center gap-2.5">
+        <!-- Nút Sao chép ảnh trực tiếp vào Clipboard -->
+        <button id="lightbox-copy-btn" class="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-amber-500/20 transition-all cursor-pointer">
+          <i data-lucide="copy" class="w-4 h-4"></i>
+          <span>Sao chép ảnh vào Clipboard</span>
+        </button>
+
+        <!-- Nút Tải ảnh về máy -->
+        <a id="lightbox-download-link" href="#" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs flex items-center gap-1.5 border border-white/10 transition-colors" download>
+          <i data-lucide="download" class="w-4 h-4 text-amber-400"></i>
+          <span>Tải ảnh về máy</span>
+        </a>
+
+        <!-- Mở ảnh trong tab mới -->
+        <a id="lightbox-open-new-tab" href="#" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white font-medium text-xs flex items-center gap-1.5 border border-white/10 transition-colors">
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+          <span>Mở tab mới</span>
+        </a>
       </div>
     </div>
   </div>
@@ -423,14 +418,53 @@
     document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
 
-      // Intelligent API Base: handles both local file:// and web server
-      let API_BASE = window.location.protocol === "file:" ? "http://127.0.0.1/music/cloud-api.php" : "cloud-api.php";
+      // Intelligent API & Endpoints Management
+      function getCandidateEndpoints(action) {
+        const savedBase = localStorage.getItem("aura_cloud_api_base");
+        const savedCustom = localStorage.getItem("aura_cloud_custom_server");
+        const currentOrigin = window.location.origin;
+
+        const list = [
+          savedBase ? `${savedBase.replace(/\/$/, '')}?action=${action}` : null,
+          (savedCustom ? `${savedCustom.replace(/\/$/, '')}/cloud-api.php?action=${action}` : null),
+          `cloud-api.php?action=${action}`,
+          (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/music/cloud-api.php?action=${action}` : null),
+          `http://192.168.100.163/music/cloud-api.php?action=${action}`,
+          `http://127.0.0.1/music/cloud-api.php?action=${action}`,
+          `http://localhost/music/cloud-api.php?action=${action}`,
+          `https://servbay.host/music/cloud-api.php?action=${action}`
+        ].filter(Boolean);
+
+        return Array.from(new Set(list));
+      }
+
+      function getActiveApiBase() {
+        const savedBase = localStorage.getItem("aura_cloud_api_base");
+        if (savedBase) return savedBase;
+        const savedCustom = localStorage.getItem("aura_cloud_custom_server");
+        if (savedCustom) return `${savedCustom.replace(/\/$/, '')}/cloud-api.php`;
+        return window.location.protocol === "file:" ? "http://127.0.0.1/music/cloud-api.php" : "cloud-api.php";
+      }
+
+      let API_BASE = getActiveApiBase();
+
+      function resolveApiUrl(path) {
+        if (!path) return "";
+        if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("blob:") || path.startsWith("data:")) {
+          return path;
+        }
+        const base = getActiveApiBase();
+        if (base.startsWith("http://") || base.startsWith("https://")) {
+          const dir = base.substring(0, base.lastIndexOf("/") + 1);
+          return dir + path;
+        }
+        return path;
+      }
 
       // State Management
       const state = {
         token: localStorage.getItem("aura_cloud_token") || null,
         sessionDate: localStorage.getItem("aura_cloud_session_date") || null,
-        currentPin: "",
         activeFilter: "all",
         searchQuery: "",
         selectedFile: null,
@@ -441,7 +475,6 @@
 
       // DOM Elements
       const lockScreen = document.getElementById("lock-screen");
-      const lockSubtitle = document.getElementById("lock-subtitle");
       const pinBoxes = document.querySelectorAll(".pin-box");
       const pinBoxesContainer = document.getElementById("pin-boxes-container");
       const pinForm = document.getElementById("pin-form");
@@ -471,7 +504,10 @@
       const dragOverlay = document.getElementById("drag-drop-overlay");
       const lightboxModal = document.getElementById("lightbox-modal");
       const lightboxImg = document.getElementById("lightbox-img");
+      const lightboxFilename = document.getElementById("lightbox-filename");
+      const lightboxCopyBtn = document.getElementById("lightbox-copy-btn");
       const lightboxDownloadLink = document.getElementById("lightbox-download-link");
+      const lightboxOpenNewTab = document.getElementById("lightbox-open-new-tab");
       const btnCloseLightbox = document.getElementById("btn-close-lightbox");
       const lblSessionDate = document.getElementById("lbl-session-date");
 
@@ -508,6 +544,87 @@
         }, 3000);
       }
 
+      // ======================== COPY IMAGE TO CLIPBOARD (DIRECT) ========================
+      async function convertBlobToPng(blob) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          const objectUrl = URL.createObjectURL(blob);
+          img.onload = () => {
+            URL.revokeObjectURL(objectUrl);
+            const canvas = document.createElement("canvas");
+            canvas.width = img.naturalWidth || img.width;
+            canvas.height = img.naturalHeight || img.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob((b) => {
+              if (b) resolve(b);
+              else reject(new Error("Không thể chuyển định dạng sang PNG"));
+            }, "image/png");
+          };
+          img.onerror = (e) => {
+            URL.revokeObjectURL(objectUrl);
+            reject(e);
+          };
+          img.src = objectUrl;
+        });
+      }
+
+      async function copyImageToClipboard(imgUrl, triggerBtn = null) {
+        let originalHtml = "";
+        if (triggerBtn) {
+          originalHtml = triggerBtn.innerHTML;
+          triggerBtn.disabled = true;
+          triggerBtn.innerHTML = `<span class="animate-spin inline-block w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full mr-1"></span><span>Đang sao chép...</span>`;
+        }
+
+        try {
+          const res = await fetch(imgUrl, { mode: "cors" });
+          if (!res.ok) throw new Error("Tải ảnh thất bại: " + res.status);
+          const blob = await res.blob();
+
+          let pngBlob = blob;
+          if (blob.type !== "image/png") {
+            pngBlob = await convertBlobToPng(blob);
+          }
+
+          if (navigator.clipboard && navigator.clipboard.write) {
+            await navigator.clipboard.write([
+              new ClipboardItem({ "image/png": pngBlob })
+            ]);
+            showToast("Đã sao chép ảnh vào clipboard! Dán (Ctrl+V) ngay vào Zalo / Word / Chat.", "success");
+            if (triggerBtn) {
+              triggerBtn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i><span class="text-emerald-300">Đã chép!</span>`;
+              lucide.createIcons({ root: triggerBtn });
+              setTimeout(() => {
+                if (triggerBtn && originalHtml) {
+                  triggerBtn.innerHTML = originalHtml;
+                  triggerBtn.disabled = false;
+                  lucide.createIcons({ root: triggerBtn });
+                }
+              }, 2000);
+            }
+            return;
+          } else {
+            throw new Error("Trình duyệt không hỗ trợ ClipboardItem");
+          }
+        } catch (err) {
+          console.warn("copyImageToClipboard failed:", err);
+          // Fallback: Copy direct image URL
+          try {
+            await navigator.clipboard.writeText(imgUrl);
+            showToast("Đã sao chép liên kết ảnh vào clipboard!", "info");
+          } catch (e2) {
+            showToast("Không thể chép ảnh tự động. Bạn hãy nhấp chuột phải vào ảnh và chọn 'Sao chép hình ảnh'.", "error");
+          }
+          if (triggerBtn && originalHtml) {
+            triggerBtn.innerHTML = originalHtml;
+            triggerBtn.disabled = false;
+            lucide.createIcons({ root: triggerBtn });
+          }
+        }
+      }
+
       // ======================== AUTHENTICATION & PIN MANAGEMENT (4 Ô MẬT KHẨU) ========================
       function getEnteredPin() {
         let pin = "";
@@ -524,11 +641,10 @@
 
       // Input event navigation across the 4 boxes
       pinBoxes.forEach((box, idx) => {
-        // Typing a digit (filters out non-digits, auto jumps next)
         box.addEventListener("input", () => {
           const val = box.value.replace(/[^0-9]/g, "");
           box.value = val ? val[val.length - 1] : "";
-          pinErrorMsg.textContent = "";
+          if (pinErrorMsg) pinErrorMsg.textContent = "";
 
           if (box.value && idx < pinBoxes.length - 1) {
             pinBoxes[idx + 1].focus();
@@ -541,7 +657,6 @@
           }
         });
 
-        // Keydown (Backspace, ArrowLeft, ArrowRight)
         box.addEventListener("keydown", (e) => {
           if (e.key === "Backspace") {
             if (!box.value && idx > 0) {
@@ -557,7 +672,6 @@
           }
         });
 
-        // Handle Paste (e.g. pasting "1234")
         box.addEventListener("paste", (e) => {
           e.preventDefault();
           const pasteData = (e.clipboardData || window.clipboardData).getData("text").trim().replace(/[^0-9]/g, "");
@@ -582,7 +696,7 @@
         e.preventDefault();
         const pin = getEnteredPin();
         if (pin.length !== 4) {
-          pinErrorMsg.textContent = "Vui lòng nhập đủ 4 chữ số.";
+          if (pinErrorMsg) pinErrorMsg.textContent = "Vui lòng nhập đủ 4 chữ số.";
           const emptyIdx = Array.from(pinBoxes).findIndex(b => !b.value);
           if (emptyIdx !== -1) pinBoxes[emptyIdx].focus();
           return;
@@ -592,29 +706,11 @@
 
       async function submitPinLogin(pin) {
         if (!pin || pin.length !== 4) {
-          pinErrorMsg.textContent = "Vui lòng nhập đủ 4 chữ số.";
+          if (pinErrorMsg) pinErrorMsg.textContent = "Vui lòng nhập đủ 4 chữ số.";
           return;
         }
 
-        if (btnSubmitPin) {
-          btnSubmitPin.disabled = true;
-          btnSubmitPin.innerHTML = `<span class="animate-spin inline-block w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full mr-2"></span> Đang xác thực...`;
-        }
-
-        // Try API endpoints (custom saved, relative, LAN IP, localhost, servbay.host)
-        const savedCustom = localStorage.getItem("aura_cloud_custom_server") || "";
-        const currentOrigin = window.location.origin;
-
-        const endpoints = [
-          (savedCustom ? `${savedCustom.replace(/\/$/, '')}/cloud-api.php?action=login` : null),
-          "cloud-api.php?action=login",
-          (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/music/cloud-api.php?action=login` : null),
-          "http://192.168.100.163/music/cloud-api.php?action=login",
-          "http://127.0.0.1/music/cloud-api.php?action=login",
-          "http://localhost/music/cloud-api.php?action=login",
-          "https://servbay.host/music/cloud-api.php?action=login"
-        ].filter(Boolean);
-
+        const endpoints = getCandidateEndpoints("login");
         let success = false;
         let lastError = "";
 
@@ -632,14 +728,14 @@
             if (res.ok && data && data.ok) {
               success = true;
               API_BASE = ep.split("?")[0];
-              window.ACTIVE_API_BASE = API_BASE;
+              localStorage.setItem("aura_cloud_api_base", API_BASE);
 
               state.token = data.token;
               state.sessionDate = data.date_valid;
               localStorage.setItem("aura_cloud_token", data.token);
               localStorage.setItem("aura_cloud_session_date", data.date_valid);
 
-              showToast("Đăng nhập thành công! Phiên hợp lệ trong ngày hôm nay.", "success");
+              showToast("Đăng nhập thành công!", "success");
               unlockApp();
               break;
             } else if (data && data.error) {
@@ -647,7 +743,7 @@
               break;
             }
           } catch (err) {
-            // Try next endpoint fallback
+            // Try next candidate
           }
         }
 
@@ -655,14 +751,8 @@
           pinBoxesContainer?.classList.add("shake");
           setTimeout(() => pinBoxesContainer?.classList.remove("shake"), 450);
 
-          pinErrorMsg.textContent = lastError || "Mã PIN không chính xác hoặc không kết nối được máy chủ.";
+          if (pinErrorMsg) pinErrorMsg.textContent = lastError || "Mã PIN không chính xác.";
           clearPinBoxes();
-        }
-
-        if (btnSubmitPin) {
-          btnSubmitPin.disabled = false;
-          btnSubmitPin.innerHTML = `<i data-lucide="unlock" class="w-4 h-4"></i><span>Mở Khóa Phiên Làm Việc</span>`;
-          lucide.createIcons({ root: btnSubmitPin });
         }
       }
 
@@ -685,6 +775,15 @@
         messageInput.focus();
       }
 
+      function showLockScreen(reason = "") {
+        mainApp.style.opacity = "0";
+        mainApp.style.pointerEvents = "none";
+        lockScreen.style.opacity = "1";
+        lockScreen.style.pointerEvents = "auto";
+        if (pinErrorMsg) pinErrorMsg.textContent = reason;
+        clearPinBoxes();
+      }
+
       function lockApp(reason = "") {
         state.token = null;
         state.sessionDate = null;
@@ -696,62 +795,71 @@
           state.pollTimer = null;
         }
 
-        clearPinBoxes();
-        if (reason) {
-          lockSubtitle.textContent = reason;
-          lockSubtitle.classList.add("text-amber-300");
-        } else {
-          lockSubtitle.textContent = "Nhập mật khẩu 4 số để bắt đầu phiên làm việc hôm nay";
-          lockSubtitle.classList.remove("text-amber-300");
-        }
-
-        mainApp.style.opacity = "0";
-        mainApp.style.pointerEvents = "none";
-        lockScreen.style.opacity = "1";
-        lockScreen.style.pointerEvents = "auto";
-        if (pinBoxes.length > 0) pinBoxes[0].focus();
+        showLockScreen(reason);
       }
 
-      // Check current auth status on app start
+      // Check current auth status on app start (F5 Persistence)
       async function verifySessionOnStartup() {
         const savedToken = localStorage.getItem("aura_cloud_token");
         const savedDate = localStorage.getItem("aura_cloud_session_date");
 
         if (!savedToken) {
-          lockApp();
+          showLockScreen();
           return;
         }
 
-        // Fast client check: has calendar date changed?
+        // Fast optimistic restore: Check if stored date is today
         const now = new Date();
         const clientToday = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, '0') + "-" + String(now.getDate()).padStart(2, '0');
-        if (savedDate && savedDate !== clientToday) {
-          lockApp("Chào ngày mới! Phiên làm việc hôm qua đã kết thúc. Vui lòng nhập mã PIN.");
+
+        if (savedDate && savedDate === clientToday) {
+          // It's the same day! Unlock immediately on F5 with ZERO delay!
+          state.token = savedToken;
+          state.sessionDate = savedDate;
+          unlockApp();
+        } else if (savedDate && savedDate !== clientToday) {
+          // Different calendar day: prompt login
+          lockApp("Chào ngày mới! Vui lòng đăng nhập lại.");
           return;
         }
 
-        // Verify with server
+        // Verify with server in background
         try {
-          const apiBase = window.ACTIVE_API_BASE || API_BASE;
-          const res = await fetch(`${apiBase}?action=check_auth`, {
-            headers: { "X-Cloud-Token": savedToken }
-          });
-          const data = await res.json();
+          const endpoints = getCandidateEndpoints("check_auth");
+          let verified = false;
 
-          if (data.ok) {
-            state.token = savedToken;
-            state.sessionDate = data.date_valid;
-            unlockApp();
-          } else {
-            if (data.code === "NEW_DAY_EXPIRED") {
-              lockApp(data.error);
-            } else {
-              lockApp("Phiên đăng nhập đã hết hạn. Vui lòng nhập lại mã PIN.");
+          for (const ep of endpoints) {
+            try {
+              const res = await fetch(ep, {
+                headers: { "X-Cloud-Token": savedToken }
+              });
+              const data = await res.json().catch(() => null);
+
+              if (res.ok && data && data.ok) {
+                verified = true;
+                API_BASE = ep.split("?")[0];
+                localStorage.setItem("aura_cloud_api_base", API_BASE);
+                state.token = savedToken;
+                state.sessionDate = data.date_valid;
+                localStorage.setItem("aura_cloud_session_date", data.date_valid);
+                if (lockScreen.style.opacity !== "0") {
+                  unlockApp();
+                }
+                break;
+              } else if (data && (data.code === "NEW_DAY_EXPIRED" || data.code === "UNAUTHORIZED" || data.code === "INVALID_SESSION")) {
+                lockApp(data.error || "Phiên đăng nhập đã hết hạn.");
+                return;
+              }
+            } catch (err) {
+              // try next candidate
             }
           }
+
+          if (!verified && !state.token) {
+            showLockScreen();
+          }
         } catch (e) {
-          // If offline or network error, show lock screen
-          lockApp();
+          console.warn("verifySessionOnStartup background check:", e);
         }
       }
 
@@ -862,12 +970,41 @@
 
         // 1. Image Preview
         if (item.type === "image" && item.preview_url) {
+          const resolvedPreview = resolveApiUrl(item.preview_url);
+          const resolvedDownload = resolveApiUrl(item.download_url);
           contentHtml += `
-            <div class="mt-2 relative rounded-2xl overflow-hidden bg-black/40 border border-white/10 group cursor-pointer max-w-md" data-preview-img="${item.preview_url}" data-download-url="${item.download_url}">
-              <img src="${item.preview_url}" alt="${escapeHtml(item.file_name)}" class="w-full max-h-72 object-cover transition-transform group-hover:scale-[1.02] duration-300" loading="lazy">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-3">
-                <span class="text-xs text-white truncate font-medium">${escapeHtml(item.file_name)}</span>
-                <span class="px-2.5 py-1 rounded-xl bg-amber-400 text-slate-950 font-bold text-[11px] shadow">Xem ảnh</span>
+            <div class="mt-2.5 rounded-2xl overflow-hidden bg-slate-900/60 border border-white/10 max-w-lg">
+              <!-- Vùng hiển thị ảnh gốc: Không bị cắt góc, tự nhiên, nhấp vào để phóng to -->
+              <div class="bg-black/50 p-2 flex items-center justify-center cursor-pointer group" data-preview-img="${resolvedPreview}" data-download-url="${resolvedDownload}" data-filename="${escapeHtml(item.file_name)}">
+                <img src="${resolvedPreview}" alt="${escapeHtml(item.file_name)}" class="max-h-80 w-auto object-contain rounded-xl shadow-lg transition-transform group-hover:scale-[1.01]" crossorigin="anonymous" loading="lazy">
+              </div>
+
+              <!-- Thanh thao tác ảnh: Sao chép ảnh vào Clipboard, Phóng to, Tải về -->
+              <div class="px-3 py-2 bg-white/5 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div class="flex items-center gap-1.5 min-w-0 max-w-[200px]">
+                  <i data-lucide="image" class="w-3.5 h-3.5 text-amber-400 flex-shrink-0"></i>
+                  <span class="truncate text-slate-300 font-medium text-[11px]" title="${escapeHtml(item.file_name)}">${escapeHtml(item.file_name)}</span>
+                  <span class="text-slate-500 text-[10px] font-mono flex-shrink-0">(${item.file_size_human})</span>
+                </div>
+
+                <div class="flex items-center gap-1.5 flex-shrink-0">
+                  <!-- Nút Sao chép ảnh trực tiếp vào Clipboard -->
+                  <button class="btn-copy-image px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow transition-all cursor-pointer" data-img-url="${resolvedPreview}" title="Sao chép ảnh vào clipboard để dán ngay (Ctrl+V)">
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                    <span>Sao chép ảnh</span>
+                  </button>
+
+                  <!-- Nút Xem phóng to -->
+                  <button class="btn-view-image px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-xs flex items-center gap-1 transition-all cursor-pointer" data-preview-img="${resolvedPreview}" data-download-url="${resolvedDownload}" data-filename="${escapeHtml(item.file_name)}" title="Xem ảnh phóng to">
+                    <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+                    <span class="hidden sm:inline">Phóng to</span>
+                  </button>
+
+                  <!-- Nút Tải về -->
+                  <a href="${resolvedDownload}" download="${escapeHtml(item.file_name)}" class="p-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-slate-300 hover:text-white transition-all" title="Tải ảnh gốc về máy">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                  </a>
+                </div>
               </div>
             </div>
           `;
@@ -877,6 +1014,8 @@
         } 
         // 2. Generic File Attachment (PDF, Doc, ZIP, Audio, Video, etc.)
         else if (item.type === "file" && item.download_url) {
+          const resolvedPreview = resolveApiUrl(item.preview_url);
+          const resolvedDownload = resolveApiUrl(item.download_url);
           let fileIcon = "file-text";
           if (item.category === "archive") fileIcon = "archive";
           if (item.category === "audio") fileIcon = "music";
@@ -895,11 +1034,11 @@
                 </div>
               </div>
               <div class="flex items-center gap-2 flex-shrink-0 justify-end">
-                <a href="${item.preview_url}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-semibold text-xs flex items-center gap-1.5 border border-sky-500/30 transition-colors" title="Xem trực tiếp trong tab mới mà không tải về">
+                <a href="${resolvedPreview}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-semibold text-xs flex items-center gap-1.5 border border-sky-500/30 transition-colors" title="Xem trực tiếp trong tab mới mà không tải về">
                   <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                   <span>Xem trực tiếp</span>
                 </a>
-                <a href="${item.download_url}" download="${escapeHtml(item.file_name)}" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow transition-colors" title="Tải tệp về thiết bị">
+                <a href="${resolvedDownload}" download="${escapeHtml(item.file_name)}" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow transition-colors" title="Tải tệp về thiết bị">
                   <i data-lucide="download" class="w-3.5 h-3.5"></i>
                   <span>Tải về</span>
                 </a>
@@ -1040,18 +1179,58 @@
           });
         });
 
-        // Image Lightbox
+        // Direct Image Copy to Clipboard Button
+        document.querySelectorAll(".btn-copy-image").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const imgUrl = btn.getAttribute("data-img-url");
+            if (imgUrl) {
+              copyImageToClipboard(imgUrl, btn);
+            }
+          });
+        });
+
+        // View Image Enlarge Button
+        document.querySelectorAll(".btn-view-image").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const previewUrl = btn.getAttribute("data-preview-img");
+            const downloadUrl = btn.getAttribute("data-download-url");
+            const filename = btn.getAttribute("data-filename") || "Xem trước ảnh";
+            openLightbox(previewUrl, downloadUrl, filename);
+          });
+        });
+
+        // Click on Image Preview Container to Open Lightbox
         document.querySelectorAll("[data-preview-img]").forEach(box => {
-          box.addEventListener("click", () => {
-            const imgUrl = box.getAttribute("data-preview-img");
+          box.addEventListener("click", (e) => {
+            if (e.target.closest("button") || e.target.closest("a")) return;
+            const previewUrl = box.getAttribute("data-preview-img");
             const downloadUrl = box.getAttribute("data-download-url");
-            lightboxImg.src = imgUrl;
-            lightboxDownloadLink.href = downloadUrl;
-            lightboxModal.style.opacity = "1";
-            lightboxModal.style.pointerEvents = "auto";
+            const filename = box.getAttribute("data-filename") || "Xem trước ảnh";
+            openLightbox(previewUrl, downloadUrl, filename);
           });
         });
       }
+
+      function openLightbox(previewUrl, downloadUrl, filename) {
+        if (!lightboxModal) return;
+        lightboxImg.src = previewUrl;
+        lightboxDownloadLink.href = downloadUrl;
+        lightboxDownloadLink.setAttribute("download", filename);
+        if (lightboxOpenNewTab) lightboxOpenNewTab.href = previewUrl;
+        if (lightboxFilename) lightboxFilename.textContent = filename;
+        lightboxModal.style.opacity = "1";
+        lightboxModal.style.pointerEvents = "auto";
+      }
+
+      // Lightbox Copy to Clipboard button
+      lightboxCopyBtn?.addEventListener("click", () => {
+        const src = lightboxImg.getAttribute("src");
+        if (src) {
+          copyImageToClipboard(src, lightboxCopyBtn);
+        }
+      });
 
       // Close Lightbox
       btnCloseLightbox?.addEventListener("click", () => {
@@ -1062,6 +1241,25 @@
         if (e.target === lightboxModal) {
           lightboxModal.style.opacity = "0";
           lightboxModal.style.pointerEvents = "none";
+        }
+      });
+
+      // Keyboard Esc to close all modals
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          if (lightboxModal && lightboxModal.style.opacity === "1") {
+            lightboxModal.style.opacity = "0";
+            lightboxModal.style.pointerEvents = "none";
+          }
+          if (settingsModal && settingsModal.style.opacity === "1") {
+            settingsModal.style.opacity = "0";
+            settingsModal.style.pointerEvents = "none";
+          }
+          const qrModal = document.getElementById("qr-modal");
+          if (qrModal && qrModal.style.opacity === "1") {
+            qrModal.style.opacity = "0";
+            qrModal.style.pointerEvents = "none";
+          }
         }
       });
 
