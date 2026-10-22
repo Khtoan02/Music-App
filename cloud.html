@@ -423,10 +423,16 @@
         const savedBase = localStorage.getItem("aura_cloud_api_base");
         const savedCustom = localStorage.getItem("aura_cloud_custom_server");
         const currentOrigin = window.location.origin;
+        const isVercelHost = window.location.hostname.includes("vercel.app");
 
         const list = [
           savedBase ? `${savedBase.replace(/\/$/, '')}?action=${action}` : null,
-          (savedCustom ? `${savedCustom.replace(/\/$/, '')}/cloud-api.php?action=${action}` : null),
+          (savedCustom ? `${savedCustom.replace(/\/$/, '')}?action=${action}` : null),
+          // Vercel Serverless Function endpoints (Top Priority for 5G / internet)
+          `/api/cloud?action=${action}`,
+          `api/cloud?action=${action}`,
+          (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/api/cloud?action=${action}` : null),
+          // Local PHP endpoints (Fallback for local Mac ServBay)
           `cloud-api.php?action=${action}`,
           (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/music/cloud-api.php?action=${action}` : null),
           `http://192.168.100.163/music/cloud-api.php?action=${action}`,
@@ -435,6 +441,11 @@
           `https://servbay.host/music/cloud-api.php?action=${action}`
         ].filter(Boolean);
 
+        // On Vercel, prioritize /api/cloud
+        if (isVercelHost) {
+          list.sort((a, b) => (a.includes("api/cloud") ? -1 : 1));
+        }
+
         return Array.from(new Set(list));
       }
 
@@ -442,7 +453,10 @@
         const savedBase = localStorage.getItem("aura_cloud_api_base");
         if (savedBase) return savedBase;
         const savedCustom = localStorage.getItem("aura_cloud_custom_server");
-        if (savedCustom) return `${savedCustom.replace(/\/$/, '')}/cloud-api.php`;
+        if (savedCustom) return savedCustom;
+        if (window.location.hostname.includes("vercel.app")) {
+          return "/api/cloud";
+        }
         return window.location.protocol === "file:" ? "http://127.0.0.1/music/cloud-api.php" : "cloud-api.php";
       }
 
@@ -716,12 +730,13 @@
 
         for (const ep of endpoints) {
           try {
+            const isJsonApi = ep.includes("api/cloud");
             const res = await fetch(ep, {
               method: "POST",
               headers: { 
-                "Content-Type": "application/x-www-form-urlencoded" 
+                "Content-Type": isJsonApi ? "application/json" : "application/x-www-form-urlencoded" 
               },
-              body: "pin=" + encodeURIComponent(pin)
+              body: isJsonApi ? JSON.stringify({ pin }) : "pin=" + encodeURIComponent(pin)
             });
 
             const data = await res.json().catch(() => null);
@@ -1268,6 +1283,7 @@
         if (state.isSubmitting) return;
 
         const textContent = messageInput.value.trim();
+        const isVercelApi = API_BASE.includes("api/cloud");
 
         // 1. If a file is selected: Upload file (with optional text as caption)
         if (state.selectedFile) {
@@ -1275,8 +1291,52 @@
           btnSend.disabled = true;
           btnSend.innerHTML = `<span class="animate-spin inline-block w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full"></span>`;
 
+          const file = state.selectedFile;
+
+          if (isVercelApi) {
+            // Read as Base64 for serverless JSON upload
+            const reader = new FileReader();
+            reader.onload = async () => {
+              try {
+                const res = await fetch(`${API_BASE}?action=upload_file`, {
+                  method: "POST",
+                  headers: { 
+                    "Content-Type": "application/json",
+                    "X-Cloud-Token": state.token 
+                  },
+                  body: JSON.stringify({
+                    file_name: file.name,
+                    file_size: file.size,
+                    file_data: reader.result,
+                    caption: textContent
+                  })
+                });
+                const data = await res.json();
+                if (data.ok) {
+                  showToast("Đã tải tệp lên thành công!", "success");
+                  clearSelectedFile();
+                  messageInput.value = "";
+                  adjustTextareaHeight();
+                  fetchMessages();
+                } else {
+                  showToast(data.error || "Lỗi khi tải tệp lên.", "error");
+                }
+              } catch(e) {
+                showToast("Lỗi mạng khi tải tệp lên.", "error");
+              } finally {
+                state.isSubmitting = false;
+                btnSend.disabled = false;
+                btnSend.innerHTML = `<span>Gửi</span><i data-lucide="send" class="w-4 h-4 fill-current"></i>`;
+                lucide.createIcons({ root: btnSend });
+              }
+            };
+            reader.readAsDataURL(file);
+            return;
+          }
+
+          // Otherwise local PHP upload
           const formData = new FormData();
-          formData.append("file", state.selectedFile);
+          formData.append("file", file);
           if (textContent) {
             formData.append("caption", textContent);
           }
@@ -1319,10 +1379,10 @@
           const res = await fetch(`${API_BASE}?action=send_message`, {
             method: "POST",
             headers: { 
-              "Content-Type": "application/x-www-form-urlencoded",
+              "Content-Type": isVercelApi ? "application/json" : "application/x-www-form-urlencoded",
               "X-Cloud-Token": state.token 
             },
-            body: new URLSearchParams({ content: textContent })
+            body: isVercelApi ? JSON.stringify({ content: textContent }) : new URLSearchParams({ content: textContent })
           });
           const data = await res.json();
 
