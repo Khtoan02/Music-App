@@ -10,6 +10,9 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta name="theme-color" content="#090d16">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -89,10 +92,14 @@
           <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 sm:w-14 sm:h-16 text-center text-xl sm:text-2xl font-bold font-mono rounded-2xl glass-input text-white border-2 border-white/20 focus:border-amber-400 focus:bg-amber-400/10 focus:shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-all outline-none" data-idx="3" autocomplete="off">
         </div>
 
-        <!-- Thông báo lỗi (chỉ xuất hiện khi nhập sai) -->
-        <div id="pin-error-msg" class="text-xs font-medium text-rose-400 min-h-[22px] mt-2 text-center"></div>
+        <!-- Nút Đăng nhập trực quan -->
+        <button type="submit" id="btn-submit-pin" class="w-full mt-3 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 active:scale-95 text-slate-950 font-bold text-xs sm:text-sm shadow-lg shadow-amber-500/20 transition-all cursor-pointer flex items-center justify-center gap-1.5">
+          <i data-lucide="unlock" class="w-4 h-4"></i>
+          <span id="btn-submit-text">Đăng nhập</span>
+        </button>
 
-        <button type="submit" id="btn-submit-pin" class="sr-only">Đăng nhập</button>
+        <!-- Thông báo lỗi (chỉ xuất hiện khi nhập sai hoặc kết nối) -->
+        <div id="pin-error-msg" class="text-xs font-medium text-rose-400 min-h-[20px] mt-2.5 text-center"></div>
       </form>
 
     </div>
@@ -421,32 +428,45 @@
       // Intelligent API & Endpoints Management
       function getCandidateEndpoints(action) {
         const savedBase = localStorage.getItem("aura_cloud_api_base");
-        const savedCustom = localStorage.getItem("aura_cloud_custom_server");
         const currentOrigin = window.location.origin;
-        const isVercelHost = window.location.hostname.includes("vercel.app");
+        const host = window.location.hostname;
+        const isVercelHost = host.includes("vercel.app");
+        const isLocalHost = host === "localhost" || host === "127.0.0.1" || host === "servbay.host" || host.startsWith("192.168.");
 
-        const list = [
-          savedBase ? `${savedBase.replace(/\/$/, '')}?action=${action}` : null,
-          (savedCustom ? `${savedCustom.replace(/\/$/, '')}?action=${action}` : null),
-          // Vercel Serverless Function endpoints (Top Priority for 5G / internet)
-          `/api/cloud?action=${action}`,
-          `api/cloud?action=${action}`,
-          (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/api/cloud?action=${action}` : null),
-          // Local PHP endpoints (Fallback for local Mac ServBay)
-          `cloud-api.php?action=${action}`,
-          (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/music/cloud-api.php?action=${action}` : null),
-          `http://192.168.100.163/music/cloud-api.php?action=${action}`,
-          `http://127.0.0.1/music/cloud-api.php?action=${action}`,
-          `http://localhost/music/cloud-api.php?action=${action}`,
-          `https://servbay.host/music/cloud-api.php?action=${action}`
-        ].filter(Boolean);
+        let list = [];
 
-        // On Vercel, prioritize /api/cloud
         if (isVercelHost) {
-          list.sort((a, b) => (a.includes("api/cloud") ? -1 : 1));
+          // On Vercel: /api/cloud first!
+          list = [
+            savedBase && savedBase.includes("api/cloud") ? `${savedBase}?action=${action}` : null,
+            `/api/cloud?action=${action}`,
+            `https://ktmusic.vercel.app/api/cloud?action=${action}`,
+            (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/api/cloud?action=${action}` : null),
+            `cloud-api.php?action=${action}`
+          ];
+        } else if (isLocalHost) {
+          // On Local Mac ServBay: cloud-api.php first!
+          list = [
+            savedBase && !savedBase.includes("api/cloud") ? `${savedBase}?action=${action}` : null,
+            `cloud-api.php?action=${action}`,
+            (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/music/cloud-api.php?action=${action}` : null),
+            `http://192.168.100.163/music/cloud-api.php?action=${action}`,
+            `http://127.0.0.1/music/cloud-api.php?action=${action}`,
+            `http://localhost/music/cloud-api.php?action=${action}`,
+            `https://ktmusic.vercel.app/api/cloud?action=${action}`
+          ];
+        } else {
+          // Anywhere else (e.g. 5G phone or remote)
+          list = [
+            `/api/cloud?action=${action}`,
+            `https://ktmusic.vercel.app/api/cloud?action=${action}`,
+            (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/api/cloud?action=${action}` : null),
+            `cloud-api.php?action=${action}`,
+            `http://192.168.100.163/music/cloud-api.php?action=${action}`
+          ];
         }
 
-        return Array.from(new Set(list));
+        return Array.from(new Set(list.filter(Boolean)));
       }
 
       function getActiveApiBase() {
@@ -724,6 +744,13 @@
           return;
         }
 
+        const btnSubmitText = document.getElementById("btn-submit-text");
+        if (btnSubmitPin) {
+          btnSubmitPin.disabled = true;
+          if (btnSubmitText) btnSubmitText.innerHTML = `<span class="animate-spin inline-block w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full mr-1.5"></span><span>Đang kết nối...</span>`;
+        }
+        if (pinErrorMsg) pinErrorMsg.textContent = "";
+
         const endpoints = getCandidateEndpoints("login");
         let success = false;
         let lastError = "";
@@ -755,7 +782,6 @@
               break;
             } else if (data && data.error) {
               lastError = data.error;
-              break;
             }
           } catch (err) {
             // Try next candidate
@@ -766,8 +792,13 @@
           pinBoxesContainer?.classList.add("shake");
           setTimeout(() => pinBoxesContainer?.classList.remove("shake"), 450);
 
-          if (pinErrorMsg) pinErrorMsg.textContent = lastError || "Mã PIN không chính xác.";
+          if (pinErrorMsg) pinErrorMsg.textContent = lastError || "Mã PIN không đúng (Mặc định: 1234)";
           clearPinBoxes();
+        }
+
+        if (btnSubmitPin) {
+          btnSubmitPin.disabled = false;
+          if (btnSubmitText) btnSubmitText.textContent = "Đăng nhập";
         }
       }
 
