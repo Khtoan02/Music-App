@@ -5,16 +5,14 @@
 
 const crypto = require('crypto');
 
-// Cloud storage config (Dual-cloud fallback: echoValue + kvdb)
-const ECHO_TOKEN = process.env.AURA_ECHO_TOKEN || 'YNcvxXhi9kxD5Q8mWuXr';
+// Cloud storage config (kvdb.io persistent global store)
 const KVDB_BUCKET = process.env.AURA_KVDB_BUCKET || 'E6EeocTaJ2VHWvkGnE1dma';
 
 // In-memory cache for fast Lambda warmth
 let memoryStore = {
   settings: { pin_hash: hashPin('1234') },
   sessions: {},
-  messages: [],
-  files: {}
+  messages: []
 };
 
 function getVietnamDate() {
@@ -42,25 +40,9 @@ function hashPin(pin) {
 
 // Persistent Storage Helpers
 async function loadCloudState() {
-  // 1. Try echoValue
-  try {
-    const res = await fetch(`https://api.echovalue.dev/kv/default/aura_state_v1`, {
-      headers: { 'x-token': ECHO_TOKEN },
-      signal: AbortSignal.timeout(3500)
-    });
-    if (res.ok) {
-      const data = await res.json();
-      if (data && typeof data === 'object') {
-        memoryStore = { ...memoryStore, ...data };
-        return memoryStore;
-      }
-    }
-  } catch (e) {}
-
-  // 2. Fallback to kvdb.io
   try {
     const res = await fetch(`https://kvdb.io/${KVDB_BUCKET}/aura_state_v1`, {
-      signal: AbortSignal.timeout(3500)
+      signal: AbortSignal.timeout(4500)
     });
     if (res.ok) {
       const data = await res.json();
@@ -78,22 +60,14 @@ async function saveCloudState(state) {
   memoryStore = state;
   const jsonStr = JSON.stringify(state);
 
-  // Fire and wait primary
-  const p1 = fetch(`https://api.echovalue.dev/kv/default/aura_state_v1`, {
-    method: 'POST',
-    headers: { 'x-token': ECHO_TOKEN, 'Content-Type': 'application/json' },
-    body: jsonStr,
-    signal: AbortSignal.timeout(4000)
-  }).catch(() => {});
-
-  const p2 = fetch(`https://kvdb.io/${KVDB_BUCKET}/aura_state_v1`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: jsonStr,
-    signal: AbortSignal.timeout(4000)
-  }).catch(() => {});
-
-  await Promise.race([p1, p2]);
+  try {
+    await fetch(`https://kvdb.io/${KVDB_BUCKET}/aura_state_v1`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: jsonStr,
+      signal: AbortSignal.timeout(4500)
+    });
+  } catch (e) {}
 }
 
 function detectDevice(ua = '') {
@@ -319,13 +293,23 @@ module.exports = async (req, res) => {
     const type = isImage ? 'image' : 'file';
 
     const fileId = 'f_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
-    state.files[fileId] = {
+    const fileObj = {
       name: fileName,
       ext: ext,
       data: fileData, // Data URI or base64
       size: fileSize,
       created_at: getVietnamDateTime()
     };
+
+    // Save file data separately to kvdb
+    try {
+      await fetch(`https://kvdb.io/${KVDB_BUCKET}/file_${fileId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fileObj),
+        signal: AbortSignal.timeout(8000)
+      });
+    } catch (e) {}
 
     const newId = Date.now();
     const newMsg = {
@@ -363,7 +347,17 @@ module.exports = async (req, res) => {
     if (!auth.ok) return res.status(auth.status).json(auth);
 
     const fileId = query.id || body.id || '';
-    const file = state.files[fileId];
+    let file = null;
+
+    try {
+      const fRes = await fetch(`https://kvdb.io/${KVDB_BUCKET}/file_${fileId}`, {
+        signal: AbortSignal.timeout(6000)
+      });
+      if (fRes.ok) {
+        file = await fRes.json();
+      }
+    } catch (e) {}
+
     if (!file || !file.data) {
       return res.status(404).json({ ok: false, error: 'Tệp không tồn tại hoặc đã bị xóa.' });
     }
