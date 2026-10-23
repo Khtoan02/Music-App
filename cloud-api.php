@@ -108,13 +108,23 @@ function get_db(): PDO {
 // Detect Client Device Name
 function get_client_device(): string {
     $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
-    if (preg_match('/iPhone/i', $ua)) return 'iPhone';
-    if (preg_match('/iPad/i', $ua)) return 'iPad';
-    if (preg_match('/Android/i', $ua)) return 'Android';
-    if (preg_match('/Macintosh|Mac OS X/i', $ua)) return 'Mac';
-    if (preg_match('/Windows NT/i', $ua)) return 'Windows PC';
-    if (preg_match('/Linux/i', $ua)) return 'Linux';
-    return 'Thiết bị khác';
+    $os = 'Thiết bị';
+    if (preg_match('/iPhone/i', $ua)) $os = 'iPhone';
+    elseif (preg_match('/iPad/i', $ua)) $os = 'iPad';
+    elseif (preg_match('/Android/i', $ua)) $os = 'Android';
+    elseif (preg_match('/Macintosh|Mac OS X/i', $ua)) $os = 'Mac';
+    elseif (preg_match('/Windows NT/i', $ua)) $os = 'Windows PC';
+    elseif (preg_match('/Linux/i', $ua)) $os = 'Linux';
+
+    $browser = '';
+    if (preg_match('/Zalo/i', $ua)) $browser = 'Zalo App';
+    elseif (preg_match('/FBAN|FBAV/i', $ua)) $browser = 'Facebook App';
+    elseif (preg_match('/Edg\//i', $ua)) $browser = 'Edge';
+    elseif (preg_match('/Chrome\//i', $ua) && !preg_match('/Edg\//i', $ua)) $browser = 'Chrome';
+    elseif (preg_match('/Safari\//i', $ua) && !preg_match('/Chrome\//i', $ua)) $browser = 'Safari';
+    elseif (preg_match('/Firefox\//i', $ua)) $browser = 'Firefox';
+
+    return $browser ? "{$os} ({$browser})" : $os;
 }
 
 // Get Auth Token from Header, Cookie or Query
@@ -348,8 +358,8 @@ try {
     if ($action === 'change_pin') {
         authenticate($db);
 
-        $oldPin = trim($_POST['old_pin'] ?? '');
-        $newPin = trim($_POST['new_pin'] ?? '');
+        $oldPin = trim((string)($_POST['old_pin'] ?? $jsonBody['old_pin'] ?? ''));
+        $newPin = trim((string)($_POST['new_pin'] ?? $jsonBody['new_pin'] ?? ''));
 
         if (!preg_match('/^[0-9]{4}$/', $oldPin) || !preg_match('/^[0-9]{4}$/', $newPin)) {
             json_out(400, ['ok' => false, 'error' => 'Mã PIN cũ và mới đều phải là 4 chữ số.']);
@@ -458,7 +468,7 @@ try {
     if ($action === 'send_message') {
         authenticate($db);
 
-        $content = trim($_POST['content'] ?? '');
+        $content = trim((string)($_POST['content'] ?? $jsonBody['content'] ?? ''));
         if ($content === '') {
             json_out(400, ['ok' => false, 'error' => 'Nội dung tin nhắn không được để trống.']);
         }
@@ -492,7 +502,57 @@ try {
     if ($action === 'upload_file') {
         authenticate($db);
 
-        if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
+        $caption = trim((string)($_POST['caption'] ?? $jsonBody['caption'] ?? ''));
+        $device = get_client_device();
+        $now = date('Y-m-d H:i:s');
+        $storedFilename = '';
+        $originalName = '';
+        $fileSize = 0;
+        $fileExt = '';
+
+        // Handle multipart upload or base64 JSON payload
+        if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
+            $file = $_FILES['file'];
+            $originalName = basename($file['name']);
+            $fileSize = (int)$file['size'];
+            $fileExt = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
+            $banned = ['php', 'phtml', 'php3', 'php4', 'php5', 'php7', 'phps', 'cgi', 'pl', 'exe'];
+            if (in_array($fileExt, $banned, true)) {
+                json_out(400, ['ok' => false, 'error' => 'Vì lý do an toàn, không được tải lên tệp thực thi mã nguồn.']);
+            }
+
+            $safePrefix = date('Ymd_His') . '_' . bin2hex(random_bytes(4));
+            $storedFilename = $safePrefix . ($fileExt ? '.' . $fileExt : '');
+            $targetPath = $uploadDir . '/' . $storedFilename;
+
+            if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
+                json_out(500, ['ok' => false, 'error' => 'Lỗi lưu trữ tệp lên máy chủ.']);
+            }
+        } elseif (!empty($jsonBody['file_data'])) {
+            $originalName = basename((string)($jsonBody['file_name'] ?? 'file'));
+            $fileExt = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
+            $banned = ['php', 'phtml', 'php3', 'php4', 'php5', 'php7', 'phps', 'cgi', 'pl', 'exe'];
+            if (in_array($fileExt, $banned, true)) {
+                json_out(400, ['ok' => false, 'error' => 'Vì lý do an toàn, không được tải lên tệp thực thi mã nguồn.']);
+            }
+
+            $safePrefix = date('Ymd_His') . '_' . bin2hex(random_bytes(4));
+            $storedFilename = $safePrefix . ($fileExt ? '.' . $fileExt : '');
+            $targetPath = $uploadDir . '/' . $storedFilename;
+
+            $rawBase64 = (string)$jsonBody['file_data'];
+            if (strpos($rawBase64, 'base64,') !== false) {
+                $rawBase64 = substr($rawBase64, strpos($rawBase64, 'base64,') + 7);
+            }
+            $binary = base64_decode($rawBase64);
+            if ($binary === false) {
+                json_out(400, ['ok' => false, 'error' => 'Dữ liệu tệp không hợp lệ.']);
+            }
+            file_put_contents($targetPath, $binary);
+            $fileSize = strlen($binary);
+        } else {
             $errCode = $_FILES['file']['error'] ?? -1;
             $msg = 'Không nhận được tệp hoặc tệp bị lỗi khi tải lên.';
             if ($errCode === UPLOAD_ERR_INI_SIZE || $errCode === UPLOAD_ERR_FORM_SIZE) {
@@ -501,31 +561,8 @@ try {
             json_out(400, ['ok' => false, 'error' => $msg]);
         }
 
-        $file = $_FILES['file'];
-        $originalName = basename($file['name']);
-        $fileSize = (int)$file['size'];
-        $fileExt = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
-
-        // Ban dangerous direct executable extensions
-        $banned = ['php', 'phtml', 'php3', 'php4', 'php5', 'php7', 'phps', 'cgi', 'pl', 'exe'];
-        if (in_array($fileExt, $banned, true)) {
-            json_out(400, ['ok' => false, 'error' => 'Vì lý do an toàn, không được tải lên tệp thực thi mã nguồn.']);
-        }
-
-        // Safe filename storage
-        $safePrefix = date('Ymd_His') . '_' . bin2hex(random_bytes(4));
-        $storedFilename = $safePrefix . ($fileExt ? '.' . $fileExt : '');
-        $targetPath = $uploadDir . '/' . $storedFilename;
-
-        if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
-            json_out(500, ['ok' => false, 'error' => 'Lỗi lưu trữ tệp lên máy chủ.']);
-        }
-
         $category = get_file_category($fileExt);
         $type = ($category === 'image') ? 'image' : 'file';
-        $caption = trim($_POST['caption'] ?? '');
-        $device = get_client_device();
-        $now = date('Y-m-d H:i:s');
 
         $stmt = $db->prepare("
             INSERT INTO messages (type, content, file_path, file_name, file_size, file_ext, device_info, created_at)
@@ -597,7 +634,7 @@ try {
     if ($action === 'toggle_pin') {
         authenticate($db);
 
-        $id = (int)($_POST['id'] ?? 0);
+        $id = (int)($_POST['id'] ?? $jsonBody['id'] ?? $_GET['id'] ?? 0);
         $stmt = $db->prepare("SELECT is_pinned FROM messages WHERE id = ?");
         $stmt->execute([$id]);
         $row = $stmt->fetch();
@@ -621,7 +658,7 @@ try {
     if ($action === 'delete_message') {
         authenticate($db);
 
-        $id = (int)($_POST['id'] ?? 0);
+        $id = (int)($_POST['id'] ?? $jsonBody['id'] ?? $_GET['id'] ?? 0);
         $stmt = $db->prepare("SELECT file_path FROM messages WHERE id = ?");
         $stmt->execute([$id]);
         $row = $stmt->fetch();
@@ -648,7 +685,7 @@ try {
     if ($action === 'clear_all') {
         authenticate($db);
 
-        $pin = trim($_POST['pin'] ?? '');
+        $pin = trim((string)($_POST['pin'] ?? $jsonBody['pin'] ?? ''));
         $stmt = $db->prepare("SELECT value FROM settings WHERE key = 'pin_hash'");
         $stmt->execute();
         $row = $stmt->fetch();

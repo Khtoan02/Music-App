@@ -120,7 +120,10 @@
           <div>
             <div class="flex items-center gap-1.5">
               <span class="font-bold text-sm sm:text-base text-white tracking-tight">Aura Cloud</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono font-medium border border-emerald-500/30">ONLINE</span>
+              <span id="badge-network-status" class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono font-medium border border-emerald-500/30 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>TOÀN CẦU 24/7</span>
+              </span>
             </div>
             <p class="text-[11px] text-slate-400 hidden sm:block">Truyền File, Link & Tin Nhắn Đa Thiết Bị</p>
           </div>
@@ -398,23 +401,23 @@
 
       <!-- QR Code Image Container -->
       <div class="p-3 bg-white rounded-2xl shadow-xl mb-4">
-        <img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=4&data=http%3A%2F%2F192.168.100.163%2Fmusic%2Fcloud.html" alt="QR Code mở trên điện thoại" class="w-48 h-48 rounded-xl object-contain">
+        <img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=4&data=https%3A%2F%2Fktmusic.vercel.app%2Fcloud.html" alt="QR Code mở trên điện thoại" class="w-48 h-48 rounded-xl object-contain">
       </div>
 
       <p class="text-xs text-slate-300 mb-3">
-        Dùng Camera điện thoại quét mã QR ở trên để mở ngay trang Cloud (điện thoại cần kết nối cùng mạng Wi-Fi với máy tính này).
+        Dùng Camera điện thoại quét mã QR ở trên để mở ngay trên điện thoại (hoạt động 24/7 trên cả <strong class="text-amber-300">5G / 4G / Wi-Fi</strong> mọi nơi).
       </p>
 
-      <!-- Copy Link Box -->
-      <div class="w-full p-2.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-2 mb-3 text-left">
-        <span class="text-xs text-amber-300 font-mono truncate select-all" id="lbl-lan-url">http://192.168.100.163/music/cloud.html</span>
-        <button id="btn-copy-lan-url" class="px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-semibold flex-shrink-0 cursor-pointer">
-          Copy
+      <!-- Copy Link Box (Global Cloud) -->
+      <div class="w-full p-2.5 rounded-2xl bg-white/5 border border-amber-400/30 flex items-center justify-between gap-2 mb-2 text-left">
+        <span class="text-xs text-amber-300 font-mono truncate select-all" id="lbl-cloud-url">https://ktmusic.vercel.app/cloud.html</span>
+        <button id="btn-copy-cloud-url" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold flex-shrink-0 cursor-pointer transition-all">
+          Sao chép
         </button>
       </div>
 
-      <div class="w-full text-left p-3 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-[11px] text-sky-300">
-        <strong>💡 Kết nối từ xa (4G/Khác mạng):</strong> Nếu điện thoại dùng 4G hoặc máy tính ở cơ quan khác mạng Wi-Fi, chạy script <code class="text-white font-mono bg-black/40 px-1 py-0.5 rounded">./scripts/start_public_tunnel.sh</code> để lấy đường link online toàn cầu!
+      <div class="w-full text-left p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300">
+        <strong>🌐 Đồng bộ tức thì:</strong> Bạn có thể dùng trên iPhone, Android, Mac, Windows, ở cơ quan hoặc quán cà phê mà không cần chung mạng Wi-Fi!
       </div>
 
     </div>
@@ -425,59 +428,55 @@
     document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
 
+      // Vietnam Date Helper
+      function getVietnamDate() {
+        try {
+          const d = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" }));
+          const y = d.getFullYear();
+          const m = String(d.getMonth() + 1).padStart(2, "0");
+          const day = String(d.getDate()).padStart(2, "0");
+          return `${y}-${m}-${day}`;
+        } catch (e) {
+          const d = new Date();
+          return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+        }
+      }
+
       // Intelligent API & Endpoints Management
       function getCandidateEndpoints(action) {
-        const savedBase = localStorage.getItem("aura_cloud_api_base");
-        const currentOrigin = window.location.origin;
         const host = window.location.hostname;
         const isVercelHost = host.includes("vercel.app");
-        const isLocalHost = host === "localhost" || host === "127.0.0.1" || host === "servbay.host" || host.startsWith("192.168.");
-
-        let list = [];
+        const currentOrigin = window.location.origin;
 
         if (isVercelHost) {
-          // On Vercel: /api/cloud first!
-          list = [
-            savedBase && savedBase.includes("api/cloud") ? `${savedBase}?action=${action}` : null,
+          // On Vercel: /api/cloud first and foremost
+          return [
             `/api/cloud?action=${action}`,
-            `https://ktmusic.vercel.app/api/cloud?action=${action}`,
-            (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/api/cloud?action=${action}` : null),
-            `cloud-api.php?action=${action}`
-          ];
-        } else if (isLocalHost) {
-          // On Local Mac ServBay: cloud-api.php first!
-          list = [
-            savedBase && !savedBase.includes("api/cloud") ? `${savedBase}?action=${action}` : null,
-            `cloud-api.php?action=${action}`,
-            (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/music/cloud-api.php?action=${action}` : null),
-            `http://192.168.100.163/music/cloud-api.php?action=${action}`,
-            `http://127.0.0.1/music/cloud-api.php?action=${action}`,
-            `http://localhost/music/cloud-api.php?action=${action}`,
             `https://ktmusic.vercel.app/api/cloud?action=${action}`
-          ];
-        } else {
-          // Anywhere else (e.g. 5G phone or remote)
-          list = [
-            `/api/cloud?action=${action}`,
-            `https://ktmusic.vercel.app/api/cloud?action=${action}`,
-            (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/api/cloud?action=${action}` : null),
-            `cloud-api.php?action=${action}`,
-            `http://192.168.100.163/music/cloud-api.php?action=${action}`
           ];
         }
 
-        return Array.from(new Set(list.filter(Boolean)));
+        // On local Mac ServBay or LAN:
+        // Prioritize Vercel cloud so local and 5G mobile share the exact same synced data!
+        return [
+          `https://ktmusic.vercel.app/api/cloud?action=${action}`,
+          `/api/cloud?action=${action}`,
+          (currentOrigin && currentOrigin !== "null" ? `${currentOrigin}/music/cloud-api.php?action=${action}` : null),
+          `cloud-api.php?action=${action}`,
+          `http://192.168.100.163/music/cloud-api.php?action=${action}`,
+          `http://127.0.0.1/music/cloud-api.php?action=${action}`
+        ].filter(Boolean);
       }
 
       function getActiveApiBase() {
-        const savedBase = localStorage.getItem("aura_cloud_api_base");
-        if (savedBase) return savedBase;
-        const savedCustom = localStorage.getItem("aura_cloud_custom_server");
-        if (savedCustom) return savedCustom;
         if (window.location.hostname.includes("vercel.app")) {
           return "/api/cloud";
         }
-        return window.location.protocol === "file:" ? "http://127.0.0.1/music/cloud-api.php" : "cloud-api.php";
+        const saved = localStorage.getItem("aura_cloud_api_base");
+        if (saved && !saved.includes("undefined")) {
+          return saved;
+        }
+        return "https://ktmusic.vercel.app/api/cloud";
       }
 
       let API_BASE = getActiveApiBase();
@@ -488,10 +487,11 @@
           return path;
         }
         const base = getActiveApiBase();
-        if (base.startsWith("http://") || base.startsWith("https://")) {
-          const dir = base.substring(0, base.lastIndexOf("/") + 1);
-          return dir + path;
-        }
+        try {
+          if (base.startsWith("http://") || base.startsWith("https://")) {
+            return new URL(path, base).href;
+          }
+        } catch (e) {}
         return path;
       }
 
@@ -504,7 +504,8 @@
         selectedFile: null,
         items: [],
         pollTimer: null,
-        isSubmitting: false
+        isSubmitting: false,
+        draftMessage: ""
       };
 
       // DOM Elements
@@ -514,6 +515,7 @@
       const pinForm = document.getElementById("pin-form");
       const pinErrorMsg = document.getElementById("pin-error-msg");
       const btnSubmitPin = document.getElementById("btn-submit-pin");
+      const btnSubmitText = document.getElementById("btn-submit-text");
       const mainApp = document.getElementById("main-app");
       const messagesContainer = document.getElementById("messages-container");
       const emptyState = document.getElementById("empty-state");
@@ -551,9 +553,9 @@
         if (!container) return;
 
         const colors = {
-          success: "border-emerald-500/40 bg-emerald-950/80 text-emerald-200",
-          error: "border-rose-500/40 bg-rose-950/80 text-rose-200",
-          info: "border-amber-500/40 bg-slate-900/90 text-amber-200"
+          success: "border-emerald-500/40 bg-emerald-950/85 text-emerald-200",
+          error: "border-rose-500/40 bg-rose-950/85 text-rose-200",
+          info: "border-amber-500/40 bg-slate-900/95 text-amber-200"
         };
         const icons = {
           success: "check-circle",
@@ -562,10 +564,10 @@
         };
 
         const toast = document.createElement("div");
-        toast.className = `p-3 rounded-2xl border shadow-xl flex items-center gap-2.5 text-xs toast-anim pointer-events-auto backdrop-blur-md ${colors[type] || colors.info}`;
+        toast.className = `p-3 rounded-2xl border shadow-2xl flex items-center gap-2.5 text-xs toast-anim pointer-events-auto backdrop-blur-md ${colors[type] || colors.info}`;
         toast.innerHTML = `
           <i data-lucide="${icons[type] || 'info'}" class="w-4 h-4 flex-shrink-0"></i>
-          <span class="flex-1">${message}</span>
+          <span class="flex-1 leading-snug">${message}</span>
         `;
         container.appendChild(toast);
         lucide.createIcons({ root: toast });
@@ -575,10 +577,68 @@
           toast.style.opacity = "0";
           toast.style.transform = "translateY(-10px)";
           setTimeout(() => toast.remove(), 300);
-        }, 3000);
+        }, 3200);
       }
 
-      // ======================== COPY IMAGE TO CLIPBOARD (DIRECT) ========================
+      // ======================== UNIFIED RESILIENT API CALLER ========================
+      async function callCloudApi(action, payload = null, options = {}) {
+        const method = options.method || (payload ? "POST" : "GET");
+        const endpoints = getCandidateEndpoints(action);
+        let lastError = null;
+
+        for (const ep of endpoints) {
+          try {
+            const isJsonApi = ep.includes("api/cloud");
+            const headers = { ...options.headers };
+            if (state.token) {
+              headers["X-Cloud-Token"] = state.token;
+            }
+
+            let fetchOpts = { method, headers };
+
+            if (method === "POST" && payload) {
+              if (payload instanceof FormData) {
+                fetchOpts.body = payload;
+              } else if (isJsonApi) {
+                headers["Content-Type"] = "application/json";
+                fetchOpts.body = JSON.stringify(payload);
+              } else {
+                headers["Content-Type"] = "application/x-www-form-urlencoded";
+                fetchOpts.body = new URLSearchParams(payload).toString();
+              }
+            }
+
+            const res = await fetch(ep, fetchOpts);
+            const data = await res.json().catch(() => null);
+
+            // Auth expired check
+            if (res.status === 401 || (data && (data.code === "NEW_DAY_EXPIRED" || data.code === "UNAUTHORIZED" || data.code === "INVALID_SESSION"))) {
+              return {
+                ok: false,
+                authExpired: true,
+                error: data?.error || "Chào ngày mới! Phiên làm việc đã kết thúc. Vui lòng nhập lại mã PIN."
+              };
+            }
+
+            if (res.ok && data && data.ok) {
+              const newBase = ep.split("?")[0];
+              API_BASE = newBase;
+              localStorage.setItem("aura_cloud_api_base", newBase);
+              return data;
+            }
+
+            if (data && data.error) {
+              lastError = data.error;
+            }
+          } catch (err) {
+            // Try next candidate
+          }
+        }
+
+        return { ok: false, error: lastError || "Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại mạng." };
+      }
+
+      // ======================== COPY IMAGE TO CLIPBOARD (DIRECT PNG) ========================
       async function convertBlobToPng(blob) {
         return new Promise((resolve, reject) => {
           const img = new Image();
@@ -636,15 +696,14 @@
                   triggerBtn.disabled = false;
                   lucide.createIcons({ root: triggerBtn });
                 }
-              }, 2000);
+              }, 2200);
             }
             return;
           } else {
             throw new Error("Trình duyệt không hỗ trợ ClipboardItem");
           }
         } catch (err) {
-          console.warn("copyImageToClipboard failed:", err);
-          // Fallback: Copy direct image URL
+          console.warn("copyImageToClipboard direct failed:", err);
           try {
             await navigator.clipboard.writeText(imgUrl);
             showToast("Đã sao chép liên kết ảnh vào clipboard!", "info");
@@ -659,23 +718,81 @@
         }
       }
 
-      // ======================== AUTHENTICATION & PIN MANAGEMENT (4 Ô MẬT KHẨU) ========================
+      // ======================== SMART IMAGE COMPRESSION FOR 5G / MOBILE ========================
+      async function compressImageIfNeeded(file, maxDimension = 2048, quality = 0.85) {
+        if (file.size <= 1.5 * 1024 * 1024 && !file.type.includes("heic")) {
+          return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve({ dataUrl: reader.result, size: file.size, name: file.name });
+            reader.readAsDataURL(file);
+          });
+        }
+
+        return new Promise((resolve) => {
+          const img = new Image();
+          const url = URL.createObjectURL(file);
+          img.onload = () => {
+            URL.revokeObjectURL(url);
+            let width = img.naturalWidth || img.width;
+            let height = img.naturalHeight || img.height;
+
+            if (width > maxDimension || height > maxDimension) {
+              if (width > height) {
+                height = Math.round((height * maxDimension) / width);
+                width = maxDimension;
+              } else {
+                width = Math.round((width * maxDimension) / height);
+                height = maxDimension;
+              }
+            }
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const outputType = file.type === "image/png" ? "image/png" : "image/jpeg";
+            const dataUrl = canvas.toDataURL(outputType, quality);
+            const approxSize = Math.round((dataUrl.length * 3) / 4);
+
+            resolve({
+              dataUrl,
+              size: approxSize,
+              name: file.name
+            });
+          };
+          img.onerror = () => {
+            URL.revokeObjectURL(url);
+            const reader = new FileReader();
+            reader.onload = () => resolve({ dataUrl: reader.result, size: file.size, name: file.name });
+            reader.readAsDataURL(file);
+          };
+          img.src = url;
+        });
+      }
+
+      // ======================== AUTHENTICATION & PIN MANAGEMENT ========================
       function getEnteredPin() {
         let pin = "";
-        pinBoxes.forEach(box => { pin += box.value; });
+        pinBoxes.forEach((box) => { pin += box.value; });
         return pin;
       }
 
       function clearPinBoxes() {
-        pinBoxes.forEach(box => { box.value = ""; });
+        pinBoxes.forEach((box) => { box.value = ""; });
         if (pinBoxes.length > 0) {
-          setTimeout(() => pinBoxes[0].focus(), 50);
+          setTimeout(() => pinBoxes[0].focus(), 60);
         }
       }
 
-      // Input event navigation across the 4 boxes
+      // 4 PIN Boxes Navigation & Auto-advance
       pinBoxes.forEach((box, idx) => {
-        box.addEventListener("input", () => {
+        box.addEventListener("focus", () => {
+          box.select();
+        });
+
+        box.addEventListener("input", (e) => {
           const val = box.value.replace(/[^0-9]/g, "");
           box.value = val ? val[val.length - 1] : "";
           if (pinErrorMsg) pinErrorMsg.textContent = "";
@@ -684,7 +801,6 @@
             pinBoxes[idx + 1].focus();
           }
 
-          // If all 4 boxes are filled, automatically submit!
           const pin = getEnteredPin();
           if (pin.length === 4) {
             submitPinLogin(pin);
@@ -731,7 +847,7 @@
         const pin = getEnteredPin();
         if (pin.length !== 4) {
           if (pinErrorMsg) pinErrorMsg.textContent = "Vui lòng nhập đủ 4 chữ số.";
-          const emptyIdx = Array.from(pinBoxes).findIndex(b => !b.value);
+          const emptyIdx = Array.from(pinBoxes).findIndex((b) => !b.value);
           if (emptyIdx !== -1) pinBoxes[emptyIdx].focus();
           return;
         }
@@ -744,10 +860,11 @@
           return;
         }
 
-        const btnSubmitText = document.getElementById("btn-submit-text");
         if (btnSubmitPin) {
           btnSubmitPin.disabled = true;
-          if (btnSubmitText) btnSubmitText.innerHTML = `<span class="animate-spin inline-block w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full mr-1.5"></span><span>Đang kết nối...</span>`;
+          if (btnSubmitText) {
+            btnSubmitText.innerHTML = `<span class="animate-spin inline-block w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full mr-1.5"></span><span>Đang kết nối...</span>`;
+          }
         }
         if (pinErrorMsg) pinErrorMsg.textContent = "";
 
@@ -760,8 +877,8 @@
             const isJsonApi = ep.includes("api/cloud");
             const res = await fetch(ep, {
               method: "POST",
-              headers: { 
-                "Content-Type": isJsonApi ? "application/json" : "application/x-www-form-urlencoded" 
+              headers: {
+                "Content-Type": isJsonApi ? "application/json" : "application/x-www-form-urlencoded"
               },
               body: isJsonApi ? JSON.stringify({ pin }) : "pin=" + encodeURIComponent(pin)
             });
@@ -807,7 +924,7 @@
         lockScreen.style.pointerEvents = "none";
         mainApp.style.opacity = "1";
         mainApp.style.pointerEvents = "auto";
-        
+
         if (state.sessionDate) {
           const parts = state.sessionDate.split("-");
           if (parts.length === 3) {
@@ -815,7 +932,13 @@
           }
         }
 
-        // Start real-time polling
+        // Restore pending draft text if session expired mid-typing
+        if (state.draftMessage && messageInput) {
+          messageInput.value = state.draftMessage;
+          adjustTextareaHeight();
+          showToast("Đã khôi phục nội dung bạn đang soạn!", "info");
+        }
+
         fetchMessages();
         startAutoPolling();
         messageInput.focus();
@@ -844,7 +967,7 @@
         showLockScreen(reason);
       }
 
-      // Check current auth status on app start (F5 Persistence)
+      // Check auth status on app start (F5 Persistence)
       async function verifySessionOnStartup() {
         const savedToken = localStorage.getItem("aura_cloud_token");
         const savedDate = localStorage.getItem("aura_cloud_session_date");
@@ -855,69 +978,41 @@
         }
 
         // Fast optimistic restore: Check if stored date is today
-        const now = new Date();
-        const clientToday = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, '0') + "-" + String(now.getDate()).padStart(2, '0');
+        const clientToday = getVietnamDate();
 
         if (savedDate && savedDate === clientToday) {
-          // It's the same day! Unlock immediately on F5 with ZERO delay!
+          // Same calendar day: unlock immediately on F5 with ZERO lag
           state.token = savedToken;
           state.sessionDate = savedDate;
           unlockApp();
         } else if (savedDate && savedDate !== clientToday) {
-          // Different calendar day: prompt login
-          lockApp("Chào ngày mới! Vui lòng đăng nhập lại.");
+          // Different calendar day: prompt PIN cleanly
+          lockApp("Chào ngày mới! Vui lòng nhập mã PIN để mở khóa.");
           return;
         }
 
         // Verify with server in background
         try {
-          const endpoints = getCandidateEndpoints("check_auth");
-          let verified = false;
-
-          for (const ep of endpoints) {
-            try {
-              const res = await fetch(ep, {
-                headers: { "X-Cloud-Token": savedToken }
-              });
-              const data = await res.json().catch(() => null);
-
-              if (res.ok && data && data.ok) {
-                verified = true;
-                API_BASE = ep.split("?")[0];
-                localStorage.setItem("aura_cloud_api_base", API_BASE);
-                state.token = savedToken;
-                state.sessionDate = data.date_valid;
-                localStorage.setItem("aura_cloud_session_date", data.date_valid);
-                if (lockScreen.style.opacity !== "0") {
-                  unlockApp();
-                }
-                break;
-              } else if (data && (data.code === "NEW_DAY_EXPIRED" || data.code === "UNAUTHORIZED" || data.code === "INVALID_SESSION")) {
-                lockApp(data.error || "Phiên đăng nhập đã hết hạn.");
-                return;
-              }
-            } catch (err) {
-              // try next candidate
+          const res = await callCloudApi("check_auth");
+          if (res.authExpired) {
+            lockApp(res.error);
+          } else if (res.ok) {
+            state.token = savedToken;
+            state.sessionDate = res.date_valid;
+            localStorage.setItem("aura_cloud_session_date", res.date_valid);
+            if (lockScreen.style.opacity !== "0") {
+              unlockApp();
             }
           }
-
-          if (!verified && !state.token) {
-            showLockScreen();
-          }
-        } catch (e) {
-          console.warn("verifySessionOnStartup background check:", e);
-        }
+        } catch (e) {}
       }
 
-      // Manual Logout
+      // Manual Lock / Logout
       btnLogout?.addEventListener("click", async () => {
         if (confirm("Bạn có chắc chắn muốn khóa phiên làm việc ngay bây giờ?")) {
           try {
-            await fetch(`${API_BASE}?action=logout`, {
-              method: "POST",
-              headers: { "X-Cloud-Token": state.token }
-            });
-          } catch(e) {}
+            await callCloudApi("logout", {});
+          } catch (e) {}
           lockApp("Đã khóa phiên làm việc an toàn.");
           showToast("Đã khóa phiên làm việc.", "info");
         }
@@ -928,33 +1023,27 @@
         if (!state.token) return;
 
         try {
-          const params = new URLSearchParams({
-            action: "get_messages",
-            filter: state.activeFilter,
-            search: state.searchQuery
+          const res = await callCloudApi("get_messages", null, {
+            method: "GET"
           });
 
-          const res = await fetch(`${API_BASE}?${params.toString()}`, {
-            headers: { "X-Cloud-Token": state.token }
-          });
-          const data = await res.json();
-
-          if (!data.ok) {
-            if (data.code === "NEW_DAY_EXPIRED" || data.code === "UNAUTHORIZED") {
-              lockApp(data.error);
-            }
+          if (res.authExpired) {
+            lockApp(res.error);
             return;
           }
 
+          if (!res.ok) return;
+
           // Check if today matches server today (detect midnight crossover)
-          if (state.sessionDate && data.server_date && state.sessionDate !== data.server_date) {
+          const today = getVietnamDate();
+          if (res.server_date && today !== res.server_date) {
             lockApp("Chào ngày mới! Phiên làm việc đã kết thúc để bảo mật. Vui lòng nhập lại mã PIN.");
             return;
           }
 
-          state.items = data.items;
+          state.items = res.items || [];
           renderMessages();
-          updateCounts(data.total);
+          updateCounts(res.total || 0);
 
         } catch (e) {
           if (!isSilent) console.error("Error fetching messages:", e);
@@ -974,9 +1063,7 @@
         }
 
         emptyState.style.display = "none";
-        
-        // Render cards
-        messagesContainer.innerHTML = state.items.map(item => createMessageCardHtml(item)).join("");
+        messagesContainer.innerHTML = state.items.map((item) => createMessageCardHtml(item)).join("");
         lucide.createIcons({ root: messagesContainer });
         attachMessageCardEvents();
       }
@@ -994,9 +1081,37 @@
       function formatTextWithLinks(text) {
         if (!text) return "";
         const escaped = escapeHtml(text);
-        // Replace URL patterns with clickable links
         const urlPattern = /(https?:\/\/[^\s<]+)/g;
         return escaped.replace(urlPattern, '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:underline break-all inline-flex items-center gap-1">$1 <i data-lucide="external-link" class="w-3 h-3 inline"></i></a>');
+      }
+
+      function getDeviceBadge(deviceInfo = "") {
+        let icon = "laptop";
+        let color = "bg-white/5 text-slate-300 border-white/10";
+
+        if (/iPhone/i.test(deviceInfo)) {
+          icon = "smartphone";
+          color = "bg-sky-500/10 text-sky-300 border-sky-500/20";
+        } else if (/iPad/i.test(deviceInfo)) {
+          icon = "tablet";
+          color = "bg-sky-500/10 text-sky-300 border-sky-500/20";
+        } else if (/Android/i.test(deviceInfo)) {
+          icon = "smartphone";
+          color = "bg-emerald-500/10 text-emerald-300 border-emerald-500/20";
+        } else if (/Mac/i.test(deviceInfo)) {
+          icon = "laptop";
+          color = "bg-amber-500/10 text-amber-300 border-amber-500/20";
+        } else if (/Windows/i.test(deviceInfo)) {
+          icon = "monitor";
+          color = "bg-blue-500/10 text-blue-300 border-blue-500/20";
+        }
+
+        return `
+          <span class="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-lg border ${color} font-medium">
+            <i data-lucide="${icon}" class="w-3.5 h-3.5"></i>
+            <span>${escapeHtml(deviceInfo || "Thiết bị")}</span>
+          </span>
+        `;
       }
 
       function createMessageCardHtml(item) {
@@ -1005,27 +1120,20 @@
           <span class="px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-[10px] font-bold border border-amber-400/30 flex items-center gap-1">
             <i data-lucide="pin" class="w-3 h-3"></i> Đã ghim
           </span>
-        ` : '';
-
-        // Device icon
-        let deviceIcon = "laptop";
-        if (item.device_info.includes("iPhone") || item.device_info.includes("Android")) deviceIcon = "smartphone";
-        if (item.device_info.includes("iPad")) deviceIcon = "tablet";
+        ` : "";
 
         let contentHtml = "";
 
-        // 1. Image Preview
+        // 1. Image Preview & 1-Click Clipboard Copy
         if (item.type === "image" && item.preview_url) {
           const resolvedPreview = resolveApiUrl(item.preview_url);
           const resolvedDownload = resolveApiUrl(item.download_url);
           contentHtml += `
             <div class="mt-2.5 rounded-2xl overflow-hidden bg-slate-900/60 border border-white/10 max-w-lg">
-              <!-- Vùng hiển thị ảnh gốc: Không bị cắt góc, tự nhiên, nhấp vào để phóng to -->
-              <div class="bg-black/50 p-2 flex items-center justify-center cursor-pointer group" data-preview-img="${resolvedPreview}" data-download-url="${resolvedDownload}" data-filename="${escapeHtml(item.file_name)}">
+              <div class="bg-black/60 p-2 sm:p-3 flex items-center justify-center cursor-pointer group" data-preview-img="${resolvedPreview}" data-download-url="${resolvedDownload}" data-filename="${escapeHtml(item.file_name)}">
                 <img src="${resolvedPreview}" alt="${escapeHtml(item.file_name)}" class="max-h-80 w-auto object-contain rounded-xl shadow-lg transition-transform group-hover:scale-[1.01]" crossorigin="anonymous" loading="lazy">
               </div>
 
-              <!-- Thanh thao tác ảnh: Sao chép ảnh vào Clipboard, Phóng to, Tải về -->
               <div class="px-3 py-2 bg-white/5 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs">
                 <div class="flex items-center gap-1.5 min-w-0 max-w-[200px]">
                   <i data-lucide="image" class="w-3.5 h-3.5 text-amber-400 flex-shrink-0"></i>
@@ -1034,19 +1142,16 @@
                 </div>
 
                 <div class="flex items-center gap-1.5 flex-shrink-0">
-                  <!-- Nút Sao chép ảnh trực tiếp vào Clipboard -->
                   <button class="btn-copy-image px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow transition-all cursor-pointer" data-img-url="${resolvedPreview}" title="Sao chép ảnh vào clipboard để dán ngay (Ctrl+V)">
                     <i data-lucide="copy" class="w-3.5 h-3.5"></i>
                     <span>Sao chép ảnh</span>
                   </button>
 
-                  <!-- Nút Xem phóng to -->
                   <button class="btn-view-image px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-xs flex items-center gap-1 transition-all cursor-pointer" data-preview-img="${resolvedPreview}" data-download-url="${resolvedDownload}" data-filename="${escapeHtml(item.file_name)}" title="Xem ảnh phóng to">
                     <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
                     <span class="hidden sm:inline">Phóng to</span>
                   </button>
 
-                  <!-- Nút Tải về -->
                   <a href="${resolvedDownload}" download="${escapeHtml(item.file_name)}" class="p-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-slate-300 hover:text-white transition-all" title="Tải ảnh gốc về máy">
                     <i data-lucide="download" class="w-3.5 h-3.5"></i>
                   </a>
@@ -1058,7 +1163,7 @@
             contentHtml += `<p class="mt-2 text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-wrap">${formatTextWithLinks(item.content)}</p>`;
           }
         } 
-        // 2. Generic File Attachment (PDF, Doc, ZIP, Audio, Video, etc.)
+        // 2. Generic File Attachment (PDF, Doc, ZIP, Audio, Video)
         else if (item.type === "file" && item.download_url) {
           const resolvedPreview = resolveApiUrl(item.preview_url);
           const resolvedDownload = resolveApiUrl(item.download_url);
@@ -1080,11 +1185,11 @@
                 </div>
               </div>
               <div class="flex items-center gap-2 flex-shrink-0 justify-end">
-                <a href="${resolvedPreview}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-semibold text-xs flex items-center gap-1.5 border border-sky-500/30 transition-colors" title="Xem trực tiếp trong tab mới mà không tải về">
+                <a href="${resolvedPreview}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-semibold text-xs flex items-center gap-1.5 border border-sky-500/30 transition-colors" title="Xem trực tiếp trong tab mới">
                   <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                   <span>Xem trực tiếp</span>
                 </a>
-                <a href="${resolvedDownload}" download="${escapeHtml(item.file_name)}" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow transition-colors" title="Tải tệp về thiết bị">
+                <a href="${resolvedDownload}" download="${escapeHtml(item.file_name)}" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow transition-colors" title="Tải tệp về máy">
                   <i data-lucide="download" class="w-3.5 h-3.5"></i>
                   <span>Tải về</span>
                 </a>
@@ -1127,21 +1232,15 @@
         return `
           <div class="message-card glass-panel rounded-2xl p-4 sm:p-4.5 border ${isPinned ? 'border-amber-400/40 bg-amber-950/10' : 'border-white/10'} transition-all hover:border-white/20" data-id="${item.id}">
             
-            <!-- Card Header: Device & Time & Actions -->
             <div class="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-white/5 text-xs text-slate-400">
               
-              <!-- Left info -->
               <div class="flex items-center gap-2 truncate">
-                <span class="inline-flex items-center gap-1 text-[11px] text-slate-300 font-medium">
-                  <i data-lucide="${deviceIcon}" class="w-3.5 h-3.5 text-amber-400"></i>
-                  <span>${escapeHtml(item.device_info)}</span>
-                </span>
+                ${getDeviceBadge(item.device_info)}
                 <span class="text-slate-600">•</span>
-                <span class="text-[11px] text-slate-400 font-mono">${item.formatted_time}</span>
+                <span class="text-[11px] text-slate-400 font-mono">${item.formatted_time || item.created_at}</span>
                 ${pinnedBadge}
               </div>
 
-              <!-- Right action buttons -->
               <div class="flex items-center gap-1 flex-shrink-0">
                 ${item.content ? `
                   <button class="btn-copy-content p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer" title="Sao chép nội dung" data-copy="${escapeHtml(item.content)}">
@@ -1160,7 +1259,6 @@
 
             </div>
 
-            <!-- Card Body -->
             ${contentHtml}
 
           </div>
@@ -1168,8 +1266,8 @@
       }
 
       function attachMessageCardEvents() {
-        // Copy button
-        document.querySelectorAll(".btn-copy-content").forEach(btn => {
+        // Copy text button
+        document.querySelectorAll(".btn-copy-content").forEach((btn) => {
           btn.addEventListener("click", () => {
             const text = btn.getAttribute("data-copy");
             if (text) {
@@ -1181,52 +1279,36 @@
         });
 
         // Toggle Pin
-        document.querySelectorAll(".btn-toggle-pin").forEach(btn => {
+        document.querySelectorAll(".btn-toggle-pin").forEach((btn) => {
           btn.addEventListener("click", async () => {
             const id = btn.getAttribute("data-id");
-            try {
-              const res = await fetch(`${API_BASE}?action=toggle_pin`, {
-                method: "POST",
-                headers: { 
-                  "Content-Type": "application/x-www-form-urlencoded",
-                  "X-Cloud-Token": state.token 
-                },
-                body: new URLSearchParams({ id })
-              });
-              const data = await res.json();
-              if (data.ok) {
-                showToast(data.message, "success");
-                fetchMessages();
-              }
-            } catch (e) {}
+            const res = await callCloudApi("toggle_pin", { id });
+            if (res.authExpired) {
+              lockApp(res.error);
+            } else if (res.ok) {
+              showToast(res.message, "success");
+              fetchMessages();
+            }
           });
         });
 
         // Delete Message
-        document.querySelectorAll(".btn-delete").forEach(btn => {
+        document.querySelectorAll(".btn-delete").forEach((btn) => {
           btn.addEventListener("click", async () => {
             if (!confirm("Bạn có chắc muốn xóa tin nhắn / tệp này?")) return;
             const id = btn.getAttribute("data-id");
-            try {
-              const res = await fetch(`${API_BASE}?action=delete_message`, {
-                method: "POST",
-                headers: { 
-                  "Content-Type": "application/x-www-form-urlencoded",
-                  "X-Cloud-Token": state.token 
-                },
-                body: new URLSearchParams({ id })
-              });
-              const data = await res.json();
-              if (data.ok) {
-                showToast("Đã xóa tin nhắn.", "info");
-                fetchMessages();
-              }
-            } catch (e) {}
+            const res = await callCloudApi("delete_message", { id });
+            if (res.authExpired) {
+              lockApp(res.error);
+            } else if (res.ok) {
+              showToast("Đã xóa tin nhắn.", "info");
+              fetchMessages();
+            }
           });
         });
 
         // Direct Image Copy to Clipboard Button
-        document.querySelectorAll(".btn-copy-image").forEach(btn => {
+        document.querySelectorAll(".btn-copy-image").forEach((btn) => {
           btn.addEventListener("click", (e) => {
             e.stopPropagation();
             const imgUrl = btn.getAttribute("data-img-url");
@@ -1237,7 +1319,7 @@
         });
 
         // View Image Enlarge Button
-        document.querySelectorAll(".btn-view-image").forEach(btn => {
+        document.querySelectorAll(".btn-view-image").forEach((btn) => {
           btn.addEventListener("click", (e) => {
             e.stopPropagation();
             const previewUrl = btn.getAttribute("data-preview-img");
@@ -1248,7 +1330,7 @@
         });
 
         // Click on Image Preview Container to Open Lightbox
-        document.querySelectorAll("[data-preview-img]").forEach(box => {
+        document.querySelectorAll("[data-preview-img]").forEach((box) => {
           box.addEventListener("click", (e) => {
             if (e.target.closest("button") || e.target.closest("a")) return;
             const previewUrl = box.getAttribute("data-preview-img");
@@ -1270,7 +1352,6 @@
         lightboxModal.style.pointerEvents = "auto";
       }
 
-      // Lightbox Copy to Clipboard button
       lightboxCopyBtn?.addEventListener("click", () => {
         const src = lightboxImg.getAttribute("src");
         if (src) {
@@ -1278,7 +1359,6 @@
         }
       });
 
-      // Close Lightbox
       btnCloseLightbox?.addEventListener("click", () => {
         lightboxModal.style.opacity = "0";
         lightboxModal.style.pointerEvents = "none";
@@ -1290,7 +1370,6 @@
         }
       });
 
-      // Keyboard Esc to close all modals
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
           if (lightboxModal && lightboxModal.style.opacity === "1") {
@@ -1314,127 +1393,110 @@
         if (state.isSubmitting) return;
 
         const textContent = messageInput.value.trim();
-        const isVercelApi = API_BASE.includes("api/cloud");
 
-        // 1. If a file is selected: Upload file (with optional text as caption)
-        if (state.selectedFile) {
-          state.isSubmitting = true;
-          btnSend.disabled = true;
-          btnSend.innerHTML = `<span class="animate-spin inline-block w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full"></span>`;
+        if (!state.selectedFile && !textContent) return;
 
-          const file = state.selectedFile;
+        // Pre-check date validity
+        const today = getVietnamDate();
+        if (state.sessionDate && state.sessionDate !== today) {
+          state.draftMessage = textContent;
+          lockApp("Chào ngày mới! Vui lòng nhập lại mã PIN để gửi tin nhắn.");
+          return;
+        }
 
-          if (isVercelApi) {
-            // Read as Base64 for serverless JSON upload
-            const reader = new FileReader();
-            reader.onload = async () => {
-              try {
-                const res = await fetch(`${API_BASE}?action=upload_file`, {
-                  method: "POST",
-                  headers: { 
-                    "Content-Type": "application/json",
-                    "X-Cloud-Token": state.token 
-                  },
-                  body: JSON.stringify({
-                    file_name: file.name,
-                    file_size: file.size,
-                    file_data: reader.result,
-                    caption: textContent
-                  })
-                });
-                const data = await res.json();
-                if (data.ok) {
-                  showToast("Đã tải tệp lên thành công!", "success");
-                  clearSelectedFile();
-                  messageInput.value = "";
-                  adjustTextareaHeight();
-                  fetchMessages();
-                } else {
-                  showToast(data.error || "Lỗi khi tải tệp lên.", "error");
-                }
-              } catch(e) {
-                showToast("Lỗi mạng khi tải tệp lên.", "error");
-              } finally {
+        state.isSubmitting = true;
+        btnSend.disabled = true;
+        btnSend.innerHTML = `<span class="animate-spin inline-block w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full"></span>`;
+
+        try {
+          // 1. File Upload (Image or Document)
+          if (state.selectedFile) {
+            const file = state.selectedFile;
+            const isImg = file.type.startsWith("image/");
+
+            let uploadResult;
+            if (isImg) {
+              showToast("Đang chuẩn bị & gửi ảnh...", "info");
+              const compressed = await compressImageIfNeeded(file);
+              uploadResult = await callCloudApi("upload_file", {
+                file_name: compressed.name,
+                file_size: compressed.size,
+                file_data: compressed.dataUrl,
+                caption: textContent
+              });
+            } else {
+              if (file.size > 4.5 * 1024 * 1024) {
+                showToast("Tệp vượt quá giới hạn 4.5MB của serverless cloud. Vui lòng chọn tệp nhỏ hơn.", "error");
                 state.isSubmitting = false;
                 btnSend.disabled = false;
                 btnSend.innerHTML = `<span>Gửi</span><i data-lucide="send" class="w-4 h-4 fill-current"></i>`;
                 lucide.createIcons({ root: btnSend });
+                return;
               }
-            };
-            reader.readAsDataURL(file);
-            return;
-          }
 
-          // Otherwise local PHP upload
-          const formData = new FormData();
-          formData.append("file", file);
-          if (textContent) {
-            formData.append("caption", textContent);
-          }
+              const dataUrl = await new Promise((resolve, reject) => {
+                const r = new FileReader();
+                r.onload = () => resolve(r.result);
+                r.onerror = reject;
+                r.readAsDataURL(file);
+              });
 
-          try {
-            const res = await fetch(`${API_BASE}?action=upload_file`, {
-              method: "POST",
-              headers: { "X-Cloud-Token": state.token },
-              body: formData
-            });
-            const data = await res.json();
+              uploadResult = await callCloudApi("upload_file", {
+                file_name: file.name,
+                file_size: file.size,
+                file_data: dataUrl,
+                caption: textContent
+              });
+            }
 
-            if (data.ok) {
+            if (uploadResult.authExpired) {
+              state.draftMessage = textContent;
+              lockApp(uploadResult.error);
+              return;
+            }
+
+            if (uploadResult.ok) {
               showToast("Đã tải tệp lên thành công!", "success");
               clearSelectedFile();
               messageInput.value = "";
+              state.draftMessage = "";
               adjustTextareaHeight();
               fetchMessages();
             } else {
-              showToast(data.error || "Lỗi khi tải tệp lên.", "error");
+              showToast(uploadResult.error || "Lỗi khi tải tệp lên.", "error");
             }
-          } catch (e) {
-            showToast("Lỗi mạng khi tải tệp lên.", "error");
-          } finally {
-            state.isSubmitting = false;
-            btnSend.disabled = false;
-            btnSend.innerHTML = `<span>Gửi</span><i data-lucide="send" class="w-4 h-4 fill-current"></i>`;
-            lucide.createIcons({ root: btnSend });
+            return;
           }
-          return;
-        }
 
-        // 2. If no file: Send text message / link
-        if (!textContent) return;
+          // 2. Text or Link
+          const res = await callCloudApi("send_message", { content: textContent });
 
-        state.isSubmitting = true;
-        btnSend.disabled = true;
+          if (res.authExpired) {
+            state.draftMessage = textContent;
+            lockApp(res.error);
+            return;
+          }
 
-        try {
-          const res = await fetch(`${API_BASE}?action=send_message`, {
-            method: "POST",
-            headers: { 
-              "Content-Type": isVercelApi ? "application/json" : "application/x-www-form-urlencoded",
-              "X-Cloud-Token": state.token 
-            },
-            body: isVercelApi ? JSON.stringify({ content: textContent }) : new URLSearchParams({ content: textContent })
-          });
-          const data = await res.json();
-
-          if (data.ok) {
+          if (res.ok) {
             messageInput.value = "";
+            state.draftMessage = "";
             adjustTextareaHeight();
             fetchMessages();
           } else {
-            showToast(data.error || "Lỗi gửi tin nhắn.", "error");
+            showToast(res.error || "Lỗi gửi tin nhắn.", "error");
           }
-        } catch (e) {
-          showToast("Lỗi mạng khi gửi tin nhắn.", "error");
+        } catch (err) {
+          showToast("Lỗi kết nối khi gửi tin nhắn. Đang thử lại...", "error");
         } finally {
           state.isSubmitting = false;
           btnSend.disabled = false;
+          btnSend.innerHTML = `<span>Gửi</span><i data-lucide="send" class="w-4 h-4 fill-current"></i>`;
+          lucide.createIcons({ root: btnSend });
         }
       }
 
       btnSend?.addEventListener("click", handleSend);
 
-      // Keyboard shortcuts in message textarea
       messageInput?.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
@@ -1442,7 +1504,6 @@
         }
       });
 
-      // Auto-expanding Textarea
       function adjustTextareaHeight() {
         messageInput.style.height = "auto";
         messageInput.style.height = Math.min(messageInput.scrollHeight, 144) + "px";
@@ -1477,11 +1538,11 @@
       btnCancelFile?.addEventListener("click", clearSelectedFile);
 
       function formatBytes(bytes) {
-        if (bytes === 0) return '0 B';
+        if (!bytes || bytes <= 0) return "0 B";
         const k = 1024;
-        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const sizes = ["B", "KB", "MB", "GB"];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
       }
 
       // Clipboard Paste Support (Ctrl+V / Cmd+V for screenshots)
@@ -1526,10 +1587,10 @@
         }
       });
 
-      // ======================== SEARCH & FILTERS ========================
-      filterTabs.forEach(tab => {
+      // Search & Filters
+      filterTabs.forEach((tab) => {
         tab.addEventListener("click", () => {
-          filterTabs.forEach(t => {
+          filterTabs.forEach((t) => {
             t.classList.remove("active", "bg-amber-400", "text-slate-950", "font-bold");
             t.classList.add("text-slate-300");
           });
@@ -1554,7 +1615,7 @@
         fetchMessages();
       });
 
-      // ======================== SETTINGS & CHANGE PIN ========================
+      // Settings & Change PIN
       btnOpenSettings?.addEventListener("click", () => {
         settingsModal.style.opacity = "1";
         settingsModal.style.pointerEvents = "auto";
@@ -1590,26 +1651,15 @@
           return;
         }
 
-        try {
-          const res = await fetch(`${API_BASE}?action=change_pin`, {
-            method: "POST",
-            headers: { 
-              "Content-Type": "application/x-www-form-urlencoded",
-              "X-Cloud-Token": state.token 
-            },
-            body: new URLSearchParams({ old_pin: oldPin, new_pin: newPin })
-          });
-          const data = await res.json();
-
-          if (data.ok) {
-            showToast("Đã đổi mã PIN thành công!", "success");
-            settingsModal.style.opacity = "0";
-            settingsModal.style.pointerEvents = "none";
-          } else {
-            showToast(data.error || "Lỗi khi đổi mã PIN.", "error");
-          }
-        } catch (e) {
-          showToast("Lỗi kết nối máy chủ.", "error");
+        const res = await callCloudApi("change_pin", { old_pin: oldPin, new_pin: newPin });
+        if (res.authExpired) {
+          lockApp(res.error);
+        } else if (res.ok) {
+          showToast("Đã đổi mã PIN thành công!", "success");
+          settingsModal.style.opacity = "0";
+          settingsModal.style.pointerEvents = "none";
+        } else {
+          showToast(res.error || "Lỗi khi đổi mã PIN.", "error");
         }
       });
 
@@ -1617,92 +1667,42 @@
         const confirmPin = prompt("Nhập mã PIN 4 số của bạn để xác nhận xóa sạch toàn bộ lịch sử:");
         if (!confirmPin) return;
 
-        try {
-          const res = await fetch(`${API_BASE}?action=clear_all`, {
-            method: "POST",
-            headers: { 
-              "Content-Type": "application/x-www-form-urlencoded",
-              "X-Cloud-Token": state.token 
-            },
-            body: new URLSearchParams({ pin: confirmPin })
-          });
-          const data = await res.json();
-
-          if (data.ok) {
-            showToast("Đã dọn sạch toàn bộ dữ liệu!", "success");
-            fetchMessages();
-            settingsModal.style.opacity = "0";
-            settingsModal.style.pointerEvents = "none";
-          } else {
-            showToast(data.error || "Mã PIN xác nhận không đúng.", "error");
-          }
-        } catch (e) {
-          showToast("Lỗi khi xóa lịch sử.", "error");
+        const res = await callCloudApi("clear_all", { pin: confirmPin });
+        if (res.authExpired) {
+          lockApp(res.error);
+        } else if (res.ok) {
+          showToast("Đã dọn sạch toàn bộ dữ liệu!", "success");
+          fetchMessages();
+          settingsModal.style.opacity = "0";
+          settingsModal.style.pointerEvents = "none";
+        } else {
+          showToast(res.error || "Mã PIN xác nhận không đúng.", "error");
         }
       });
 
-      // ======================== REAL-TIME POLLING & MIDNIGHT DETECTOR ========================
+      // Real-time Polling & Midnight Detector
       function startAutoPolling() {
         if (state.pollTimer) clearInterval(state.pollTimer);
-        // Poll every 3.5 seconds
         state.pollTimer = setInterval(() => {
           fetchMessages(true);
         }, 3500);
       }
 
-      // Check midnight change every 30 seconds
       setInterval(() => {
         if (state.token && state.sessionDate) {
-          const now = new Date();
-          const todayStr = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, '0') + "-" + String(now.getDate()).padStart(2, '0');
+          const todayStr = getVietnamDate();
           if (state.sessionDate !== todayStr) {
             lockApp("Chào ngày mới! Đã sang ngày mới, vui lòng nhập lại mã PIN 4 số.");
           }
         }
-      }, 30000);
+      }, 20000);
 
-      // ======================== SERVER CONFIG DRAWER & QR MODAL ========================
-      const btnToggleServerConfig = document.getElementById("btn-toggle-server-config");
-      const serverConfigDrawer = document.getElementById("server-config-drawer");
-      const inputCustomServer = document.getElementById("input-custom-server");
-      const btnSaveCustomServer = document.getElementById("btn-save-custom-server");
-      const lblActiveServerHost = document.getElementById("lbl-active-server-host");
-
-      // Load saved custom server if any
-      const savedServer = localStorage.getItem("aura_cloud_custom_server");
-      if (savedServer && inputCustomServer) {
-        inputCustomServer.value = savedServer;
-        if (lblActiveServerHost) lblActiveServerHost.textContent = "IP: " + savedServer.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-      }
-
-      btnToggleServerConfig?.addEventListener("click", () => {
-        serverConfigDrawer?.classList.toggle("hidden");
-        if (!serverConfigDrawer?.classList.contains("hidden")) {
-          inputCustomServer?.focus();
-        }
-      });
-
-      btnSaveCustomServer?.addEventListener("click", () => {
-        const val = (inputCustomServer?.value || "").trim().replace(/\/$/, "");
-        if (val) {
-          localStorage.setItem("aura_cloud_custom_server", val);
-          window.ACTIVE_API_BASE = `${val}/cloud-api.php`;
-          if (lblActiveServerHost) lblActiveServerHost.textContent = "IP: " + val.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-          showToast("Đã lưu địa chỉ máy chủ!", "success");
-          serverConfigDrawer?.classList.add("hidden");
-        } else {
-          localStorage.removeItem("aura_cloud_custom_server");
-          showToast("Đã xóa địa chỉ máy chủ tùy chỉnh, dùng mặc định.", "info");
-          serverConfigDrawer?.classList.add("hidden");
-        }
-      });
-
-      // QR Code Modal
+      // QR Code Modal Handlers
       const btnOpenQrModal = document.getElementById("btn-open-qr-modal");
       const qrModal = document.getElementById("qr-modal");
       const btnCloseQrModal = document.getElementById("btn-close-qr-modal");
-      const btnCopyLanUrl = document.getElementById("btn-copy-lan-url");
-      const lblLanUrl = document.getElementById("lbl-lan-url");
+      const btnCopyCloudUrl = document.getElementById("btn-copy-cloud-url");
+      const lblCloudUrl = document.getElementById("lbl-cloud-url");
 
       btnOpenQrModal?.addEventListener("click", () => {
         qrModal.style.opacity = "1";
@@ -1721,14 +1721,14 @@
         }
       });
 
-      btnCopyLanUrl?.addEventListener("click", () => {
-        const url = lblLanUrl?.textContent || "http://192.168.100.163/music/cloud.html";
+      btnCopyCloudUrl?.addEventListener("click", () => {
+        const url = lblCloudUrl?.textContent || "https://ktmusic.vercel.app/cloud.html";
         navigator.clipboard.writeText(url).then(() => {
-          showToast("Đã sao chép link mạng Wi-Fi!", "success");
+          showToast("Đã sao chép link toàn cầu! Dùng được trên cả 5G & Wi-Fi.", "success");
         });
       });
 
-      // STARTUP
+      // STARTUP VERIFICATION
       verifySessionOnStartup();
     });
   </script>

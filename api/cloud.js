@@ -34,6 +34,16 @@ function getVietnamDateTime() {
   return `${y}-${m}-${day} ${h}:${min}:${s}`;
 }
 
+function formatVietnamDisplayTime() {
+  const d = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" }));
+  const h = String(d.getHours()).padStart(2, '0');
+  const min = String(d.getMinutes()).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const y = d.getFullYear();
+  return `${h}:${min}, ${day}/${m}/${y}`;
+}
+
 function hashPin(pin) {
   return crypto.pbkdf2Sync(pin, 'aura_salt_2026_vn', 1000, 32, 'sha256').toString('hex');
 }
@@ -71,13 +81,23 @@ async function saveCloudState(state) {
 }
 
 function detectDevice(ua = '') {
-  if (/iPhone/i.test(ua)) return 'iPhone';
-  if (/iPad/i.test(ua)) return 'iPad';
-  if (/Android/i.test(ua)) return 'Android';
-  if (/Macintosh|Mac OS X/i.test(ua)) return 'Mac';
-  if (/Windows NT/i.test(ua)) return 'Windows PC';
-  if (/Linux/i.test(ua)) return 'Linux';
-  return 'Thiết bị khác';
+  let os = 'Thiết bị';
+  if (/iPhone/i.test(ua)) os = 'iPhone';
+  else if (/iPad/i.test(ua)) os = 'iPad';
+  else if (/Android/i.test(ua)) os = 'Android';
+  else if (/Macintosh|Mac OS X/i.test(ua)) os = 'Mac';
+  else if (/Windows NT/i.test(ua)) os = 'Windows PC';
+  else if (/Linux/i.test(ua)) os = 'Linux';
+
+  let browser = '';
+  if (/Zalo/i.test(ua)) browser = 'Zalo App';
+  else if (/FBAN|FBAV/i.test(ua)) browser = 'Facebook App';
+  else if (/Edg\//i.test(ua)) browser = 'Edge';
+  else if (/Chrome\//i.test(ua) && !/Edg\//i.test(ua)) browser = 'Chrome';
+  else if (/Safari\//i.test(ua) && !/Chrome\//i.test(ua)) browser = 'Safari';
+  else if (/Firefox\//i.test(ua)) browser = 'Firefox';
+
+  return browser ? `${os} (${browser})` : os;
 }
 
 function formatBytes(bytes) {
@@ -265,7 +285,7 @@ module.exports = async (req, res) => {
       is_pinned: false,
       device_info: device,
       created_at: getVietnamDateTime(),
-      formatted_time: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ', ' + today.split('-').reverse().join('/')
+      formatted_time: formatVietnamDisplayTime()
     };
 
     state.messages.unshift(newMsg);
@@ -325,7 +345,7 @@ module.exports = async (req, res) => {
       is_pinned: false,
       device_info: device,
       created_at: getVietnamDateTime(),
-      formatted_time: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ', ' + today.split('-').reverse().join('/')
+      formatted_time: formatVietnamDisplayTime()
     };
 
     state.messages.unshift(newMsg);
