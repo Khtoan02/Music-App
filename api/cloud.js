@@ -51,13 +51,18 @@ function hashPin(pin) {
 // Persistent Storage Helpers
 async function loadCloudState() {
   try {
-    const res = await fetch(`https://kvdb.io/${KVDB_BUCKET}/aura_state_v1`, {
+    const res = await fetch(`https://kvdb.io/${KVDB_BUCKET}/aura_state_v1?_t=${Date.now()}`, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache'
+      },
       signal: AbortSignal.timeout(4500)
     });
     if (res.ok) {
       const data = await res.json();
       if (data && typeof data === 'object') {
-        memoryStore = { ...memoryStore, ...data };
+        memoryStore = data;
         return memoryStore;
       }
     }
@@ -71,9 +76,12 @@ async function saveCloudState(state) {
   const jsonStr = JSON.stringify(state);
 
   try {
-    await fetch(`https://kvdb.io/${KVDB_BUCKET}/aura_state_v1`, {
+    await fetch(`https://kvdb.io/${KVDB_BUCKET}/aura_state_v1?_t=${Date.now()}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      },
       body: jsonStr,
       signal: AbortSignal.timeout(4500)
     });
@@ -370,7 +378,9 @@ module.exports = async (req, res) => {
     let file = null;
 
     try {
-      const fRes = await fetch(`https://kvdb.io/${KVDB_BUCKET}/file_${fileId}`, {
+      const fRes = await fetch(`https://kvdb.io/${KVDB_BUCKET}/file_${fileId}?_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache, no-store' },
         signal: AbortSignal.timeout(6000)
       });
       if (fRes.ok) {
